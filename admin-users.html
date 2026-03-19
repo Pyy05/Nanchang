@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>后台用户管理 - 南昌历史云志</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+</head>
+<body class="bg-slate-50 flex font-sans">
+<!-- 极简固定导航侧栏 (演示用途保持一致性) -->
+<aside class="w-64 bg-slate-900 text-white h-screen shrink-0 sticky top-0">
+<div class="p-6 font-bold text-xl flex items-center bg-slate-950">
+<span class="iconify mr-2 text-red-600" data-icon="ri:shield-user-fill"></span>
+<span>系统安全</span>
+</div>
+<nav class="p-4 space-y-2 mt-4">
+<a class="flex items-center space-x-3 text-slate-400 p-3 hover:text-white transition" href="admin-dashboard.html">
+<span class="iconify" data-icon="ri:dashboard-line"></span>
+<span>主控制台</span>
+</a>
+<a class="flex items-center space-x-3 bg-red-700 text-white p-3 rounded-xl shadow-md" href="admin-users.html">
+<span class="iconify" data-icon="ri:group-2-line"></span>
+<span>用户与权限</span>
+</a>
+<a class="flex items-center space-x-3 text-slate-400 p-3 hover:text-white transition" href="#">
+<span class="iconify" data-icon="ri:key-2-line"></span>
+<span>安全日志</span>
+</a>
+</nav>
+</aside>
+<main class="flex-grow p-10">
+<header class="mb-10 flex justify-between items-end">
+<div>
+<h2 class="text-3xl font-black text-slate-800">职员与权限</h2>
+<p class="text-slate-400 mt-2">管理软件工程课程设计项目组成员，并分配系统维护权限角色。</p>
+</div>
+<div class="flex space-x-4">
+<button class="bg-slate-800 text-white px-6 py-2 rounded-lg text-sm font-bold shadow-lg">账号注册审核</button>
+</div>
+</header>
+<!-- 管理员列表区 -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- 核心负责人 -->
+<div class="bg-white p-6 rounded-2xl shadow-sm border border-transparent hover:border-red-400 transition cursor-default">
+<div class="flex justify-between items-start mb-6">
+<img class="w-16 h-16 rounded-2xl p-1 border border-slate-100 object-cover shadow-sm" src="https://modao.cc/agent/placeholder.svg"/>
+<span class="bg-red-800 text-white text-[8px] px-2 py-0.5 rounded font-bold uppercase tracking-widest">Master</span>
+</div>
+<h4 class="font-bold text-slate-800 text-lg">彭盈颖</h4>
+<p class="text-xs text-slate-400 mb-6 italic">项目总负责 / 架构设计</p>
+<div class="pt-6 border-t flex flex-wrap gap-2">
+<span class="bg-slate-100 text-[10px] px-2 py-1 rounded text-slate-500 font-bold">全域读写权</span>
+<span class="bg-slate-100 text-[10px] px-2 py-1 rounded text-slate-500 font-bold">用户管控</span>
+</div>
+</div>
+<!-- 开发 1 -->
+<div class="bg-white p-6 rounded-2xl shadow-sm border border-transparent hover:border-red-400 transition cursor-default">
+<div class="flex justify-between items-start mb-6">
+<img class="w-16 h-16 rounded-2xl p-1 border border-slate-100 object-cover shadow-sm" src="https://modao.cc/agent/placeholder.svg"/>
+<span class="bg-blue-600 text-white text-[8px] px-2 py-0.5 rounded font-bold uppercase tracking-widest">Dev</span>
+</div>
+<h4 class="font-bold text-slate-800 text-lg">张灵欣</h4>
+<p class="text-xs text-slate-400 mb-6 italic">后端开发 / 逻辑核心</p>
+<div class="pt-6 border-t flex flex-wrap gap-2">
+<span class="bg-slate-100 text-[10px] px-2 py-1 rounded text-slate-500 font-bold">数据增删改</span>
+<span class="bg-slate-100 text-[10px] px-2 py-1 rounded text-slate-500 font-bold">API管理</span>
+</div>
+</div>
+<!-- 数据 -->
+<div class="bg-white p-6 rounded-2xl shadow-sm border border-transparent hover:border-red-400 transition cursor-default">
+<div class="flex justify-between items-start mb-6">
+<img class="w-16 h-16 rounded-2xl p-1 border border-slate-100 object-cover shadow-sm" src="https://modao.cc/agent/placeholder.svg"/>
+<span class="bg-green-600 text-white text-[8px] px-2 py-0.5 rounded font-bold uppercase tracking-widest">Data</span>
+</div>
+<h4 class="font-bold text-slate-800 text-lg">林佳倩</h4>
+<p class="text-xs text-slate-400 mb-6 italic">调研排版 / 史料分析</p>
+<div class="pt-6 border-t flex flex-wrap gap-2">
+<span class="bg-slate-100 text-[10px] px-2 py-1 rounded text-slate-500 font-bold">内容录入</span>
+<span class="bg-slate-100 text-[10px] px-2 py-1 rounded text-slate-500 font-bold">文献审校</span>
+</div>
+</div>
+<!-- 设计 -->
+<div class="bg-white p-6 rounded-2xl shadow-sm border border-transparent hover:border-red-400 transition cursor-default">
+<div class="flex justify-between items-start mb-6">
+<img class="w-16 h-16 rounded-2xl p-1 border border-slate-100 object-cover shadow-sm" src="https://modao.cc/agent/placeholder.svg"/>
+<span class="bg-orange-500 text-white text-[8px] px-2 py-0.5 rounded font-bold uppercase tracking-widest">UI/UX</span>
+</div>
+<h4 class="font-bold text-slate-800 text-lg">任芝毅</h4>
+<p class="text-xs text-slate-400 mb-6 italic">界面实现 / 视觉设计</p>
+<div class="pt-6 border-t flex flex-wrap gap-2">
+<span class="bg-slate-100 text-[10px] px-2 py-1 rounded text-slate-500 font-bold">样式配置</span>
+<span class="bg-slate-100 text-[10px] px-2 py-1 rounded text-slate-500 font-bold">原型预览</span>
+</div>
+</div>
+</section>
+<!-- 安全提示 -->
+<div class="mt-12 bg-red-50 border border-red-100 rounded-2xl p-6 flex items-start space-x-4">
+<span class="iconify text-2xl text-red-600 mt-1" data-icon="ri:information-fill"></span>
+<div>
+<h5 class="font-bold text-red-900">安全合规说明</h5>
+<p class="text-xs text-red-800/70 mt-1">根据开题报告第4.1.1条要求：后台管理必须设置严格权限控制，非本小组核心开发人员严禁授权内容修改权限。当前快照日期：2026年03月19日。</p>
+</div>
+</div>
+</main>
+</body>
+</html>

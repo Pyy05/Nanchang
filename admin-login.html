@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>后台管理登录 - 南昌历史云志</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 h-screen flex items-center justify-center p-4">
+<div class="max-w-md w-full bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
+<!-- 左侧装饰条 -->
+<div class="hidden md:block w-32 bg-red-800 flex flex-col items-center justify-center space-y-4 italic text-white/20 select-none">
+<span class="rotate-[-90deg] whitespace-nowrap text-2xl font-black">HERO CITY LOG</span>
+<span class="rotate-[-90deg] whitespace-nowrap text-2xl font-black">ADMIN PORTAL</span>
+</div>
+<!-- 登录表单 -->
+<div class="flex-grow p-10">
+<div class="mb-8">
+<h1 class="text-2xl font-black text-gray-800">后台管理系统</h1>
+<p class="text-sm text-gray-400 mt-1 uppercase tracking-widest">南昌历史展示与传播平台</p>
+</div>
+<form action="admin-dashboard.html" class="space-y-6">
+<div>
+<label class="block text-xs font-bold text-gray-500 uppercase mb-2">管理员账号</label>
+<input class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent" placeholder="输入账号" type="text"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-gray-500 uppercase mb-2">安全密码</label>
+<input class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent" placeholder="••••••••" type="password"/>
+</div>
+<div class="flex items-center justify-between text-xs">
+<label class="flex items-center text-gray-500">
+<input class="mr-2" type="checkbox"/> 保持登录 7 天
+                    </label>
+<a class="text-red-700 hover:underline" href="#">忘记密码？</a>
+</div>
+<button class="w-full bg-red-800 text-white font-bold py-3 rounded-lg hover:shadow-lg hover:bg-red-900 transition active:scale-[0.98]" type="submit">
+                    登录系统
+                </button>
+</form>
+<div class="mt-8 pt-8 border-t text-center">
+<a class="text-xs text-gray-400 hover:text-gray-600 flex items-center justify-center" href="index.html">
+                   ← 返回系统门户首页
+                </a>
+</div>
+<p class="mt-4 text-[10px] text-gray-300 text-center">系统日期：2026年03月19日</p>
+</div>
+</div>
+</body>
+</html>

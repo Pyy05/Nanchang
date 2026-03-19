@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>后台管理主面板 - 南昌历史云志</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex">
+<!-- 侧边栏 -->
+<aside class="w-64 bg-slate-900 text-white flex flex-col shrink-0">
+<div class="p-6 border-b border-slate-800 flex items-center space-x-2">
+<span class="iconify text-red-600 text-2xl" data-icon="ri:dashboard-3-line"></span>
+<span class="font-bold tracking-wider">管理后台</span>
+</div>
+<nav class="flex-grow p-4 space-y-2 text-sm text-slate-400">
+<p class="text-[10px] uppercase font-bold text-slate-500 px-2 py-2">核心看板</p>
+<a class="flex items-center space-x-3 bg-red-600 text-white p-3 rounded-lg" href="admin-dashboard.html">
+<span class="iconify" data-icon="ri:home-gear-line"></span>
+<span>主面板</span>
+</a>
+<p class="text-[10px] uppercase font-bold text-slate-500 px-2 py-2 mt-6">内容维护</p>
+<a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition" href="admin-history.html">
+<span class="iconify" data-icon="ri:book-read-line"></span>
+<span>历史事件管理</span>
+</a>
+<a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition" href="admin-people.html">
+<span class="iconify" data-icon="ri:user-star-line"></span>
+<span>历史人物管理</span>
+</a>
+<a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition" href="admin-users.html">
+<span class="iconify" data-icon="ri:team-line"></span>
+<span>系统用户管理</span>
+</a>
+<p class="text-[10px] uppercase font-bold text-slate-500 px-2 py-2 mt-6">互动与设置</p>
+<a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition" href="#">
+<span class="iconify" data-icon="ri:message-3-line"></span>
+<span>问答管理</span>
+</a>
+<a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition" href="#">
+<span class="iconify" data-icon="ri:settings-4-line"></span>
+<span>全局设置</span>
+</a>
+</nav>
+<div class="p-6 border-t border-slate-800">
+<a class="text-xs flex items-center space-x-2 text-slate-500 hover:text-white" href="index.html">
+<span class="iconify" data-icon="ri:logout-box-line"></span>
+<span>返回前台预览</span>
+</a>
+</div>
+</aside>
+<!-- 主内容区 -->
+<div class="flex-grow flex flex-col h-screen overflow-y-auto">
+<!-- 顶部条 -->
+<header class="bg-white h-16 border-b px-8 flex justify-between items-center shrink-0">
+<h2 class="font-bold text-gray-700">系统概览</h2>
+<div class="flex items-center space-x-6 text-gray-500">
+<div class="relative">
+<span class="iconify text-xl" data-icon="ri:notification-3-line"></span>
+<span class="absolute -top-1 -right-1 bg-red-600 w-2 h-2 rounded-full border border-white"></span>
+</div>
+<div class="flex items-center space-x-3">
+<div class="text-right hidden sm:block">
+<p class="text-xs font-bold text-gray-800">彭盈颖</p>
+<p class="text-[10px]">超级管理员</p>
+</div>
+<img class="w-8 h-8 rounded-full border" src="https://modao.cc/agent/placeholder.svg"/>
+</div>
+</div>
+</header>
+<!-- 面板主区 -->
+<main class="p-8">
+<!-- 数据汇总 -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+<div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center space-x-4">
+<div class="bg-red-50 text-red-600 p-4 rounded-lg">
+<span class="iconify text-2xl" data-icon="ri:book-open-line"></span>
+</div>
+<div>
+<p class="text-xs text-gray-500">事件总数</p>
+<p class="text-2xl font-black text-gray-800">128</p>
+</div>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center space-x-4">
+<div class="bg-blue-50 text-blue-600 p-4 rounded-lg">
+<span class="iconify text-2xl" data-icon="ri:group-line"></span>
+</div>
+<div>
+<p class="text-xs text-gray-500">收录人物</p>
+<p class="text-2xl font-black text-gray-800">86</p>
+</div>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center space-x-4">
+<div class="bg-green-50 text-green-600 p-4 rounded-lg">
+<span class="iconify text-2xl" data-icon="ri:eye-line"></span>
+</div>
+<div>
+<p class="text-xs text-gray-500">今日访问</p>
+<p class="text-2xl font-black text-gray-800">1,245</p>
+</div>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center space-x-4">
+<div class="bg-purple-50 text-purple-600 p-4 rounded-lg">
+<span class="iconify text-2xl" data-icon="ri:question-answer-line"></span>
+</div>
+<div>
+<p class="text-xs text-gray-500">解答疑问</p>
+<p class="text-2xl font-black text-gray-800">42</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- 最近动态表格 -->
+<div class="lg:col-span-2 bg-white rounded-xl shadow-sm border overflow-hidden">
+<div class="px-6 py-4 border-b flex justify-between items-center">
+<h3 class="font-bold">最近编辑记录</h3>
+<button class="text-xs text-red-600 font-bold">查看全部</button>
+</div>
+<table class="w-full text-left text-sm">
+<thead class="bg-gray-50 text-gray-400">
+<tr>
+<th class="px-6 py-3 font-medium">事件名称</th>
+<th class="px-6 py-3 font-medium">编辑者</th>
+<th class="px-6 py-3 font-medium">状态</th>
+<th class="px-6 py-3 font-medium">时间</th>
+</tr>
+</thead>
+<tbody class="divide-y text-gray-600">
+<tr class="hover:bg-gray-50">
+<td class="px-6 py-4 font-bold text-gray-900 truncate max-w-[200px]">八一南昌起义详情优化</td>
+<td class="px-6 py-4 italic">彭盈颖</td>
+<td class="px-6 py-4"><span class="bg-green-100 text-green-600 px-2 py-1 rounded text-[10px]">已发布</span></td>
+<td class="px-6 py-4 text-xs">2026-03-19 14:20</td>
+</tr>
+<tr class="hover:bg-gray-50">
+<td class="px-6 py-4 font-bold text-gray-900">灌婴筑城资料补充</td>
+<td class="px-6 py-4 italic">林佳倩</td>
+<td class="px-6 py-4"><span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-[10px]">草稿</span></td>
+<td class="px-6 py-4 text-xs">2026-03-19 10:15</td>
+</tr>
+<tr class="hover:bg-gray-50">
+<td class="px-6 py-4 font-bold text-gray-900">历史人物：王勃肖像更新</td>
+<td class="px-6 py-4 italic">任芝毅</td>
+<td class="px-6 py-4"><span class="bg-green-100 text-green-600 px-2 py-1 rounded text-[10px]">已发布</span></td>
+<td class="px-6 py-4 text-xs">2026-03-18 16:45</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- 快捷操作区 -->
+<div class="bg-white rounded-xl shadow-sm border p-6">
+<h3 class="font-bold mb-6">快捷操作</h3>
+<div class="space-y-4">
+<a class="block w-full text-center py-3 border border-red-200 rounded-lg text-red-600 hover:bg-red-50 font-medium" href="admin-history.html?action=new">+ 新增历史事件</a>
+<a class="block w-full text-center py-3 border border-blue-200 rounded-lg text-blue-600 hover:bg-blue-50 font-medium" href="#">+ 上传人物档案</a>
+<a class="block w-full text-center py-3 border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50 font-medium" href="#">生成月度数据报告</a>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body>
+</html>
