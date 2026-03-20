@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>后台历史事件管理 - 南昌历史云志</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex">
+<!-- 简化侧边栏（演示多页管理系统） -->
+<aside class="w-16 md:w-64 bg-slate-900 text-white flex flex-col shrink-0 transition-all">
+<div class="p-6 border-b border-slate-800 flex items-center justify-center md:justify-start space-x-2">
+<span class="iconify text-red-600 text-2xl" data-icon="ri:ancient-gate-fill"></span>
+<span class="font-bold tracking-wider hidden md:inline">管理系统</span>
+</div>
+<nav class="flex-grow p-2 md:p-4 space-y-1">
+<a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition text-slate-400" href="admin-dashboard.html">
+<span class="iconify text-xl" data-icon="ri:home-3-line"></span>
+<span class="hidden md:inline">控制面板</span>
+</a>
+<a class="flex items-center space-x-3 bg-red-800 text-white p-3 rounded-lg shadow-lg" href="admin-history.html">
+<span class="iconify text-xl" data-icon="ri:calendar-event-fill"></span>
+<span class="hidden md:inline">事件管理</span>
+</a>
+<a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition text-slate-400" href="admin-people.html">
+<span class="iconify text-xl" data-icon="ri:user-star-line"></span>
+<span class="hidden md:inline">人物管理</span>
+</a>
+<a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition text-slate-400" href="admin-users.html">
+<span class="iconify text-xl" data-icon="ri:shield-user-line"></span>
+<span class="hidden md:inline">权限控制</span>
+</a>
+</nav>
+</aside>
+<!-- 主面板 -->
+<main class="flex-grow">
+<div class="bg-white px-8 py-4 border-b flex justify-between items-center">
+<div>
+<h1 class="text-xl font-bold">历史事件内容池</h1>
+<p class="text-xs text-gray-400">管理、编辑及审核库中保存的 128 条南昌史料</p>
+</div>
+<button class="bg-red-700 text-white px-5 py-2 rounded-lg text-sm font-bold flex items-center space-x-2">
+<span class="iconify" data-icon="ri:add-line"></span>
+<span>创建新事件</span>
+</button>
+</div>
+<div class="p-8">
+<div class="bg-white rounded-xl shadow-sm border overflow-hidden">
+<div class="p-4 border-b bg-gray-50 flex flex-wrap gap-4 items-center">
+<div class="relative flex-grow max-w-md">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 iconify" data-icon="ri:search-line"></span>
+<input class="w-full pl-10 pr-4 py-2 text-sm border rounded focus:outline-none focus:ring-1 focus:ring-red-500" placeholder="关键词搜索..." type="text"/>
+</div>
+<select class="text-sm border rounded px-3 py-2 bg-white outline-none">
+<option>所有时期</option>
+<option>先秦两汉</option>
+<option>红色起义</option>
+<option>现代发展</option>
+</select>
+</div>
+<table class="w-full text-sm">
+<thead class="bg-gray-50 text-gray-500 font-bold">
+<tr class="border-b">
+<th class="px-6 py-4 text-left">事件专题</th>
+<th class="px-6 py-4 text-left">年代定位</th>
+<th class="px-6 py-4 text-left">浏览量</th>
+<th class="px-6 py-4 text-left">状态</th>
+<th class="px-6 py-4 text-center">操作</th>
+</tr>
+</thead>
+<tbody class="divide-y">
+<tr class="hover:bg-slate-50 transition">
+<td class="px-6 py-4">
+<div class="font-bold text-slate-800">八一南昌起义精选专题</div>
+<div class="text-[10px] text-gray-400 uppercase tracking-tighter">RED-SPECIAL-001</div>
+</td>
+<td class="px-6 py-4 italic">1927年8月1日</td>
+<td class="px-6 py-4 font-mono font-bold">15,823</td>
+<td class="px-6 py-4">
+<span class="bg-green-50 text-green-700 px-2 py-1 rounded-full text-[10px] font-bold border border-green-200 uppercase">Publish</span>
+</td>
+<td class="px-6 py-4 text-center space-x-2">
+<button class="p-2 text-blue-600 hover:bg-blue-50 rounded"><span class="iconify" data-icon="ri:edit-box-line"></span></button>
+<button class="p-2 text-red-600 hover:bg-red-50 rounded"><span class="iconify" data-icon="ri:delete-bin-line"></span></button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition">
+<td class="px-6 py-4">
+<div class="font-bold text-slate-800">南昌三一五大规模救济起义遗址</div>
+<div class="text-[10px] text-gray-400 uppercase tracking-tighter">ARCH-002</div>
+</td>
+<td class="px-6 py-4">1926年</td>
+<td class="px-6 py-4 font-mono font-bold">2,104</td>
+<td class="px-6 py-4">
+<span class="bg-yellow-50 text-yellow-700 px-2 py-1 rounded-full text-[10px] font-bold border border-yellow-200 uppercase">Draft</span>
+</td>
+<td class="px-6 py-4 text-center space-x-2">
+<button class="p-2 text-blue-600 hover:bg-blue-50 rounded"><span class="iconify" data-icon="ri:edit-box-line"></span></button>
+<button class="p-2 text-red-600 hover:bg-red-50 rounded"><span class="iconify" data-icon="ri:delete-bin-line"></span></button>
+</td>
+</tr>
+<!-- 更多行... -->
+</tbody>
+</table>
+<div class="px-6 py-4 bg-gray-50 flex justify-between items-center text-xs text-gray-500">
+<span>显示 10 / 128 条记录</span>
+<div class="flex space-x-2">
+<button class="px-2 py-1 border rounded bg-white">&lt;</button>
+<button class="px-2 py-1 border rounded bg-red-700 text-white">1</button>
+<button class="px-2 py-1 border rounded bg-white">2</button>
+<button class="px-2 py-1 border rounded bg-white">&gt;</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body>
+</html>

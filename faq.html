@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>互动问答 - 南昌历史云志</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+</head>
+<body class="bg-gray-50">
+<nav class="bg-white border-b sticky top-0 z-50">
+<div class="max-w-5xl mx-auto px-4 h-16 flex justify-between items-center">
+<a class="font-bold flex items-center space-x-2" href="index.html">
+<span class="iconify text-xl text-red-600" data-icon="ri:question-answer-fill"></span>
+<span>问答探索</span>
+</a>
+<div class="space-x-4 text-xs">
+<a class="text-gray-500 hover:text-red-600" href="index.html">回首页</a>
+<a class="bg-red-600 text-white px-3 py-1.5 rounded-full" href="#">我的提问</a>
+</div>
+</div>
+</nav>
+<header class="bg-red-800 text-white py-16 px-4">
+<div class="max-w-3xl mx-auto text-center">
+<h1 class="text-3xl font-bold mb-4">南昌历史，你问我答</h1>
+<p class="text-red-200 text-sm mb-8 opacity-80">在这里，发现关于英雄城的每一个细微真相</p>
+<div class="bg-white p-2 rounded-xl flex items-center shadow-2xl">
+<input class="flex-grow px-4 py-3 text-gray-800 focus:outline-none text-sm" placeholder="输入你感兴趣的历史问题，例如“南昌起义为什么选在8月1日？”" type="text"/>
+<button class="bg-red-600 text-white p-3 rounded-lg"><span class="iconify" data-icon="ri:flashlight-fill"></span></button>
+</div>
+</div>
+</header>
+<main class="max-w-4xl mx-auto px-4 py-12">
+<div class="flex items-center space-x-4 mb-10 overflow-x-auto pb-4 no-scrollbar">
+<button class="shrink-0 bg-red-600 text-white text-xs px-4 py-2 rounded-lg font-bold">全部焦点</button>
+<button class="shrink-0 bg-white border text-gray-600 text-xs px-4 py-2 rounded-lg hover:border-red-600 transition">起义细节</button>
+<button class="shrink-0 bg-white border text-gray-600 text-xs px-4 py-2 rounded-lg hover:border-red-600 transition">筑城史实</button>
+<button class="shrink-0 bg-white border text-gray-600 text-xs px-4 py-2 rounded-lg hover:border-red-600 transition">名人轶事</button>
+<button class="shrink-0 bg-white border text-gray-600 text-xs px-4 py-2 rounded-lg hover:border-red-600 transition">古迹现状</button>
+</div>
+<div class="space-y-6">
+<!-- 问答 1 -->
+<div class="bg-white p-6 rounded-2xl shadow-sm border border-transparent hover:border-red-100 transition">
+<div class="flex items-start space-x-4">
+<div class="bg-red-50 text-red-600 font-black px-3 py-1 rounded text-lg">Q</div>
+<div class="flex-grow">
+<h3 class="font-bold text-gray-800 text-lg mb-2">为什么八一南昌起义原定的行动时间是凌晨4点，后来改成了凌晨2点？</h3>
+<p class="text-gray-500 text-sm leading-relaxed pb-4 border-b">
+                            据考证，由于起义计划泄露，为了抢占先机并防止敌军获得充分准备，前委临时决定提前两小时发动进攻...
+                        </p>
+<div class="mt-4 flex justify-between items-center text-xs text-gray-400">
+<div class="flex items-center space-x-4">
+<span class="flex items-center"><span class="iconify mr-1" data-icon="ri:thumb-up-line"></span> 284赞同</span>
+<span class="flex items-center"><span class="iconify mr-1" data-icon="ri:chat-3-line"></span> 12评论</span>
+</div>
+<span>由 [历史官微] 回答</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 问答 2 -->
+<div class="bg-white p-6 rounded-2xl shadow-sm border border-transparent hover:border-red-100 transition">
+<div class="flex items-start space-x-4">
+<div class="bg-blue-50 text-blue-600 font-black px-3 py-1 rounded text-lg">Q</div>
+<div class="flex-grow">
+<h3 class="font-bold text-gray-800 text-lg mb-2">滕王阁在历史上经历过多少次损毁和修缮？</h3>
+<p class="text-gray-500 text-sm leading-relaxed pb-4 border-b">
+                            滕王阁由于多为木质结构，历史上屡毁屡建。据统计共有29次重建记录。现在的建筑是根据古建筑学权威梁思成先生保存的《重建滕王阁计划草图》设计...
+                        </p>
+<div class="mt-4 flex justify-between items-center text-xs text-gray-400">
+<div class="flex items-center space-x-4">
+<span class="flex items-center"><span class="iconify mr-1" data-icon="ri:thumb-up-line"></span> 156赞同</span>
+</div>
+<span>由 [古建筑爱好者] 回答</span>
+</div>
+</div>
+</div>
+</div>
+<div class="text-center py-12">
+<button class="text-red-700 font-bold text-sm hover:underline">加载更多精彩问答</button>
+</div>
+</div>
+</main>
+<div class="fixed bottom-10 right-10">
+<button class="bg-red-700 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-2xl hover:scale-110 transition active:scale-95">
+<span class="iconify" data-icon="ri:edit-2-fill"></span>
+</button>
+</div>
+</body>
+</html>

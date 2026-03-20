@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>历史事件库 - 南昌历史云志</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+</head>
+<body class="bg-gray-50">
+<!-- 继承通用导航 -->
+<nav class="bg-white shadow-sm border-b">
+<div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
+<a class="flex items-center space-x-2 font-bold text-gray-800" href="index.html">
+<span class="iconify text-2xl text-red-600" data-icon="ri:ancient-pavilion-fill"></span>
+<span>南昌历史云志</span>
+</a>
+<div class="flex space-x-6 text-sm">
+<a class="hover:text-red-600" href="index.html">首页</a>
+<a class="text-red-600 font-bold border-b-2 border-red-600" href="events.html">历史事件</a>
+<a class="hover:text-red-600" href="figures.html">历史人物</a>
+<a class="hover:text-red-600" href="timeline.html">可视化时间轴</a>
+</div>
+</div>
+</nav>
+<!-- 筛选区域 -->
+<header class="bg-white border-b py-8">
+<div class="max-w-7xl mx-auto px-4">
+<h1 class="text-4xl font-black text-gray-900 mb-6">历史事件库</h1>
+<div class="flex flex-wrap gap-4">
+<button class="bg-red-600 text-white px-6 py-2 rounded-full text-sm">全部时期</button>
+<button class="bg-gray-100 text-gray-600 px-6 py-2 rounded-full text-sm hover:bg-gray-200">建城前(秦之前)</button>
+<button class="bg-gray-100 text-gray-600 px-6 py-2 rounded-full text-sm hover:bg-gray-200">灌古城(汉-隋)</button>
+<button class="bg-gray-100 text-gray-600 px-6 py-2 rounded-full text-sm hover:bg-gray-200">洪州城(唐-元)</button>
+<button class="bg-gray-100 text-gray-600 px-6 py-2 rounded-full text-sm hover:bg-gray-200">南昌府(明-清)</button>
+<button class="bg-red-50 text-red-600 border border-red-200 px-6 py-2 rounded-full text-sm hover:bg-red-100">红色革命时期</button>
+<button class="bg-gray-100 text-gray-600 px-6 py-2 rounded-full text-sm hover:bg-gray-200">社会主义建设期</button>
+</div>
+</div>
+</header>
+<!-- 事件列表布局 -->
+<main class="max-w-7xl mx-auto px-4 py-12">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- 列表项：1 -->
+<div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition flex flex-col h-full">
+<img alt="灌婴筑城图" class="h-56 w-full object-cover" src="https://modao.cc/agent-py/media/generated_images/2026-03-19/dec4fb7133ef41b5ae726b6e96c6b488.jpg"/>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<span class="text-xs font-bold text-gray-400">公元前202年</span>
+<span class="bg-blue-100 text-blue-600 text-[10px] px-2 py-0.5 rounded">建城初始</span>
+</div>
+<h3 class="text-xl font-bold text-gray-800 mb-3 hover:text-red-600 cursor-pointer">灌婴筑城</h3>
+<p class="text-gray-500 text-sm leading-relaxed mb-6 flex-grow">汉高祖六年，灌婴奉命驻守南昌，筑灌城。这是南昌城的起源，为今天“南昌”名称的由来奠定了基础。</p>
+<a class="flex items-center text-red-600 text-sm font-bold" href="event-detail.html">阅读详情 <span class="iconify ml-1" data-icon="ri:arrow-right-line"></span></a>
+</div>
+</div>
+<!-- 列表项：2 (红色) -->
+<div class="relative bg-red-600 text-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition flex flex-col h-full">
+<div class="absolute top-4 right-4 bg-yellow-400 text-red-900 text-[10px] px-2 py-0.5 font-bold rounded">头条事件</div>
+<div class="p-8 flex flex-col flex-grow">
+<span class="text-sm font-bold text-red-200 mb-2">1927年8月1日</span>
+<h3 class="text-2xl font-black mb-4">八一南昌起义</h3>
+<p class="text-red-50 opacity-90 text-sm leading-loose mb-8 flex-grow">打响了武装反抗国民党反动派的第一枪，揭开了中国共产党独立领导武装斗争和创建革命军队的序幕。</p>
+<a class="bg-white text-red-600 py-3 rounded text-center font-bold text-sm" href="special-81.html">进入沉浸式专题</a>
+</div>
+</div>
+<!-- 列表项：3 -->
+<div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition flex flex-col h-full">
+<img alt="宁王之乱" class="h-56 w-full object-cover" src="https://modao.cc/agent-py/media/generated_images/2026-03-19/56eebcfc8a72412b80f0f287141dc2c1.jpg"/>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<span class="text-xs font-bold text-gray-400">明代 正德十四年</span>
+<span class="bg-orange-100 text-orange-600 text-[10px] px-2 py-0.5 rounded">重大权力变更</span>
+</div>
+<h3 class="text-xl font-bold text-gray-800 mb-3">王阳明平定宁王之乱</h3>
+<p class="text-gray-500 text-sm leading-relaxed mb-6 flex-grow">明武宗正德十四年，宁王朱宸濠在南昌发动叛乱，被当时著名的思想家、教育家王阳明迅速平定。</p>
+<a class="flex items-center text-red-600 text-sm font-bold" href="event-detail.html">阅读详情 <span class="iconify ml-1" data-icon="ri:arrow-right-line"></span></a>
+</div>
+</div>
+<!-- 重复结构以展示丰富度 (4-8项) -->
+<div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition flex flex-col h-full">
+<img alt="滕王阁落成" class="h-56 w-full object-cover" src="https://modao.cc/agent-py/media/generated_images/2026-03-19/2cebfe535f3c41c99fbeb25b226d74dd.jpg"/>
+<div class="p-6 flex flex-col flex-grow text-gray-400 grayscale">
+<h3 class="text-xl font-bold mb-3">滕王阁初成 (公元653年)</h3>
+<p class="text-sm mb-6 flex-grow">唐显庆四年，滕王李元婴任洪州刺史时始建，成为历代文人墨客歌咏的中心。</p>
+<span class="text-xs italic">正在补充相关史料...</span>
+</div>
+</div>
+<div class="bg-white rounded-lg overflow-hidden shadow-sm h-full flex flex-col items-center justify-center p-12 border-2 border-dashed border-gray-200">
+<span class="iconify text-5xl text-gray-200 mb-4" data-icon="ri:add-circle-line"></span>
+<p class="text-gray-400 font-medium">更多历史碎片由你点亮</p>
+<button class="mt-4 text-xs text-red-600 underline">提交建议</button>
+</div>
+</div>
+<!-- 简单分页 -->
+<div class="flex justify-center mt-16 space-x-2">
+<button class="px-4 py-2 bg-white border rounded text-gray-400">上一页</button>
+<button class="px-4 py-2 bg-red-600 text-white rounded shadow-md">1</button>
+<button class="px-4 py-2 bg-white border rounded hover:bg-gray-50">2</button>
+<button class="px-4 py-2 bg-white border rounded hover:bg-gray-50">3</button>
+<button class="px-4 py-2 bg-white border rounded">下一页</button>
+</div>
+</main>
+<footer class="bg-white border-t py-8 text-center text-gray-400 text-xs">
+        © 2026 南昌历史云志 · 历史事件归档计划
+    </footer>
+</body>
+</html>
