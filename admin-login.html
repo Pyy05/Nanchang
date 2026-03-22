@@ -2,87 +2,77 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>后台管理登录 - 南昌历史云志</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>登录 - 英雄城红色记忆</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .calligraphy-gold {
             font-family: "STKaiti", "KaiTi", "SimHei", sans-serif;
             font-weight: 900;
-            color: #c5a93a;
+            color: #f9d342;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.3), -1px -1px 1px rgba(200,0,0,0.2);
             letter-spacing: 0.05em;
             filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.25));
         }
     </style>
 </head>
-<body class="bg-slate-900 h-screen flex items-center justify-center p-4">
-    <div class="max-w-md w-full bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
-    
-        <div class="hidden md:block w-32 bg-red-700 flex flex-col items-center justify-between text-white select-none py-12">
-            <div class="flex flex-col items-center calligraphy-gold space-y-8">
-                <span class="text-5xl leading-none">英</span>
-                <span class="text-5xl leading-none">雄</span>
-                <span class="text-5xl leading-none">城</span>
-                <span class="text-5xl leading-none">红</span>
-                <span class="text-5xl leading-none">色</span>
-                <span class="text-5xl leading-none">记</span>
-                <span class="text-5xl leading-none">忆</span>
+<body class="h-screen flex items-center justify-center p-4 bg-cover bg-center"
+      style="background-image: url('nanchang-bg.jpg');">
+    <div class="max-w-md w-full bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+        <div class="w-full bg-red-700 flex items-center justify-center py-3 select-none">
+            <div class="flex items-center calligraphy-gold space-x-4">
+                <span class="text-3xl leading-none">英</span>
+                <span class="text-3xl leading-none">雄</span>
+                <span class="text-3xl leading-none">城</span>
+                <span class="text-3xl leading-none">红</span>
+                <span class="text-3xl leading-none">色</span>
+                <span class="text-3xl leading-none">记</span>
+                <span class="text-3xl leading-none">忆</span>
             </div>
         </div>
-        <!-- 登录表单 -->
-        <div class="flex-grow p-8 md:p-10">
-            
-            <div class="mb-8 text-center">
-                <p class="text-lg text-gray-700 font-semibold mt-1">南昌历史展示与传播平台</p>
-            </div>
-            <form action="admin-dashboard.html" class="space-y-6">
+        <div class="flex-grow p-6 md:p-8">
+            <form action="admin-dashboard.html" class="space-y-5">
                 <div>
-                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2">账号</label>
-                    <input class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent" placeholder="输入账号" type="text" />
+                    <label class="block text-base font-bold text-gray-800 uppercase mb-2">账号</label>
+                    <input class="w-full bg-white/70 border border-gray-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent" placeholder="输入账号" type="text" />
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2">密码</label>
-                    <input class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent" placeholder="输入密码" type="password" />
+                    <label class="block text-base font-bold text-gray-800 uppercase mb-2">密码</label>
+                    <input class="w-full bg-white/70 border border-gray-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent" placeholder="输入密码" type="password" />
                 </div>
-                <div class="flex items-center justify-between text-xs">
-                    <label class="flex items-center text-gray-500">
+                <div class="flex items-center justify-between text-base">
+                    <label class="flex items-center text-gray-800">
                         <input class="mr-2" type="checkbox" required /> 登录即同意平台规定与条款
                     </label>
-                    <a class="text-red-600 hover:underline" href="#">忘记密码？</a>
+                    <a class="text-red-600 hover:underline font-medium" href="#">忘记密码？</a>
                 </div>
-                <button class="w-full bg-red-700 text-white font-bold py-3 rounded-lg hover:shadow-lg hover:bg-red-800 transition active:scale-[0.98]" type="submit">
+                <button class="w-full bg-red-700 text-white font-bold py-3 rounded-lg hover:shadow-lg hover:bg-red-800 transition active:scale-[0.98] text-xl" type="submit">
                     登录系统
                 </button>
             </form>
-            <!-- 注册跳转链接 -->
-            <div class="mt-4 text-center">
-                <p class="text-xs text-gray-500">
-                    还没有账号？
-                    <a class="text-red-600 font-bold hover:underline" href="register.html">立即注册</a>
-                </p>
+            <div class="mt-5 text-center">
+                <a href="register.html"
+                   class="inline-block w-full py-3 px-4 bg-transparent border border-red-600 text-red-600 font-bold text-xl rounded-lg hover:bg-red-50 transition-all duration-200">
+                    立即注册
+                </a>
             </div>
-            <div class="mt-8 pt-8 border-t text-center">
-                <a class="text-xs text-gray-400 hover:text-gray-600 flex items-center justify-center" href="index.html">
+            <div class="mt-6 pt-6 border-t text-center">
+                <a class="text-base text-gray-700 hover:text-gray-900 flex items-center justify-center" href="index.html">
                     ← 返回系统门户首页
                 </a>
             </div>
-            <!-- 实时更新系统日期 -->
-            <p class="mt-4 text-[10px] text-gray-300 text-center" id="currentDate">系统日期：</p>
+            <p class="mt-3 text-base text-gray-600 text-center" id="currentDate">系统日期：</p>
         </div>
     </div>
 
     <script>
-   
         function updateDate() {
             const now = new Date();
             const year = now.getFullYear();
             const month = String(now.getMonth() + 1).padStart(2, '0');
             const day = String(now.getDate()).padStart(2, '0');
-            const dateStr = `系统日期：${year}年${month}月${day}日`;
-            document.getElementById('currentDate').textContent = dateStr;
+            document.getElementById('currentDate').textContent = `系统日期：${year}年${month}月${day}日`;
         }
-     
         updateDate();
     </script>
 </body>
