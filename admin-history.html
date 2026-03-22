@@ -1,120 +1,284 @@
 <!DOCTYPE html>
-
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>后台历史事件管理 - 南昌历史云志</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>后台历史事件管理 - 南昌历史云志</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
 </head>
-<body class="bg-gray-100 min-h-screen flex">
-<!-- 简化侧边栏（演示多页管理系统） -->
-<aside class="w-16 md:w-64 bg-slate-900 text-white flex flex-col shrink-0 transition-all">
-<div class="p-6 border-b border-slate-800 flex items-center justify-center md:justify-start space-x-2">
-<span class="iconify text-red-600 text-2xl" data-icon="ri:ancient-gate-fill"></span>
-<span class="font-bold tracking-wider hidden md:inline">管理系统</span>
-</div>
-<nav class="flex-grow p-2 md:p-4 space-y-1">
-<a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition text-slate-400" href="admin-dashboard.html">
-<span class="iconify text-xl" data-icon="ri:home-3-line"></span>
-<span class="hidden md:inline">控制面板</span>
-</a>
-<a class="flex items-center space-x-3 bg-red-800 text-white p-3 rounded-lg shadow-lg" href="admin-history.html">
-<span class="iconify text-xl" data-icon="ri:calendar-event-fill"></span>
-<span class="hidden md:inline">事件管理</span>
-</a>
-<a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition text-slate-400" href="admin-people.html">
-<span class="iconify text-xl" data-icon="ri:user-star-line"></span>
-<span class="hidden md:inline">人物管理</span>
-</a>
-<a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition text-slate-400" href="admin-users.html">
-<span class="iconify text-xl" data-icon="ri:shield-user-line"></span>
-<span class="hidden md:inline">权限控制</span>
-</a>
-</nav>
-</aside>
-<!-- 主面板 -->
-<main class="flex-grow">
-<div class="bg-white px-8 py-4 border-b flex justify-between items-center">
-<div>
-<h1 class="text-xl font-bold">历史事件内容池</h1>
-<p class="text-xs text-gray-400">管理、编辑及审核库中保存的 128 条南昌史料</p>
-</div>
-<button class="bg-red-700 text-white px-5 py-2 rounded-lg text-sm font-bold flex items-center space-x-2">
-<span class="iconify" data-icon="ri:add-line"></span>
-<span>创建新事件</span>
-</button>
-</div>
-<div class="p-8">
-<div class="bg-white rounded-xl shadow-sm border overflow-hidden">
-<div class="p-4 border-b bg-gray-50 flex flex-wrap gap-4 items-center">
-<div class="relative flex-grow max-w-md">
-<span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 iconify" data-icon="ri:search-line"></span>
-<input class="w-full pl-10 pr-4 py-2 text-sm border rounded focus:outline-none focus:ring-1 focus:ring-red-500" placeholder="关键词搜索..." type="text"/>
-</div>
-<select class="text-sm border rounded px-3 py-2 bg-white outline-none">
-<option>所有时期</option>
-<option>先秦两汉</option>
-<option>红色起义</option>
-<option>现代发展</option>
-</select>
-</div>
-<table class="w-full text-sm">
-<thead class="bg-gray-50 text-gray-500 font-bold">
-<tr class="border-b">
-<th class="px-6 py-4 text-left">事件专题</th>
-<th class="px-6 py-4 text-left">年代定位</th>
-<th class="px-6 py-4 text-left">浏览量</th>
-<th class="px-6 py-4 text-left">状态</th>
-<th class="px-6 py-4 text-center">操作</th>
-</tr>
-</thead>
-<tbody class="divide-y">
-<tr class="hover:bg-slate-50 transition">
-<td class="px-6 py-4">
-<div class="font-bold text-slate-800">八一南昌起义精选专题</div>
-<div class="text-[10px] text-gray-400 uppercase tracking-tighter">RED-SPECIAL-001</div>
-</td>
-<td class="px-6 py-4 italic">1927年8月1日</td>
-<td class="px-6 py-4 font-mono font-bold">15,823</td>
-<td class="px-6 py-4">
-<span class="bg-green-50 text-green-700 px-2 py-1 rounded-full text-[10px] font-bold border border-green-200 uppercase">Publish</span>
-</td>
-<td class="px-6 py-4 text-center space-x-2">
-<button class="p-2 text-blue-600 hover:bg-blue-50 rounded"><span class="iconify" data-icon="ri:edit-box-line"></span></button>
-<button class="p-2 text-red-600 hover:bg-red-50 rounded"><span class="iconify" data-icon="ri:delete-bin-line"></span></button>
-</td>
-</tr>
-<tr class="hover:bg-slate-50 transition">
-<td class="px-6 py-4">
-<div class="font-bold text-slate-800">南昌三一五大规模救济起义遗址</div>
-<div class="text-[10px] text-gray-400 uppercase tracking-tighter">ARCH-002</div>
-</td>
-<td class="px-6 py-4">1926年</td>
-<td class="px-6 py-4 font-mono font-bold">2,104</td>
-<td class="px-6 py-4">
-<span class="bg-yellow-50 text-yellow-700 px-2 py-1 rounded-full text-[10px] font-bold border border-yellow-200 uppercase">Draft</span>
-</td>
-<td class="px-6 py-4 text-center space-x-2">
-<button class="p-2 text-blue-600 hover:bg-blue-50 rounded"><span class="iconify" data-icon="ri:edit-box-line"></span></button>
-<button class="p-2 text-red-600 hover:bg-red-50 rounded"><span class="iconify" data-icon="ri:delete-bin-line"></span></button>
-</td>
-</tr>
-<!-- 更多行... -->
-</tbody>
-</table>
-<div class="px-6 py-4 bg-gray-50 flex justify-between items-center text-xs text-gray-500">
-<span>显示 10 / 128 条记录</span>
-<div class="flex space-x-2">
-<button class="px-2 py-1 border rounded bg-white">&lt;</button>
-<button class="px-2 py-1 border rounded bg-red-700 text-white">1</button>
-<button class="px-2 py-1 border rounded bg-white">2</button>
-<button class="px-2 py-1 border rounded bg-white">&gt;</button>
-</div>
-</div>
-</div>
-</div>
-</main>
+<body class="bg-blue-100 min-h-screen flex">
+    <!-- 侧边栏：-->
+    <aside class="w-64 bg-slate-900 text-white flex flex-col shrink-0">
+        <div class="p-6 border-b border-slate-400 flex items-center space-x-2">
+            <span class="iconify text-red-600 text-2xl" data-icon="ri:dashboard-3-line"></span>
+            <span class="font-bold tracking-wider">管理后台</span>
+        </div>
+        <nav class="flex-grow p-4 space-y-2 text-sm text-slate-400">
+            <p class="text-[10px] uppercase font-bold text-slate-500 px-2 py-2">核心看板</p>
+            <a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition" href="admin-dashboard.html">
+                <span class="iconify" data-icon="ri:home-gear-line"></span>
+                <span>主面板</span>
+            </a>
+            <p class="text-[10px] uppercase font-bold text-slate-500 px-2 py-2 mt-6">内容维护</p>
+            <a class="flex items-center space-x-3 bg-red-600 text-white p-3 rounded-lg" href="admin-history.html">
+                <span class="iconify" data-icon="ri:book-read-line"></span>
+                <span>历史事件管理</span>
+            </a>
+            <a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition" href="admin-people.html">
+                <span class="iconify" data-icon="ri:user-star-line"></span>
+                <span>历史人物管理</span>
+            </a>
+            <a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition" href="admin-users.html">
+                <span class="iconify" data-icon="ri:team-line"></span>
+                <span>系统用户管理</span>
+            </a>
+            <p class="text-[10px] uppercase font-bold text-slate-500 px-2 py-2 mt-6">互动与设置</p>
+            <a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition" href="#">
+                <span class="iconify" data-icon="ri:message-3-line"></span>
+                <span>问答管理</span>
+            </a>
+            <a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition" href="#">
+                <span class="iconify" data-icon="ri:settings-4-line"></span>
+                <span>全局设置</span>
+            </a>
+        </nav>
+        <div class="p-6 border-t border-slate-800">
+            <a class="text-xs flex items-center space-x-2 text-slate-500 hover:text-white" href="index.html">
+                <span class="iconify" data-icon="ri:logout-box-line"></span>
+                <span>返回前台预览</span>
+            </a>
+        </div>
+    </aside>
+    <!-- 主内容区 -->
+    <div class="flex-grow flex flex-col h-screen overflow-y-auto">
+    
+        <header class="bg-white h-16 border-b px-8 flex justify-between items-center shrink-0">
+            <h2 class="font-bold text-gray-700">历史事件内容池</h2>
+            <div class="flex items-center space-x-6 text-gray-500">
+                <div class="relative">
+                    <span class="iconify text-xl text-gray-500" data-icon="ri:notification-3-line"></span>
+                    <span class="absolute -top-1 -right-1 bg-red-600 w-2 h-2 rounded-full border border-white"></span>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="text-right hidden sm:block">
+                        <p class="text-xs font-bold text-gray-800">彭盈颖</p>
+                        <p class="text-[10px] text-gray-500">超级管理员</p>
+                    </div>
+                    <img class="w-8 h-8 rounded-full border border-gray-200" src="/git-test/1.png" />
+                </div>
+            </div>
+        </header>
+        <!-- 面板主区 -->
+        <main class="p-8">
+            <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
+                <div class="p-4 border-b bg-gray-50 flex flex-wrap gap-4 items-center">
+                    <div class="relative flex-grow max-w-md">
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 iconify" data-icon="ri:search-line"></span>
+                        <input class="w-full pl-10 pr-4 py-2 text-sm border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-red-500 text-gray-700" placeholder="关键词搜索..." type="text" />
+                    </div>
+                    <select class="text-sm border border-gray-200 rounded px-3 py-2 bg-white outline-none text-gray-700">
+                        <option>所有时期</option>
+                        <option>先秦两汉</option>
+                        <option>魏晋南北朝</option>
+                        <option>隋唐五代</option>
+                        <option>宋元明清</option>
+                        <option>近代民国</option>
+                        <option>红色革命</option>
+                        <option>现代发展</option>
+                    </select>
+                    <button class="bg-red-700 text-white px-5 py-2 rounded-lg text-sm font-bold flex items-center space-x-2 hover:bg-red-800 transition">
+                        <span class="iconify" data-icon="ri:add-line"></span>
+                        <span>创建新事件</span>
+                    </button>
+                </div>
+                <table class="w-full text-sm">
+                    <thead class="bg-gray-50 text-gray-500 font-bold">
+                        <tr class="border-b border-gray-200">
+                            <th class="px-6 py-4 text-left">事件专题</th>
+                            <th class="px-6 py-4 text-left">年代定位</th>
+                            <th class="px-6 py-4 text-left">浏览量</th>
+                            <th class="px-6 py-4 text-left">状态</th>
+                            <th class="px-6 py-4 text-center">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 text-gray-700">
+                        <!-- 第1条：灌婴筑城 -->
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-gray-900">灌婴筑城</div>
+                                <div class="text-[10px] text-gray-400 uppercase tracking-tighter">HIST-WESTHAN-001</div>
+                            </td>
+                            <td class="px-6 py-4">公元前201年（西汉）</td>
+                            <td class="px-6 py-4 font-mono font-bold text-gray-900">8,562</td>
+                            <td class="px-6 py-4">
+                                <span class="bg-green-100 text-green-600 px-2 py-1 rounded-full text-[10px] font-bold border border-green-200 uppercase">Publish</span>
+                            </td>
+                            <td class="px-6 py-4 text-center space-x-2">
+                                <button class="p-2 text-blue-600 hover:bg-blue-50 rounded transition"><span class="iconify" data-icon="ri:edit-box-line"></span></button>
+                                <button class="p-2 text-red-600 hover:bg-red-50 rounded transition"><span class="iconify" data-icon="ri:delete-bin-line"></span></button>
+                            </td>
+                        </tr>
+                        <!-- 第2条：许逊治水 -->
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-gray-900">许逊治水</div>
+                                <div class="text-[10px] text-gray-400 uppercase tracking-tighter">HIST-WESTJIN-002</div>
+                            </td>
+                            <td class="px-6 py-4">公元291年（西晋）</td>
+                            <td class="px-6 py-4 font-mono font-bold text-gray-900">7,215</td>
+                            <td class="px-6 py-4">
+                                <span class="bg-green-100 text-green-600 px-2 py-1 rounded-full text-[10px] font-bold border border-green-200 uppercase">Publish</span>
+                            </td>
+                            <td class="px-6 py-4 text-center space-x-2">
+                                <button class="p-2 text-blue-600 hover:bg-blue-50 rounded transition"><span class="iconify" data-icon="ri:edit-box-line"></span></button>
+                                <button class="p-2 text-red-600 hover:bg-red-50 rounded transition"><span class="iconify" data-icon="ri:delete-bin-line"></span></button>
+                            </td>
+                        </tr>
+                        <!-- 第3条：滕王阁始建 -->
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-gray-900">滕王阁始建</div>
+                                <div class="text-[10px] text-gray-400 uppercase tracking-tighter">HIST-TANG-003</div>
+                            </td>
+                            <td class="px-6 py-4">公元659年（唐朝）</td>
+                            <td class="px-6 py-4 font-mono font-bold text-gray-900">12,890</td>
+                            <td class="px-6 py-4">
+                                <span class="bg-green-100 text-green-600 px-2 py-1 rounded-full text-[10px] font-bold border border-green-200 uppercase">Publish</span>
+                            </td>
+                            <td class="px-6 py-4 text-center space-x-2">
+                                <button class="p-2 text-blue-600 hover:bg-blue-50 rounded transition"><span class="iconify" data-icon="ri:edit-box-line"></span></button>
+                                <button class="p-2 text-red-600 hover:bg-red-50 rounded transition"><span class="iconify" data-icon="ri:delete-bin-line"></span></button>
+                            </td>
+                        </tr>
+                        <!-- 第4条：南唐迁都南昌 -->
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-gray-900">南唐迁都南昌</div>
+                                <div class="text-[10px] text-gray-400 uppercase tracking-tighter">HIST-FIVEDYNASTY-004</div>
+                            </td>
+                            <td class="px-6 py-4">公元959年（五代十国）</td>
+                            <td class="px-6 py-4 font-mono font-bold text-gray-900">6,983</td>
+                            <td class="px-6 py-4">
+                                <span class="bg-green-100 text-green-600 px-2 py-1 rounded-full text-[10px] font-bold border border-green-200 uppercase">Publish</span>
+                            </td>
+                            <td class="px-6 py-4 text-center space-x-2">
+                                <button class="p-2 text-blue-600 hover:bg-blue-50 rounded transition"><span class="iconify" data-icon="ri:edit-box-line"></span></button>
+                                <button class="p-2 text-red-600 hover:bg-red-50 rounded transition"><span class="iconify" data-icon="ri:delete-bin-line"></span></button>
+                            </td>
+                        </tr>
+                        <!-- 第5条：洪都之战 -->
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-gray-900">洪都之战</div>
+                                <div class="text-[10px] text-gray-400 uppercase tracking-tighter">HIST-YUAN-005</div>
+                            </td>
+                            <td class="px-6 py-4">公元1362年（元末）</td>
+                            <td class="px-6 py-4 font-mono font-bold text-gray-900">9,451</td>
+                            <td class="px-6 py-4">
+                                <span class="bg-green-100 text-green-600 px-2 py-1 rounded-full text-[10px] font-bold border border-green-200 uppercase">Publish</span>
+                            </td>
+                            <td class="px-6 py-4 text-center space-x-2">
+                                <button class="p-2 text-blue-600 hover:bg-blue-50 rounded transition"><span class="iconify" data-icon="ri:edit-box-line"></span></button>
+                                <button class="p-2 text-red-600 hover:bg-red-50 rounded transition"><span class="iconify" data-icon="ri:delete-bin-line"></span></button>
+                            </td>
+                        </tr>
+                        <!-- 第6条：王守仁平叛 -->
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-gray-900">王守仁平叛</div>
+                                <div class="text-[10px] text-gray-400 uppercase tracking-tighter">HIST-MING-006</div>
+                            </td>
+                            <td class="px-6 py-4">1519年（明朝）</td>
+                            <td class="px-6 py-4 font-mono font-bold text-gray-900">7,865</td>
+                            <td class="px-6 py-4">
+                                <span class="bg-green-100 text-green-600 px-2 py-1 rounded-full text-[10px] font-bold border border-green-200 uppercase">Publish</span>
+                            </td>
+                            <td class="px-6 py-4 text-center space-x-2">
+                                <button class="p-2 text-blue-600 hover:bg-blue-50 rounded transition"><span class="iconify" data-icon="ri:edit-box-line"></span></button>
+                                <button class="p-2 text-red-600 hover:bg-red-50 rounded transition"><span class="iconify" data-icon="ri:delete-bin-line"></span></button>
+                            </td>
+                        </tr>
+                        <!-- 第7条：刘显抗倭 -->
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-gray-900">刘显抗倭</div>
+                                <div class="text-[10px] text-gray-400 uppercase tracking-tighter">HIST-MING-007</div>
+                            </td>
+                            <td class="px-6 py-4">明嘉靖年间（明朝）</td>
+                            <td class="px-6 py-4 font-mono font-bold text-gray-900">6,523</td>
+                            <td class="px-6 py-4">
+                                <span class="bg-green-100 text-green-600 px-2 py-1 rounded-full text-[10px] font-bold border border-green-200 uppercase">Publish</span>
+                            </td>
+                            <td class="px-6 py-4 text-center space-x-2">
+                                <button class="p-2 text-blue-600 hover:bg-blue-50 rounded transition"><span class="iconify" data-icon="ri:edit-box-line"></span></button>
+                                <button class="p-2 text-red-600 hover:bg-red-50 rounded transition"><span class="iconify" data-icon="ri:delete-bin-line"></span></button>
+                            </td>
+                        </tr>
+                        <!-- 第8条：八大山人出家 -->
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-gray-900">八大山人出家</div>
+                                <div class="text-[10px] text-gray-400 uppercase tracking-tighter">HIST-QING-008</div>
+                            </td>
+                            <td class="px-6 py-4">公元1648年（清朝）</td>
+                            <td class="px-6 py-4 font-mono font-bold text-gray-900">8,129</td>
+                            <td class="px-6 py-4">
+                                <span class="bg-green-100 text-green-600 px-2 py-1 rounded-full text-[10px] font-bold border border-green-200 uppercase">Publish</span>
+                            </td>
+                            <td class="px-6 py-4 text-center space-x-2">
+                                <button class="p-2 text-blue-600 hover:bg-blue-50 rounded transition"><span class="iconify" data-icon="ri:edit-box-line"></span></button>
+                                <button class="p-2 text-red-600 hover:bg-red-50 rounded transition"><span class="iconify" data-icon="ri:delete-bin-line"></span></button>
+                            </td>
+                        </tr>
+                        <!-- 第9条：程矞采禁烟 -->
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-gray-900">程矞采禁烟</div>
+                                <div class="text-[10px] text-gray-400 uppercase tracking-tighter">HIST-QING-009</div>
+                            </td>
+                            <td class="px-6 py-4">清道光年间（清朝）</td>
+                            <td class="px-6 py-4 font-mono font-bold text-gray-900">5,987</td>
+                            <td class="px-6 py-4">
+                                <span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full text-[10px] font-bold border border-yellow-200 uppercase">Draft</span>
+                            </td>
+                            <td class="px-6 py-4 text-center space-x-2">
+                                <button class="p-2 text-blue-600 hover:bg-blue-50 rounded transition"><span class="iconify" data-icon="ri:edit-box-line"></span></button>
+                                <button class="p-2 text-red-600 hover:bg-red-50 rounded transition"><span class="iconify" data-icon="ri:delete-bin-line"></span></button>
+                            </td>
+                        </tr>
+                        <!-- 第10条：孙中山南昌阅兵 -->
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-gray-900">孙中山南昌阅兵</div>
+                                <div class="text-[10px] text-gray-400 uppercase tracking-tighter">HIST-MINGUO-010</div>
+                            </td>
+                            <td class="px-6 py-4">中华民国时期</td>
+                            <td class="px-6 py-4 font-mono font-bold text-gray-900">9,236</td>
+                            <td class="px-6 py-4">
+                                <span class="bg-green-100 text-green-600 px-2 py-1 rounded-full text-[10px] font-bold border border-green-200 uppercase">Publish</span>
+                            </td>
+                            <td class="px-6 py-4 text-center space-x-2">
+                                <button class="p-2 text-blue-600 hover:bg-blue-50 rounded transition"><span class="iconify" data-icon="ri:edit-box-line"></span></button>
+                                <button class="p-2 text-red-600 hover:bg-red-50 rounded transition"><span class="iconify" data-icon="ri:delete-bin-line"></span></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+               
+                <div class="px-6 py-4 bg-gray-50 flex justify-between items-center text-xs text-gray-500 border-t border-gray-200">
+                    <span>显示 10 / 128 条记录</span>
+                    <div class="flex space-x-2">
+                        <button class="px-2 py-1 border border-gray-200 rounded bg-white text-gray-700 hover:bg-gray-50 transition">&lt;</button>
+                        <button class="px-2 py-1 border border-red-700 rounded bg-red-700 text-white">1</button>
+                        <button class="px-2 py-1 border border-gray-200 rounded bg-white text-gray-700 hover:bg-gray-50 transition">2</button>
+                        <button class="px-2 py-1 border border-gray-200 rounded bg-white text-gray-700 hover:bg-gray-50 transition">3</button>
+                        <button class="px-2 py-1 border border-gray-200 rounded bg-white text-gray-700 hover:bg-gray-50 transition">4</button>
+                        <button class="px-2 py-1 border border-gray-200 rounded bg-white text-gray-700 hover:bg-gray-50 transition">&gt;</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
 </body>
 </html>
