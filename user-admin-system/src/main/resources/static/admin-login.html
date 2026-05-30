@@ -31,22 +31,36 @@
             </div>
         </div>
         <div class="flex-grow p-6 md:p-8">
-            <form action="admin-dashboard.html" class="space-y-5">
+            <form class="space-y-5">
                 <div>
                     <label class="block text-base font-bold text-gray-800 uppercase mb-2">账号</label>
-                    <input class="w-full bg-white/70 border border-gray-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent" placeholder="输入账号" type="text" />
+                    <input id="username" class="w-full bg-white/70 border border-gray-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent" placeholder="输入账号" type="text" />
                 </div>
                 <div>
                     <label class="block text-base font-bold text-gray-800 uppercase mb-2">密码</label>
-                    <input class="w-full bg-white/70 border border-gray-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent" placeholder="输入密码" type="password" />
+                    <input id="password" class="w-full bg-white/70 border border-gray-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent" placeholder="输入密码" type="password" />
                 </div>
+
+                <!-- ====================== 登录身份选择 ====================== -->
+                <div class="flex gap-3">
+                    <label class="flex items-center text-gray-800 font-bold">
+                        <input type="radio" name="role" value="user" checked class="mr-2">
+                        <span>普通用户</span>
+                    </label>
+                    <label class="flex items-center text-gray-800 font-bold">
+                        <input type="radio" name="role" value="admin" class="mr-2">
+                        <span>管理员</span>
+                    </label>
+                </div>
+
                 <div class="flex items-center justify-between text-base">
                     <label class="flex items-center text-gray-800">
                         <input class="mr-2" type="checkbox" required /> 登录即同意平台规定与条款
                     </label>
                     <a class="text-red-600 hover:underline font-medium" href="#">忘记密码？</a>
                 </div>
-                <button class="w-full bg-red-700 text-white font-bold py-3 rounded-lg hover:shadow-lg hover:bg-red-800 transition active:scale-[0.98] text-xl" type="submit">
+
+                <button onclick="login()" type="button" class="w-full bg-red-700 text-white font-bold py-3 rounded-lg hover:shadow-lg hover:bg-red-800 transition active:scale-[0.98] text-xl">
                     登录系统
                 </button>
             </form>
@@ -74,6 +88,36 @@
             document.getElementById('currentDate').textContent = `系统日期：${year}年${month}月${day}日`;
         }
         updateDate();
+
+        // ====================== 智能登录：用户 / 管理员 二合一 ======================
+        function login() {
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+            let role = document.querySelector('input[name="role"]:checked').value;
+
+            // 自动选择接口
+            let url = role === "admin"
+                ? "http://localhost:8080/admin/login"
+                : "http://localhost:8080/user/login";
+
+            fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.code === 1) {
+                    alert(role === "admin" ? "管理员登录成功！" : "用户登录成功！");
+                    window.location.href = "admin-dashboard.html";
+                } else {
+                    alert("登录失败：" + data.msg);
+                }
+            })
+            .catch(err => {
+                alert("后台连接失败：" + err);
+            });
+        }
     </script>
 </body>
 </html>

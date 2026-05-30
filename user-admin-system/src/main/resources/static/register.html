@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>注册界面 - 英雄城红色记忆</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .calligraphy-gold {
+            font-family: "STKaiti", "KaiTi", "SimHei", sans-serif;
+            font-weight: 900;
+            color: #f9d342;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3), -1px -1px 1px rgba(200,0,0,0.2);
+            letter-spacing: 0.05em;
+            filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.25));
+        }
+    </style>
+</head>
+<body class="h-screen flex items-center justify-center p-4 bg-cover bg-center"
+      style="background-image: url('nanchang-bg.jpg');">
+    <div class="max-w-md w-full bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+        <div class="w-full bg-red-700 flex items-center justify-center py-3 select-none">
+            <div class="flex items-center calligraphy-gold text-3xl">
+                英雄城红色记忆 · 用户注册
+            </div>
+        </div>
+        <div class="flex-grow p-6 md:p-8">
+            <form class="space-y-5">
+                <div>
+                    <label class="block text-base font-bold text-gray-800 mb-2">账号</label>
+                    <input id="username" class="w-full bg-white/70 border border-gray-300 rounded-lg px-4 py-3 text-lg" placeholder="请输入账号" type="text" />
+                </div>
+                <div>
+                    <label class="block text-base font-bold text-gray-800 mb-2">密码</label>
+                    <input id="password" class="w-full bg-white/70 border border-gray-300 rounded-lg px-4 py-3 text-lg" placeholder="请输入密码" type="password" />
+                </div>
+                <div>
+                    <label class="block text-base font-bold text-gray-800 mb-2">手机号</label>
+                    <input id="phone" class="w-full bg-white/70 border border-gray-300 rounded-lg px-4 py-3 text-lg" placeholder="请输入手机号" type="text" />
+                </div>
+
+                <button onclick="register()" type="button"
+                    class="w-full bg-red-700 text-white font-bold py-3 rounded-lg hover:bg-red-800 transition text-xl">
+                    立即注册
+                </button>
+            </form>
+
+            <div class="mt-5 text-center">
+                <a href="admin-login.html" class="text-red-600 hover:underline">已有账号？返回登录</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ====================== 注册接口调用 ======================
+        function register() {
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+            let phone = document.getElementById("phone").value;
+
+            fetch("http://localhost:8080/user/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password,
+                    phone: phone
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.code === 1) {
+                    alert("注册成功！");
+                    window.location.href = "admin-login.html";
+                } else {
+                    alert("注册失败：" + data.msg);
+                }
+            })
+            .catch(err => {
+                alert("注册失败：后台未启动或跨域问题");
+            });
+        }
+    </script>
+</body>
+</html>

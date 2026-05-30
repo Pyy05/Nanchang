@@ -1,0 +1,26 @@
+@baseUrl = http://localhost:8080
+
+### 1. 注册用户
+POST {{baseUrl}}/user/register
+Content-Type: application/json
+
+{
+  "username": "test2user",
+  "password": "123456",
+  "phone": "13800138000"
+}
+
+### 2. 登录用户
+POST {{baseUrl}}/user/login
+Content-Type: application/json
+
+{
+  "username": "test_user",
+  "password": "123456"
+}
+
+### 3. 获取所有用户
+GET {{baseUrl}}/user/list
+
+### 4. 根据ID查询用户（把 1 换成你数据库里真实的 user_id）
+GET {{baseUrl}}/user/get/1
