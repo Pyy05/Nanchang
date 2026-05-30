@@ -2,31 +2,36 @@ package com.team.user_admin_system.service;
 
 import com.team.user_admin_system.entity.SysUser;
 import com.team.user_admin_system.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class UserService {
+
     private final UserRepository userRepository;
 
-    public Page<SysUser> findPage(int page, int size){
-        return userRepository.findAll(PageRequest.of(page-1, size));
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    public SysUser save(SysUser user){
+    // 登录
+    public SysUser login(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    // 注册
+    public SysUser register(SysUser user) {
         return userRepository.save(user);
     }
 
-    public void delete(Integer id){
-        userRepository.deleteById(id);
+    // 查询全部用户
+    public List<SysUser> getAll() {
+        return userRepository.findAll();
     }
 
-    public Optional<SysUser> getById(Integer id){
-        return userRepository.findById(id);
+    // 根据ID查用户
+    public SysUser getById(Integer id) {
+        return userRepository.findById(id).orElse(null);
     }
 }
