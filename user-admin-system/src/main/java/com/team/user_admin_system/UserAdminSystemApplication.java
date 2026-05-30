@@ -6,14 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 // 把所有 MyBatis 的东西全部删掉！只留这一个类！
 @SpringBootApplication
 public class UserAdminSystemApplication {
-<<<<<<< HEAD
-	public static void main(String[] args) {
-		SpringApplication.run(UserAdminSystemApplication.class, args);
-	}
-}
-=======
     public static void main(String[] args) {
         SpringApplication.run(UserAdminSystemApplication.class, args);
     }
 }
->>>>>>> 9cfc563bd34851df848c2bcca6ded6291cffd068

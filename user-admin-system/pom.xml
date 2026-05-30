@@ -1,89 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-<<<<<<< HEAD
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.0.6</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
-	<groupId>com.team</groupId>
-	<artifactId>user-admin-system</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>user-admin-system</name>
-	<description/>
-	<url/>
-	<licenses>
-		<license/>
-	</licenses>
-	<developers>
-		<developer/>
-	</developers>
-	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
-	</scm>
-	<properties>
-		<java.version>21</java.version>
-	</properties>
-	<dependencies>
-		<!-- Web 应用支持 -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-=======
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-   <parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.1.0</version>  <!-- 改成 3.1.0 -->
-    <relativePath/>
-</parent>
->>>>>>> 9cfc563bd34851df848c2bcca6ded6291cffd068
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
+    <!-- 基本配置 -->
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Spring Boot 父项目：统一管理依赖版本 -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.1.0</version>
+        <relativePath/>
+    </parent>
+
+    <!-- 项目坐标 -->
     <groupId>com.team</groupId>
     <artifactId>user-admin-system</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>user-admin-system</name>
+    <description>用户管理系统</description>
 
+    <!-- 统一属性配置 -->
     <properties>
         <java.version>17</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <lombok.version>1.18.30</lombok.version>
     </properties>
 
+    <!-- 依赖管理 -->
     <dependencies>
-        <!-- Web 核心 -->
+        <!-- Web 核心：Spring MVC + Tomcat -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- JPA （你现在缺的就是这个！！） -->
+        <!-- ORM：Spring Data JPA + Hibernate -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-        <!-- MySQL -->
+        <!-- MySQL 驱动：运行时依赖 -->
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Lombok -->
+        <!-- Lombok：编译期生成 getter/setter/构造器 -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
         </dependency>
 
-        <!-- 测试 -->
+        <!-- 测试依赖：JUnit5 + Mockito + AssertJ -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -91,12 +66,15 @@
         </dependency>
     </dependencies>
 
+    <!-- 构建插件 -->
     <build>
         <plugins>
+            <!-- Spring Boot 打包插件：打成可执行 jar -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <!-- 打包时排除 lombok -->
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
@@ -107,4 +85,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
