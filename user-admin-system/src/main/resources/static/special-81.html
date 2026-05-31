@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8"/>
@@ -21,9 +20,11 @@
 <span class="iconify cursor-pointer" data-icon="ri:bookmark-line"></span>
 </div>
 </div>
+
 <!-- 沉浸式Banner -->
 <header class="h-[500px] relative overflow-hidden bg-black">
-<img alt="南昌起义雕塑" class="w-full h-full object-cover opacity-60" src="images/history/第一枪.png"/>
+<img alt="南昌起义雕塑" class="w-full h-full object-cover opacity-60"
+src="https://www.helloimg.com/i/2026/05/31/6a1c1b80defc8.jpg"/>
 <div class="absolute inset-0 flex flex-col justify-center items-center text-center px-4">
 <div class="bg-red-600 text-white px-4 py-1 mb-4 text-sm tracking-widest font-bold">重大历史事件回顾</div>
 <h2 class="text-5xl md:text-7xl font-bold text-white mb-6">打响武装反抗的第一枪</h2>
@@ -45,29 +46,34 @@
 </div>
 </div>
 </header>
+
 <!-- 文章导航 -->
-<nav class="bg-white border-b sticky top-0 z-40">
+<nav class="bg-white border-b sticky top-0 z-40" id="sectionNav">
 <div class="max-w-4xl mx-auto px-4 flex justify-around py-4 font-bold text-gray-600">
-<a class="text-red-700" href="#background">起义背景</a>
-<a class="hover:text-red-700" href="#preparation">秘密准备</a>
-<a class="hover:text-red-700" href="#process">凌晨枪声</a>
-<a class="hover:text-red-700" href="#significance">深远意义</a>
-<a class="hover:text-red-700" href="#archives">原始文献</a>
+<a href="#background" class="hover:text-red-700" data-target="background">起义背景</a>
+<a href="#preparation" class="hover:text-red-700" data-target="preparation">秘密准备</a>
+<a href="#process" class="hover:text-red-700" data-target="process">凌晨枪声</a>
+<a href="#significance" class="hover:text-red-700" data-target="significance">深远意义</a>
+<a href="#archives" class="hover:text-red-700" data-target="archives">原始文献</a>
 </div>
 </nav>
+
 <!-- 正文内容 -->
 <main class="max-w-4xl mx-auto px-4 py-16 bg-white shadow-sm my-8">
-<!-- 1. 背景 -->
-<section class="mb-20" id="background">
+
+<!-- 1. 历史背景：风云变幻（扩展完整版） -->
+<section class="mb-20 scroll-mt-16" id="background">
 <div class="flex items-center space-x-3 mb-8">
 <span class="text-5xl font-black text-red-100">01</span>
 <div>
 <h3 class="text-2xl font-bold text-gray-800">历史背景：风云变幻</h3>
-<p class="text-sm text-gray-400">The historical context of the uprising</p>
+<p class="text-sm text-gray-400">大革命失败后的严峻时局</p>
 </div>
 </div>
 <div class="prose prose-red max-w-none text-gray-700 leading-loose">
-<p class="mb-6">1927年，蒋介石、汪精卫先后在上海和武汉发动“四一二”和“七一五”反革命政变，大肆屠杀共产党人和革命群众，大革命宣告失败。在严峻的形势下，中国共产党决定在南昌发起武装起义。</p>
+<p class="mb-6">1924年至1927年，国共两党携手合作，掀起了轰轰烈烈的大革命浪潮。北伐战争势如破竹，工农运动蓬勃兴起，中国革命呈现前所未有的高涨局面。然而，正当革命即将取得重大胜利之际，国民党右派背叛革命，开始残酷镇压共产党人和革命群众。</p>
+<p class="mb-6">1927年4月12日，蒋介石在上海发动反革命政变，大肆捕杀共产党员、工人领袖和革命群众，制造了震惊中外的“四一二惨案”。同年7月15日，汪精卫在武汉公开宣布“分共”，大规模逮捕屠杀共产党人，第一次国共合作彻底破裂，大革命宣告失败。</p>
+<p class="mb-6">在短短几个月内，数十万革命志士惨遭杀害，中国共产党面临前所未有的生存危机。面对血雨腥风、白色恐怖，中国共产党人深刻认识到，只有拿起枪杆子，建立自己的武装，才能反抗国民党反动派的血腥屠杀，挽救中国革命。在这样生死存亡的历史关头，中共中央毅然决定：在南昌发动武装起义。</p>
 <div class="grid grid-cols-2 gap-4 my-8">
 <div class="bg-slate-50 p-4 border-l-4 border-red-600">
 <h4 class="font-bold mb-2">四一二反革命政变</h4>
@@ -80,86 +86,196 @@
 </div>
 </div>
 </section>
-<!-- 2. 准备 -->
-<section class="mb-20" id="preparation">
+
+<!-- 2. 秘密准备：大旅社风云（扩展完整版） -->
+<section class="mb-20 scroll-mt-16" id="preparation">
 <div class="flex items-center space-x-3 mb-8">
 <span class="text-5xl font-black text-red-100">02</span>
 <div>
 <h3 class="text-2xl font-bold text-gray-800">秘密准备：大旅社风云</h3>
-<p class="text-sm text-gray-400">Secret preparations at Nanchang Grand Hotel</p>
+<p class="text-sm text-gray-400">南昌城内的秘密军事策划</p>
 </div>
 </div>
-<div class="relative pl-8 border-l-2 border-gray-100 space-y-8">
+<div class="prose prose-red max-w-none text-gray-700 leading-loose">
+<p class="mb-6">1927年7月下旬，南昌城内暗流涌动，一场改变中国命运的武装起义正在秘密酝酿。中共中央派周恩来秘密抵达南昌，担任前敌委员会书记，全面领导起义筹备工作。起义指挥部秘密设在南昌市中心的江西大旅社，这里成为南昌起义的决策中枢。</p>
+<p class="mb-6">7月27日，贺龙率领国民革命军第二十军、叶挺率领第十一军第二十四师，先后秘密进驻南昌城。这两支队伍都是中国共产党掌握或影响的精锐力量，成为起义的主力部队。朱德率领第三军军官教育团和南昌公安局警察武装，在城内配合行动，控制重要据点。</p>
+<p class="mb-6">起义前夕，张国焘受共产国际指示赶到南昌，主张推迟甚至取消起义，认为敌我力量悬殊、起义必败。周恩来坚决反对，以辞职抗争，最终坚持原定8月1日凌晨起义计划。深夜，起义军将领在大旅社召开最后军事会议，部署详细作战任务，确定进攻路线、联络暗号、信号弹时间，为打响第一枪做好万无一失的准备。</p>
+</div>
+<div class="relative pl-8 border-l-2 border-gray-100 space-y-8 mt-8">
 <div class="relative">
 <div class="absolute -left-10 bg-red-600 w-4 h-4 rounded-full border-4 border-white shadow"></div>
 <h4 class="font-bold text-lg">7月25日：前敌委员会成立</h4>
-<p class="text-gray-600 text-sm mt-1">周恩来抵达南昌，在江西大旅社（今起义纪念馆）成立前敌委员会。</p>
+<p class="text-gray-600 text-sm mt-1">周恩来抵达南昌，秘密成立起义指挥中枢。</p>
 </div>
 <div class="relative">
 <div class="absolute -left-10 bg-red-600 w-4 h-4 rounded-full border-4 border-white shadow"></div>
-<h4 class="font-bold text-lg">7月27日：贺龙抵达</h4>
-<p class="text-gray-600 text-sm mt-1">贺龙率领的第20军秘密抵达南昌，进驻大旅社附近地区。</p>
+<h4 class="font-bold text-lg">7月27日：主力部队集结南昌</h4>
+<p class="text-gray-600 text-sm mt-1">贺龙、叶挺部队秘密入城，起义兵力全部到位。</p>
+</div>
+<div class="relative">
+<div class="absolute -left-10 bg-red-600 w-4 h-4 rounded-full border-4 border-white shadow"></div>
+<h4 class="font-bold text-lg">7月30日：起义决策之争</h4>
+<p class="text-gray-600 text-sm mt-1">周恩来力排推迟起义意见，坚决执行原计划。</p>
 </div>
 </div>
-<img alt="起义旧址" class="w-full rounded-xl my-8" src="images/history/南昌起义旧址.jpg"/>
+<img alt="起义旧址" class="w-full rounded-xl my-8"
+src="https://www.helloimg.com/i/2026/05/31/6a1c1b89e7c39.jpg"/>
 </section>
-<!-- 3. 经过 -->
-<section class="mb-20" id="process">
+
+<!-- 3. 凌晨枪声：激战南昌城（扩展完整版） -->
+<section class="mb-20 scroll-mt-16" id="process">
 <div class="flex items-center space-x-3 mb-8">
 <span class="text-5xl font-black text-red-100">03</span>
 <div>
-<h3 class="text-2xl font-bold text-gray-800">起义经过：激战南昌</h3>
-<p class="text-sm text-gray-400">The combat process of August 1st</p>
+<h3 class="text-2xl font-bold text-gray-800">凌晨枪声：激战南昌城</h3>
+<p class="text-sm text-gray-400">震惊中外的武装战斗全过程</p>
 </div>
 </div>
-<p class="text-gray-700 leading-loose mb-6">1927年8月1日凌晨2时，南昌城内枪声大作。周恩来、贺龙、叶挺、朱德、刘伯承等人率领北伐军两万余人，向驻守南昌的敌军发起进攻。</p>
-<div class="bg-red-50 p-8 rounded-lg border border-red-100">
+<div class="prose prose-red max-w-none text-gray-700 leading-loose">
+<p class="mb-6">1927年8月1日凌晨2时整，三颗红色信号弹划破南昌漆黑的夜空，震惊中外的南昌起义正式打响。两万余名起义将士按照预定部署，从四面八方同时向南昌城内国民党守军发起猛烈进攻，枪声、炮声、冲锋号声响彻全城。</p>
+<p class="mb-6">起义军兵分多路，重点攻克敌军核心据点。贺龙部主攻国民党江西省政府大楼，叶挺部歼灭敌军精锐部队，朱德部负责控制城北交通要道，防止敌军增援。战斗异常激烈，守军凭借坚固工事顽强抵抗，起义将士冒着枪林弹雨奋勇冲锋，展现出不怕牺牲、英勇无畏的革命精神。</p>
+<p class="mb-6">经过四个多小时的浴血奋战，至清晨6时，南昌城内国民党守军被全部歼灭，共毙伤俘敌军3000余人，缴获大量武器装备。南昌城完全被起义军控制，鲜艳的红旗在南昌城头高高升起，中国共产党独立领导武装斗争、创建人民军队的伟大壮举宣告成功。</p>
+</div>
+<div class="bg-red-50 p-8 rounded-lg border border-red-100 my-8">
 <ul class="space-y-4">
 <li class="flex items-start">
 <span class="bg-red-600 text-white text-[10px] px-2 py-0.5 mt-1 mr-3 shrink-0">战斗点</span>
-<span><b>大旅社外围：</b>迅速缴获敌军警卫营武装。</span>
+<span><b>大旅社外围：</b>起义军指挥部，率先肃清周边敌军。</span>
 </li>
 <li class="flex items-start">
 <span class="bg-red-600 text-white text-[10px] px-2 py-0.5 mt-1 mr-3 shrink-0">战斗点</span>
-<span><b>匡庐中学：</b>激战四个小时，歼灭国民党第三军一部。</span>
+<span><b>匡庐中学：</b>歼灭国民党第三军主力，激战四小时。</span>
 </li>
 <li class="flex items-start">
 <span class="bg-red-600 text-white text-[10px] px-2 py-0.5 mt-1 mr-3 shrink-0">战斗点</span>
-<span><b>松柏巷：</b>突破守军最后防线，全歼剩余主力。</span>
+<span><b>松柏巷天主堂：</b>攻克敌军最后防线，胜利会师。</span>
 </li>
 </ul>
 </div>
 </section>
-<!-- 互动：核心领导人 -->
-<section class="mb-20 py-12 border-t">
-<h4 class="text-center font-bold text-xl mb-10">起义核心领导集体</h4>
-<div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-<div class="text-center">
-<img alt="周恩来" class="w-16 h-16 rounded-full mx-auto grayscale hover:grayscale-0 cursor-pointer border-2 border-transparent hover:border-red-600 transition" src="images/role/周恩来.jpg"/>
-<p class="text-sm font-bold mt-2">周恩来</p>
+
+<!-- 4. 深远意义：建军的开端（扩展完整版） -->
+<section class="mb-20 scroll-mt-16" id="significance">
+<div class="flex items-center space-x-3 mb-8">
+<span class="text-5xl font-black text-red-100">04</span>
+<div>
+<h3 class="text-2xl font-bold text-gray-800">深远意义：建军的开端</h3>
+<p class="text-sm text-gray-400">改变中国革命走向的里程碑事件</p>
 </div>
-<div class="text-center">
-<img alt="贺龙" class="w-16 h-16 rounded-full mx-auto grayscale hover:grayscale-0 cursor-pointer border-2 border-transparent hover:border-red-600 transition" src="images/role/贺龙.jpg"/>
-<p class="text-sm font-bold mt-2">贺龙</p>
 </div>
-<div class="text-center">
-<img alt="叶挺" class="w-16 h-16 rounded-full mx-auto grayscale hover:grayscale-0 cursor-pointer border-2 border-transparent hover:border-red-600 transition" src="images/role/叶挺.jpg"/>
-<p class="text-sm font-bold mt-2">叶挺</p>
+<div class="prose prose-red max-w-none text-gray-700 leading-loose">
+<p class="mb-6">南昌起义是中国革命史上具有里程碑意义的伟大事件，打响了武装反抗国民党反动派的第一枪，打破了大革命失败后中国革命的黑暗局面，标志着中国共产党独立领导革命战争、创建人民军队、武装夺取政权的正式开端。</p>
+<p class="mb-6">南昌起义保存下来的革命火种，后来转战广东、福建、江西等地，历经艰难险阻，最终与毛泽东领导的秋收起义部队在井冈山胜利会师，共同创建中国第一个农村革命根据地，为中国革命开辟“农村包围城市、武装夺取政权”的正确道路奠定坚实基础。</p>
+<p class="mb-6">1933年，中华苏维埃共和国临时中央政府正式将8月1日定为中国工农红军成立纪念日，即后来的中国人民解放军建军节。南昌起义铸就的“坚定信念、百折不挠、英勇无畏、为民奋斗”的八一精神，成为中国人民解放军的精神旗帜，激励一代代革命军人奋勇前进、为国为民。</p>
 </div>
-<div class="text-center">
-<img alt="朱德" class="w-16 h-16 rounded-full mx-auto grayscale hover:grayscale-0 cursor-pointer border-2 border-transparent hover:border-red-600 transition" src="images/role/朱德.jpg"/>
-<p class="text-sm font-bold mt-2">朱德</p>
+<div class="grid grid-cols-1 gap-4 my-8">
+<div class="bg-red-50 p-4 border-l-4 border-red-600">
+<h4 class="font-bold mb-2">建军节的由来</h4>
+<p class="text-sm text-gray-600">1933年，8月1日正式定为建军节，延续至今。</p>
 </div>
-<div class="text-center">
-<img alt="刘伯承" class="w-16 h-16 rounded-full mx-auto grayscale hover:grayscale-0 cursor-pointer border-2 border-transparent hover:border-red-600 transition" src="images/role/刘伯承.jpg"/>
-<p class="text-sm font-bold mt-2">刘伯承</p>
+<div class="bg-red-50 p-4 border-l-4 border-red-600">
+<h4 class="font-bold mb-2">革命道路的转折</h4>
+<p class="text-sm text-gray-600">为井冈山会师、农村根据地建设奠定基础。</p>
 </div>
 </div>
 </section>
+
+<!-- 5. 原始文献：历史的见证（扩展完整版） -->
+<section class="mb-20 scroll-mt-16" id="archives">
+<div class="flex items-center space-x-3 mb-8">
+<span class="text-5xl font-black text-red-100">05</span>
+<div>
+<h3 class="text-2xl font-bold text-gray-800">原始文献：历史的见证</h3>
+<p class="text-sm text-gray-400">留存至今的珍贵革命史料</p>
+</div>
+</div>
+<div class="prose prose-red max-w-none text-gray-700 leading-loose">
+<p class="mb-6">南昌起义留存的原始文献，是见证这段伟大历史的珍贵实物，记录了起义决策、军事部署、革命主张等关键内容，为研究南昌起义提供最权威、最直接的一手史料，承载着革命先辈的初心与使命。</p>
+<p class="mb-6">1927年8月1日，宋庆龄、毛泽东、周恩来、贺龙、叶挺、朱德、刘伯承等22位革命志士联名发表《中央委员宣言》，痛斥国民党反动派背叛革命、屠杀民众的滔天罪行，号召全国人民奋起反抗，建立革命政权，是南昌起义最重要的政治宣言。</p>
+<p class="mb-6">此外，南昌起义前敌委员会会议记录、起义军作战命令、士兵誓词、革命标语、往来电报、新闻报道等原始史料，均真实还原起义全过程，见证中国共产党从血泊中站起来、拿起枪杆子、拯救中国革命的伟大转折，成为传承红色基因、弘扬革命精神的重要载体。</p>
+</div>
+<div class="grid grid-cols-1 gap-6 my-8">
+<div class="bg-slate-50 p-6 rounded-lg">
+<h4 class="font-bold text-lg mb-3">《中央委员宣言》</h4>
+<p class="text-gray-600 text-sm leading-relaxed">1927年8月1日发表，22位革命志士联名，痛斥反革命罪行，号召武装革命，是起义核心政治文献。</p>
+</div>
+<div class="bg-slate-50 p-6 rounded-lg">
+<h4 class="font-bold text-lg mb-3">前敌委员会会议记录</h4>
+<p class="text-gray-600 text-sm leading-relaxed">记录7月25日至31日起义筹备全过程，包括决策讨论、兵力部署、分歧争论，是最核心的一手史料。</p>
+</div>
+</div>
+</section>
+
+<!-- 起义核心领导集体 -->
+<div class="py-12 border-t mt-16">
+<h4 class="text-center font-bold text-xl mb-10">起义核心领导集体</h4>
+<div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+<div class="text-center">
+<img alt="周恩来" class="w-24 h-24 rounded-full mx-auto grayscale hover:grayscale-0 cursor-pointer border-2 border-transparent hover:border-red-600 transition"
+src="https://www.helloimg.com/i/2026/05/31/6a1c368e9b95b.png"/>
+<p class="text-sm font-bold mt-3">周恩来</p>
+</div>
+<div class="text-center">
+<img alt="贺龙" class="w-24 h-24 rounded-full mx-auto grayscale hover:grayscale-0 cursor-pointer border-2 border-transparent hover:border-red-600 transition"
+src="https://www.helloimg.com/i/2026/05/31/6a1c1b9ede30a.jpg"/>
+<p class="text-sm font-bold mt-3">贺龙</p>
+</div>
+<div class="text-center">
+<img alt="叶挺" class="w-24 h-24 rounded-full mx-auto grayscale hover:grayscale-0 cursor-pointer border-2 border-transparent hover:border-red-600 transition"
+src="https://www.helloimg.com/i/2026/05/31/6a1c1baf0c5fd.jpg"/>
+<p class="text-sm font-bold mt-3">叶挺</p>
+</div>
+<div class="text-center">
+<img alt="朱德" class="w-24 h-24 rounded-full mx-auto grayscale hover:grayscale-0 cursor-pointer border-2 border-transparent hover:border-red-600 transition"
+src="https://www.helloimg.com/i/2026/05/31/6a1c1bb5d7a60.jpg"/>
+<p class="text-sm font-bold mt-3">朱德</p>
+</div>
+<div class="text-center">
+<img alt="刘伯承" class="w-24 h-24 rounded-full mx-auto grayscale hover:grayscale-0 cursor-pointer border-2 border-transparent hover:border-red-600 transition"
+src="https://www.helloimg.com/i/2026/05/31/6a1c1ba6ddf07.jpg"/>
+<p class="text-sm font-bold mt-3">刘伯承</p>
+</div>
+</div>
+</div>
 </main>
+
 <footer class="bg-neutral-800 text-neutral-400 py-10 text-center text-sm">
-<p>南昌历史云志 · 八一专项系列</p>
+<p>南昌历史云 · 八一专项系列</p>
 <p class="mt-2 text-neutral-600 italic">2026年03月19日 更新发布</p>
 </footer>
+
+<script>
+$(document).ready(function() {
+    const navLinks = $('#sectionNav a');
+    const sections = $('section');
+
+    const currentHash = window.location.hash.replace('#', '');
+    if (currentHash) {
+        navLinks.removeClass('text-red-700');
+        $(`#sectionNav a[href="#${currentHash}"]`).addClass('text-red-700');
+    } else {
+        navLinks.first().addClass('text-red-700');
+    }
+
+    navLinks.on('click', function() {
+        navLinks.removeClass('text-red-700');
+        $(this).addClass('text-red-700');
+    });
+
+    $(window).on('scroll', function() {
+        let currentSectionId = '';
+        sections.each(function() {
+            const sectionTop = $(this).offset().top - 120;
+            if ($(window).scrollTop() >= sectionTop) {
+                currentSectionId = $(this).attr('id');
+            }
+        });
+        if (currentSectionId) {
+            navLinks.removeClass('text-red-700');
+            $(`#sectionNav a[href="#${currentSectionId}"]`).addClass('text-red-700');
+        }
+    });
+});
+</script>
 </body>
 </html>
