@@ -25,7 +25,6 @@
     </style>
 </head>
 <body>
-    <!-- 头部导航：和首页结构一致 -->
     <nav class="bg-white shadow-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
             <div class="flex items-center space-x-2">
@@ -51,32 +50,28 @@
     <div class="max-w-7xl mx-auto px-4 py-8">
         <h1 class="text-3xl font-bold text-center red-accent mb-8">历史事件库</h1>
 
-    <!-- 筛选栏 -->
-    <div class="flex flex-wrap gap-3 justify-center mb-8">
-        <button class="filter-btn px-4 py-2 border rounded-full text-sm hover:bg-gray-100 transition active">全部时期</button>
-        <button class="filter-btn px-4 py-2 border rounded-full text-sm hover:bg-gray-100 transition">建城前(秦之前)</button>
-        <button class="filter-btn px-4 py-2 border rounded-full text-sm hover:bg-gray-100 transition">灌古城(汉-隋)</button>
-        <button class="filter-btn px-4 py-2 border rounded-full text-sm hover:bg-gray-100 transition">洪州城(唐-元)</button>
-        <button class="filter-btn px-4 py-2 border rounded-full text-sm hover:bg-gray-100 transition">南昌府(明-清)</button>
-        <button class="filter-btn px-4 py-2 border rounded-full text-sm hover:bg-gray-100 transition">红色革命时期</button>
-        <button class="filter-btn px-4 py-2 border rounded-full text-sm hover:bg-gray-100 transition">社会主义建设期</button>
+        <div class="flex flex-wrap gap-3 justify-center mb-8">
+            <button class="filter-btn px-4 py-2 border rounded-full text-sm hover:bg-gray-100 transition active">全部时期</button>
+            <button class="filter-btn px-4 py-2 border rounded-full text-sm hover:bg-gray-100 transition">建城前(秦之前)</button>
+            <button class="filter-btn px-4 py-2 border rounded-full text-sm hover:bg-gray-100 transition">灌古城(汉-隋)</button>
+            <button class="filter-btn px-4 py-2 border rounded-full text-sm hover:bg-gray-100 transition">洪州城(唐-元)</button>
+            <button class="filter-btn px-4 py-2 border rounded-full text-sm hover:bg-gray-100 transition">南昌府(明-清)</button>
+            <button class="filter-btn px-4 py-2 border rounded-full text-sm hover:bg-gray-100 transition">红色革命时期</button>
+            <button class="filter-btn px-4 py-2 border rounded-full text-sm hover:bg-gray-100 transition">社会主义建设期</button>
+        </div>
+
+        <div id="eventList" class="space-y-6"></div>
+
+        <div class="flex justify-center gap-2 mt-12">
+            <button class="px-4 py-2 border rounded hover:bg-gray-100 transition disabled:opacity-50 disabled:cursor-not-allowed" disabled>上一页</button>
+            <button class="px-4 py-2 border rounded hover:bg-gray-100 transition bg-red-accent text-white border-red-accent">1</button>
+            <button class="px-4 py-2 border rounded hover:bg-gray-100 transition">2</button>
+            <button class="px-4 py-2 border rounded hover:bg-gray-100 transition">3</button>
+            <button class="px-4 py-2 border rounded hover:bg-gray-100 transition">下一页</button>
+        </div>
     </div>
 
-    <!-- 事件列表 -->
-    <div id="eventList" class="space-y-6">
-        <!-- 事件卡片会通过JS动态渲染 -->
-    </div>
-
-    <!-- 分页 -->
-    <div class="flex justify-center gap-2 mt-12">
-        <button class="px-4 py-2 border rounded hover:bg-gray-100 transition disabled:opacity-50 disabled:cursor-not-allowed" disabled>上一页</button>
-        <button class="px-4 py-2 border rounded hover:bg-red-accent text-white border-red-accent">1</button>
-        <button class="px-4 py-2 border rounded hover:bg-gray-100 transition">2</button>
-        <button class="px-4 py-2 border rounded hover:bg-gray-100 transition">3</button>
-        <button class="px-4 py-2 border rounded hover:bg-gray-100 transition">下一页</button>
-    </div>
-
-     <footer class="bg-gray-900 text-white py-8 mt-12">
+    <footer class="bg-gray-900 text-white py-8 mt-12">
         <div class="max-w-7xl mx-auto px-4 text-center">
             <p>© 2026 南昌历史云志 · 历史事件归档计划</p>
         </div>
@@ -84,48 +79,52 @@
 
     <script>
         $(document).ready(function () {
-            console.log("jQuery 加载成功！");
+            // 🔥 这里直接把你的图片链接写死！不用数据库！
+            const imageMap = {
+                "八大山人家": "https://www.helloimg.com/i/2026/05/31/6a1c1b8089982.jpg",
+                "八一南昌起义": "https://www.helloimg.com/i/2026/05/31/6a1c1b80defc8.jpg",
+                "灌婴筑城": "https://www.helloimg.com/i/2026/05/31/6a1c1b80ce8eb.jpg",
+                "洪都之战": "https://www.helloimg.com/i/2026/05/31/6a1c1b80e6390.jpg",
+                "刘显抗倭": "https://www.helloimg.com/i/2026/05/31/6a1c1b80e483a.jpg",
+                "南昌会战": "https://www.helloimg.com/i/2026/05/31/6a1c1b81314c0.jpg",
+                "南昌市被列为国家历史文化名城": "https://www.helloimg.com/i/2026/05/31/6a1c1b8604d65.jpg",
+                "滕王阁": "https://www.helloimg.com/i/2026/05/31/6a1c1b87be9fb.jpg",
+                "滕王阁始建": "https://www.helloimg.com/i/2026/05/31/6a1c1b8833c71.jpg",
+                "王守仁平叛": "https://www.helloimg.com/i/2026/05/31/6a1c1b88bf6c4.jpg",
+                "新江西": "https://www.helloimg.com/i/2026/05/31/6a1c1b890abbf.jpg",
+                "新四军军部进驻南昌鄱阳": "https://www.helloimg.com/i/2026/05/31/6a1c1b89e7c39.jpg",
+                "新中国第一架飞机首飞成功": "https://www.helloimg.com/i/2026/05/31/6a1c1b8a31763.jpg",
+                "许逊治水": "https://www.helloimg.com/i/2026/05/31/6a1c1b8bed169.jpg",
+                "扬子洲村民协会": "https://www.helloimg.com/i/2026/05/31/6a1c1b8d9901b.jpg"
+            };
 
-            // 筛选按钮
             $('.filter-btn').click(function () {
                 $('.filter-btn').removeClass('active');
                 $(this).addClass('active');
-                let selectedCategory = $(this).text();
-                loadEventList(selectedCategory); // 点击按钮时筛选
-            });
-            // 分页按钮交互
-            $('.page-btn').click(function () {
-                if (!$(this).is(':disabled')) {
-                    $('.page-btn').removeClass('active-page');
-                    $(this).addClass('active-page');
-                }
+                loadEventList($(this).text());
             });
 
-            // 加载事件
-            function loadEventList(category = "全部时期", page = 1) {
+            function loadEventList(category = "全部时期") {
                 $('#eventList').html('<div class="empty-state">加载中...</div>');
                 $.ajax({
                     url: "/api/event/list",
                     type: "GET",
                     data: { dynasty: category },
                     success: function (list) {
-                        console.log("接口请求成功!", list);
-                        if (!list || list.length === 0) {
-                            $('#eventList').html('<div class="empty-state">暂无事件数据</div>');
-                            return;
-                        }
+                        console.log("数据：", list);
                         let html = "";
                         list.forEach(e => {
-                            const imgUrl = e.cover || "https://via.placeholder.com/200x120?text=暂无图片";
+                            // 🔥 自动匹配图片！
+                            const imgUrl = imageMap[e.eventName] || "https://via.placeholder.com/200x120?text=暂无图片";
                             const content = e.process ? e.process.substring(0, 100) + '...' : '暂无简介';
                             html += `
                                 <div class="event-item bg-white rounded-xl shadow-md p-6 flex gap-6">
                                     <img src="${imgUrl}" alt="${e.eventName}" class="w-48 h-32 object-cover rounded-lg flex-shrink-0">
                                     <div class="flex-1">
-                                        <h3 class="text-xl font-bold text-gray-800 mb-2">${e.eventName || '无标题'}</h3>
+                                        <h3 class="text-xl font-bold text-gray-800 mb-2">${e.eventName}</h3>
                                         <div class="flex gap-4 text-sm text-gray-600 mb-3">
-                                            <span>时间：${e.occurTime || '未知时间'}</span>
-                                            <span>朝代：${e.dynasty || '未分类'}</span>
+                                            <span>时间：${e.occurTime}</span>
+                                            <span>朝代：${e.dynasty}</span>
                                         </div>
                                         <p class="text-gray-700 mb-4">${content}</p>
                                         <a href="event-detail.html?id=${e.eventId}" class="inline-block bg-red-accent text-white px-6 py-2 rounded hover:bg-red-700 transition">查看详情</a>
@@ -136,12 +135,11 @@
                         $('#eventList').html(html);
                     },
                     error: function () {
-                        $('#eventList').html('<div class="text-center py-12 text-red-500">加载失败，请稍后重试</div>');
+                        $('#eventList').html('<div class="text-center py-12 text-red-500">加载失败</div>');
                     }
                 });
             }
 
-            // 默认加载全部
             loadEventList();
         });
     </script>
