@@ -17,7 +17,9 @@
 </a>
 <div class="space-x-4 text-xs">
 <a class="text-gray-500 hover:text-red-600" href="index.html">回首页</a>
-<a class="bg-red-600 text-white px-3 py-1.5 rounded-full" href="#">我的提问</a>
+<a id="myQuestionsBtn" class="bg-red-600 text-white px-3 py-1.5 rounded-full cursor-pointer" onclick="showMyQuestions()">我的提问</a>
+<a id="loginLink" class="text-gray-500 hover:text-red-600" href="admin-login.html">登录</a>
+<span id="userInfo" class="hidden text-red-600 font-medium"></span>
 </div>
 </div>
 </nav>
@@ -26,66 +28,377 @@
 <h1 class="text-3xl font-bold mb-4">南昌历史，你问我答</h1>
 <p class="text-red-200 text-sm mb-8 opacity-80">在这里，发现关于英雄城的每一个细微真相</p>
 <div class="bg-white p-2 rounded-xl flex items-center shadow-2xl">
-<input class="flex-grow px-4 py-3 text-gray-800 focus:outline-none text-sm" placeholder="输入你感兴趣的历史问题，例如“南昌起义为什么选在8月1日？”" type="text"/>
-<button class="bg-red-600 text-white p-3 rounded-lg"><span class="iconify" data-icon="ri:flashlight-fill"></span></button>
+<input id="searchInput" class="flex-grow px-4 py-3 text-gray-800 focus:outline-none text-sm" placeholder="输入你感兴趣的历史问题" type="text"/>
+<button onclick="handleSearch()" class="bg-red-600 text-white p-3 rounded-lg"><span class="iconify" data-icon="ri:flashlight-fill"></span></button>
 </div>
 </div>
 </header>
 <main class="max-w-4xl mx-auto px-4 py-12">
-<div class="flex items-center space-x-4 mb-10 overflow-x-auto pb-4 no-scrollbar">
-<button class="shrink-0 bg-red-600 text-white text-xs px-4 py-2 rounded-lg font-bold">全部焦点</button>
-<button class="shrink-0 bg-white border text-gray-600 text-xs px-4 py-2 rounded-lg hover:border-red-600 transition">起义细节</button>
-<button class="shrink-0 bg-white border text-gray-600 text-xs px-4 py-2 rounded-lg hover:border-red-600 transition">筑城史实</button>
-<button class="shrink-0 bg-white border text-gray-600 text-xs px-4 py-2 rounded-lg hover:border-red-600 transition">名人轶事</button>
-<button class="shrink-0 bg-white border text-gray-600 text-xs px-4 py-2 rounded-lg hover:border-red-600 transition">古迹现状</button>
+
+<!-- 提交留言表单 -->
+<div id="submitSection" class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+<h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+<span class="iconify text-red-600 mr-2" data-icon="ri:edit-line"></span>
+发表新问题
+</h2>
+<div id="loginTip" class="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg text-sm text-yellow-800 hidden">
+<span class="iconify inline-block mr-1" data-icon="ri:error-warning-line"></span>
+请先 <a href="admin-login.html" class="text-red-600 font-medium hover:underline">登录</a> 后才能提问
 </div>
-<div class="space-y-6">
-<!-- 问答 1 -->
+<form id="messageForm" class="space-y-4">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">问题内容 <span class="text-red-500">*</span></label>
+<textarea id="content" required rows="4"
+class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+placeholder="请输入您想了解的历史问题..."></textarea>
+</div>
+<button type="submit" id="submitBtn"
+class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition font-medium">
+提交问题
+</button>
+</form>
+</div>
+
+<!-- 当前视图标题 -->
+<div id="viewTitle" class="mb-6 hidden">
+<h2 class="text-xl font-bold text-gray-800 flex items-center">
+<span class="iconify text-red-600 mr-2" data-icon="ri:user-line"></span>
+<span id="viewTitleText">我的提问</span>
+<button onclick="backToAll()" class="ml-4 text-sm text-gray-500 hover:text-red-600">
+<span class="iconify inline-block mr-1" data-icon="ri:arrow-left-line"></span>返回全部
+</button>
+</h2>
+</div>
+
+<!-- 筛选标签 -->
+<div id="filterSection" class="flex items-center space-x-4 mb-10 overflow-x-auto pb-4 no-scrollbar">
+<button onclick="filterMessages(null)" id="btn-all" class="shrink-0 bg-red-600 text-white text-xs px-4 py-2 rounded-lg font-bold">全部问题</button>
+<button onclick="filterMessages(0)" id="btn-pending" class="shrink-0 bg-white border text-gray-600 text-xs px-4 py-2 rounded-lg hover:border-red-600 transition">待回复</button>
+<button onclick="filterMessages(1)" id="btn-replied" class="shrink-0 bg-white border text-gray-600 text-xs px-4 py-2 rounded-lg hover:border-red-600 transition">已回复</button>
+</div>
+
+<!-- 留言列表 -->
+<div id="messageList" class="space-y-6">
+<!-- 留言项将通过 JavaScript 动态加载 -->
+</div>
+
+<!-- 分页 -->
+<div class="mt-8 flex justify-center items-center space-x-2">
+<button onclick="changePage(-1)" id="prevBtn" 
+class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 text-sm">
+上一页
+</button>
+<span id="pageInfo" class="text-sm text-gray-600">第 1 页</span>
+<button onclick="changePage(1)" id="nextBtn" 
+class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 text-sm">
+下一页
+</button>
+</div>
+
+</main>
+
+<script>
+let currentPage = 0;
+let currentStatus = null;
+let totalPages = 1;
+const pageSize = 10;
+let currentUser = null;
+let isMyQuestionsView = false;
+
+// 页面加载时初始化
+document.addEventListener('DOMContentLoaded', () => {
+checkLoginStatus();
+loadMessages();
+});
+
+// 检查登录状态
+function checkLoginStatus() {
+const userStr = localStorage.getItem('currentUser');
+if (userStr) {
+try {
+currentUser = JSON.parse(userStr);
+document.getElementById('loginLink').classList.add('hidden');
+document.getElementById('userInfo').classList.remove('hidden');
+document.getElementById('userInfo').textContent = currentUser.username || '用户';
+document.getElementById('loginTip').classList.add('hidden');
+document.getElementById('submitBtn').disabled = false;
+document.getElementById('submitBtn').classList.remove('opacity-50', 'cursor-not-allowed');
+} catch (e) {
+console.error('解析用户信息失败', e);
+showLoginTip();
+}
+} else {
+showLoginTip();
+}
+}
+
+// 显示登录提示
+function showLoginTip() {
+document.getElementById('loginTip').classList.remove('hidden');
+document.getElementById('submitBtn').disabled = true;
+document.getElementById('submitBtn').classList.add('opacity-50', 'cursor-not-allowed');
+}
+
+// 处理搜索
+function handleSearch() {
+const keyword = document.getElementById('searchInput').value.trim();
+if (keyword) {
+alert('搜索功能开发中，关键词：' + keyword);
+}
+}
+
+// 显示我的提问
+function showMyQuestions() {
+if (!currentUser) {
+alert('请先登录后再查看我的提问');
+window.location.href = 'admin-login.html';
+return;
+}
+
+isMyQuestionsView = true;
+currentPage = 0;
+currentStatus = null;
+
+document.getElementById('viewTitle').classList.remove('hidden');
+document.getElementById('filterSection').classList.add('hidden');
+document.getElementById('viewTitleText').textContent = '我的提问';
+
+loadMyMessages();
+}
+
+// 返回全部留言
+function backToAll() {
+isMyQuestionsView = false;
+currentPage = 0;
+currentStatus = null;
+
+document.getElementById('viewTitle').classList.add('hidden');
+document.getElementById('filterSection').classList.remove('hidden');
+
+updateFilterButtons();
+loadMessages();
+}
+
+// 提交留言
+document.getElementById('messageForm').addEventListener('submit', async (e) => {
+e.preventDefault();
+
+if (!currentUser || !currentUser.userId) {
+alert('请先登录后再提问');
+window.location.href = 'admin-login.html';
+return;
+}
+
+const content = document.getElementById('content').value.trim();
+
+if (!content) {
+alert('请填写问题内容');
+return;
+}
+
+try {
+const messageData = {
+userId: currentUser.userId,
+content: content
+};
+
+const response = await fetch('/api/message/submit', {
+method: 'POST',
+headers: {
+'Content-Type': 'application/json'
+},
+body: JSON.stringify(messageData)
+});
+
+const result = await response.json();
+
+if (result.code === 1) {
+alert('问题提交成功！我们会尽快回复您。');
+document.getElementById('messageForm').reset();
+currentPage = 0;
+currentStatus = null;
+updateFilterButtons();
+loadMessages();
+} else {
+alert('提交失败：' + (result.msg || '未知错误'));
+}
+} catch (error) {
+console.error('Error:', error);
+alert('网络错误，请稍后重试');
+}
+});
+
+// 加载全部留言列表
+async function loadMessages() {
+try {
+const url = `/api/message/list?status=${currentStatus !== null ? currentStatus : ''}&page=${currentPage}&size=${pageSize}`;
+const response = await fetch(url);
+const result = await response.json();
+
+if (result.code === 1) {
+renderMessages(result.data.list);
+totalPages = result.data.pages || 1;
+updatePagination();
+} else {
+console.error('加载失败：', result.msg);
+document.getElementById('messageList').innerHTML = '<div class="text-center py-12 text-gray-500">加载失败，请刷新重试</div>';
+}
+} catch (error) {
+console.error('Error:', error);
+document.getElementById('messageList').innerHTML = '<div class="text-center py-12 text-gray-500">网络错误，请检查连接</div>';
+}
+}
+
+// 加载我的留言
+async function loadMyMessages() {
+if (!currentUser || !currentUser.userId) {
+document.getElementById('messageList').innerHTML = '<div class="text-center py-12 text-gray-500">请先登录</div>';
+return;
+}
+
+try {
+const url = `/api/message/my?userId=${currentUser.userId}&page=${currentPage}&size=${pageSize}`;
+const response = await fetch(url);
+const result = await response.json();
+
+if (result.code === 1) {
+renderMessages(result.data.list);
+totalPages = result.data.pages || 1;
+updatePagination();
+} else {
+console.error('加载失败：', result.msg);
+document.getElementById('messageList').innerHTML = '<div class="text-center py-12 text-gray-500">加载失败，请刷新重试</div>';
+}
+} catch (error) {
+console.error('Error:', error);
+document.getElementById('messageList').innerHTML = '<div class="text-center py-12 text-gray-500">网络错误，请检查连接</div>';
+}
+}
+
+// 渲染留言列表
+function renderMessages(messages) {
+const container = document.getElementById('messageList');
+
+if (!messages || messages.length === 0) {
+container.innerHTML = `
+<div class="text-center py-12 text-gray-500">
+<span class="iconify text-6xl mb-4 inline-block" data-icon="ri:inbox-line"></span>
+<p>${isMyQuestionsView ? '您还没有提过问题' : '暂无留言'}</p>
+</div>
+`;
+return;
+}
+
+container.innerHTML = messages.map(msg => {
+const isReplied = msg.status === 1;
+const statusBadge = isReplied 
+? '<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800"><span class="iconify mr-1" data-icon="ri:check-line"></span>已回复</span>'
+: '<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800"><span class="iconify mr-1" data-icon="ri:time-line"></span>待回复</span>';
+
+const replySection = isReplied && msg.reply ? `
+<div class="mt-4 pl-4 border-l-2 border-red-300 bg-red-50 p-4 rounded-lg">
+<div class="flex items-center mb-2">
+<span class="iconify text-red-600 mr-2" data-icon="ri:admin-line"></span>
+<span class="text-sm font-medium text-red-700">管理员回复</span>
+</div>
+<p class="text-gray-700 text-sm leading-relaxed">${escapeHtml(msg.reply)}</p>
+</div>
+` : '';
+
+return `
 <div class="bg-white p-6 rounded-2xl shadow-sm border border-transparent hover:border-red-100 transition">
 <div class="flex items-start space-x-4">
 <div class="bg-red-50 text-red-600 font-black px-3 py-1 rounded text-lg">Q</div>
 <div class="flex-grow">
-<h3 class="font-bold text-gray-800 text-lg mb-2">为什么八一南昌起义原定的行动时间是凌晨4点，后来改成了凌晨2点？</h3>
-<p class="text-gray-500 text-sm leading-relaxed pb-4 border-b">
-                            据考证，由于起义计划泄露，为了抢占先机并防止敌军获得充分准备，前委临时决定提前两小时发动进攻...
-                        </p>
+<div class="flex items-start justify-between mb-2">
+<h3 class="font-bold text-gray-800 text-lg flex-grow">${escapeHtml(msg.content)}</h3>
+${statusBadge}
+</div>
 <div class="mt-4 flex justify-between items-center text-xs text-gray-400">
 <div class="flex items-center space-x-4">
-<span class="flex items-center"><span class="iconify mr-1" data-icon="ri:thumb-up-line"></span> 284赞同</span>
-<span class="flex items-center"><span class="iconify mr-1" data-icon="ri:chat-3-line"></span> 12评论</span>
+<span class="flex items-center"><span class="iconify mr-1" data-icon="ri:time-line"></span> ${formatDateTime(msg.createTime)}</span>
 </div>
-<span>由 [历史官微] 回答</span>
+${isReplied ? '<span>由 [管理员] 回答</span>' : '<span>等待回复中...</span>'}
 </div>
-</div>
-</div>
-</div>
-<!-- 问答 2 -->
-<div class="bg-white p-6 rounded-2xl shadow-sm border border-transparent hover:border-red-100 transition">
-<div class="flex items-start space-x-4">
-<div class="bg-blue-50 text-blue-600 font-black px-3 py-1 rounded text-lg">Q</div>
-<div class="flex-grow">
-<h3 class="font-bold text-gray-800 text-lg mb-2">滕王阁在历史上经历过多少次损毁和修缮？</h3>
-<p class="text-gray-500 text-sm leading-relaxed pb-4 border-b">
-                            滕王阁由于多为木质结构，历史上屡毁屡建。据统计共有29次重建记录。现在的建筑是根据古建筑学权威梁思成先生保存的《重建滕王阁计划草图》设计...
-                        </p>
-<div class="mt-4 flex justify-between items-center text-xs text-gray-400">
-<div class="flex items-center space-x-4">
-<span class="flex items-center"><span class="iconify mr-1" data-icon="ri:thumb-up-line"></span> 156赞同</span>
-</div>
-<span>由 [古建筑爱好者] 回答</span>
+${replySection}
 </div>
 </div>
 </div>
-</div>
-<div class="text-center py-12">
-<button class="text-red-700 font-bold text-sm hover:underline">加载更多精彩问答</button>
-</div>
-</div>
-</main>
-<div class="fixed bottom-10 right-10">
-<button class="bg-red-700 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-2xl hover:scale-110 transition active:scale-95">
-<span class="iconify" data-icon="ri:edit-2-fill"></span>
-</button>
-</div>
+`;
+}).join('');
+}
+
+// 筛选留言
+function filterMessages(status) {
+if (isMyQuestionsView) {
+return;
+}
+
+currentStatus = status;
+currentPage = 0;
+updateFilterButtons();
+loadMessages();
+}
+
+// 更新筛选按钮样式
+function updateFilterButtons() {
+if (isMyQuestionsView) {
+return;
+}
+
+document.getElementById('btn-all').className = currentStatus === null 
+? 'shrink-0 bg-red-600 text-white text-xs px-4 py-2 rounded-lg font-bold'
+: 'shrink-0 bg-white border text-gray-600 text-xs px-4 py-2 rounded-lg hover:border-red-600 transition';
+
+document.getElementById('btn-pending').className = currentStatus === 0
+? 'shrink-0 bg-red-600 text-white text-xs px-4 py-2 rounded-lg font-bold'
+: 'shrink-0 bg-white border text-gray-600 text-xs px-4 py-2 rounded-lg hover:border-red-600 transition';
+
+document.getElementById('btn-replied').className = currentStatus === 1
+? 'shrink-0 bg-red-600 text-white text-xs px-4 py-2 rounded-lg font-bold'
+: 'shrink-0 bg-white border text-gray-600 text-xs px-4 py-2 rounded-lg hover:border-red-600 transition';
+}
+
+// 翻页
+function changePage(delta) {
+const newPage = currentPage + delta;
+if (newPage >= 0 && newPage < totalPages) {
+currentPage = newPage;
+if (isMyQuestionsView) {
+loadMyMessages();
+} else {
+loadMessages();
+}
+}
+}
+
+// 更新分页信息
+function updatePagination() {
+document.getElementById('pageInfo').textContent = `第 ${currentPage + 1} / ${totalPages} 页`;
+document.getElementById('prevBtn').disabled = currentPage === 0;
+document.getElementById('nextBtn').disabled = currentPage >= totalPages - 1;
+}
+
+// 格式化时间
+function formatDateTime(dateTimeStr) {
+if (!dateTimeStr) return '';
+const date = new Date(dateTimeStr);
+const year = date.getFullYear();
+const month = String(date.getMonth() + 1).padStart(2, '0');
+const day = String(date.getDate()).padStart(2, '0');
+const hours = String(date.getHours()).padStart(2, '0');
+const minutes = String(date.getMinutes()).padStart(2, '0');
+return `${year}-${month}-${day} ${hours}:${minutes}`;
+}
+
+// HTML 转义防止 XSS
+function escapeHtml(text) {
+if (!text) return '';
+const div = document.createElement('div');
+div.textContent = text;
+return div.innerHTML;
+}
+</script>
+
 </body>
 </html>
