@@ -70,7 +70,7 @@
     <!-- 分页 -->
     <div class="flex justify-center gap-2 mt-12">
         <button class="px-4 py-2 border rounded hover:bg-gray-100 transition disabled:opacity-50 disabled:cursor-not-allowed" disabled>上一页</button>
-        <button class="px-4 py-2 border rounded hover:bg-gray-100 transition bg-red-accent text-white border-red-accent">1</button>
+        <button class="px-4 py-2 border rounded hover:bg-red-accent text-white border-red-accent">1</button>
         <button class="px-4 py-2 border rounded hover:bg-gray-100 transition">2</button>
         <button class="px-4 py-2 border rounded hover:bg-gray-100 transition">3</button>
         <button class="px-4 py-2 border rounded hover:bg-gray-100 transition">下一页</button>
@@ -90,14 +90,14 @@
             $('.filter-btn').click(function () {
                 $('.filter-btn').removeClass('active');
                 $(this).addClass('active');
+                let selectedCategory = $(this).text();
+                loadEventList(selectedCategory); // 点击按钮时筛选
             });
             // 分页按钮交互
             $('.page-btn').click(function () {
                 if (!$(this).is(':disabled')) {
                     $('.page-btn').removeClass('active-page');
                     $(this).addClass('active-page');
-                    // 这里可以添加分页逻辑
-                    // loadEventList(null, $(this).text());
                 }
             });
 
@@ -107,6 +107,7 @@
                 $.ajax({
                     url: "/api/event/list",
                     type: "GET",
+                    data: { dynasty: category },
                     success: function (list) {
                         console.log("接口请求成功!", list);
                         if (!list || list.length === 0) {
@@ -115,21 +116,19 @@
                         }
                         let html = "";
                         list.forEach(e => {
-
-
-                            const imgUrl = e.imgUrl || "https://via.placeholder.com/200x120?text=暂无图片";
-                            const content = e.content ? e.content.substring(0, 100) + '...' : '暂无简介';
+                            const imgUrl = e.cover || "https://via.placeholder.com/200x120?text=暂无图片";
+                            const content = e.process ? e.process.substring(0, 100) + '...' : '暂无简介';
                             html += `
                                 <div class="event-item bg-white rounded-xl shadow-md p-6 flex gap-6">
-                                    <img src="${imgUrl}" alt="${e.title}" class="w-48 h-32 object-cover rounded-lg flex-shrink-0">
+                                    <img src="${imgUrl}" alt="${e.eventName}" class="w-48 h-32 object-cover rounded-lg flex-shrink-0">
                                     <div class="flex-1">
-                                        <h3 class="text-xl font-bold text-gray-800 mb-2">${e.title || '无标题'}</h3>
+                                        <h3 class="text-xl font-bold text-gray-800 mb-2">${e.eventName || '无标题'}</h3>
                                         <div class="flex gap-4 text-sm text-gray-600 mb-3">
-                                            <span>时间：${e.eventTime || '未知时间'}</span>
-                                            <span>分类：${e.category || '未分类'}</span>
+                                            <span>时间：${e.occurTime || '未知时间'}</span>
+                                            <span>朝代：${e.dynasty || '未分类'}</span>
                                         </div>
                                         <p class="text-gray-700 mb-4">${content}</p>
-                                        <a href="event-detail.html?id=${e.id}" class="inline-block bg-red-accent text-white px-6 py-2 rounded hover:bg-red-700 transition">查看详情</a>
+                                        <a href="event-detail.html?id=${e.eventId}" class="inline-block bg-red-accent text-white px-6 py-2 rounded hover:bg-red-700 transition">查看详情</a>
                                     </div>
                                 </div>
                             `;

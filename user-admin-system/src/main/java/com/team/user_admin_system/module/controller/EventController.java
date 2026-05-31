@@ -1,9 +1,12 @@
 package com.team.user_admin_system.module.controller;
 
-import org.springframework.web.bind.annotation.*;
-
 import com.team.user_admin_system.module.entity.Event;
-import com.team.user_admin_system.module.service.EventService;
+import com.team.user_admin_system.module.repository.EventRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -11,25 +14,19 @@ import java.util.List;
 @RequestMapping("/api/event")
 public class EventController {
 
-    private final EventService eventService;
+    @Autowired
+    private EventRepository eventRepository;
 
-    // 手动写构造方法，替代 @RequiredArgsConstructor
-    public EventController(EventService eventService) {
-        this.eventService = eventService;
-    }
-
-    // 查所有事件
     @GetMapping("/list")
-    public List<Event> list(@RequestParam(required = false) String category) {
-        if (category != null && !category.isEmpty()) {
-            return eventService.listByCategory(category);
+    public List<Event> getEvents(
+            @RequestParam(required = false) String dynasty
+    ) {
+        // 没传分类 → 返回全部
+        if (dynasty == null || dynasty.trim().isEmpty()) {
+            return eventRepository.findAll();
         }
-        return eventService.listAll();
-    }
 
-    // 查单个事件详情
-    @GetMapping("/{id}")
-    public Event get(@PathVariable Long id) {
-        return eventService.getById(id);
+        // 按朝代筛选（你数据库里是 dynasty 字段）
+        return eventRepository.findByDynasty(dynasty);
     }
 }
