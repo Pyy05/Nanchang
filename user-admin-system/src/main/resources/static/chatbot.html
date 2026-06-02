@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>洪小星 - 南昌历史小管家</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+<style>
+    .bg-red-accent { background-color: #C53030; }
+    .red-accent { color: #C53030; }
+    
+    @keyframes pulse-ip{
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+    }
+    .pulse {
+        animation: pulse-ip 2s infinite ease-in-out;
+    }
+    
+    .msg-user {
+        background: linear-gradient(135deg, #C53030 0%, #DC2626 100%);
+    }
+    
+    .msg-ai {
+        background: linear-gradient(135deg, #F3F4F6 0%, #E5E7EB 100%);
+    }
+    
+    .typing-dots span {
+        animation: typing 1.4s infinite ease-in-out;
+    }
+    .typing-dots span:nth-child(1) { animation-delay: 0s; }
+    .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+    
+    @keyframes typing {
+        0%, 60%, 100% { transform: translateY(0); opacity: 0.3; }
+        30% { transform: translateY(-4px); opacity: 1; }
+    }
+</style>
+</head>
+<body class="bg-slate-100 min-h-screen">
+    <!-- 顶部导航 -->
+    <nav class="bg-white shadow-md">
+        <div class="max-w-2xl mx-auto px-4 flex items-center justify-between h-14">
+            <button onclick="goBack()" class="p-2 hover:bg-gray-100 rounded-lg" aria-label="返回上一页">
+    <span class="iconify text-xl" data-icon="ri:arrow-left-line"></span>
+</button>
+            <div class="flex items-center gap-2">
+                <img src="images/hongxiaoxing.png" class="w-8 h-8 rounded-full pulse">
+                <span class="font-bold text-gray-800">洪小星｜南昌历史小管家</span>
+            </div>
+            <div class="w-10"></div>
+        </div>
+    </nav>
+    
+    <!-- 对话区域 -->
+    <div id="msgList" class="max-w-2xl mx-auto px-4 py-6 space-y-4 h-[calc(100vh-140px)] overflow-y-auto">
+        <!-- 欢迎消息 -->
+        <div class="flex gap-3">
+            <img src="images/hongxiaoxing.png" class="w-10 h-10 rounded-full flex-shrink-0">
+            <div class="max-w-[80%]">
+                <div class="msg-ai rounded-2xl rounded-tl-sm p-4 text-gray-700">
+                    <div class="font-medium text-gray-900 mb-1">洪小星</div>
+                    <p>哈喽！我是南昌IP洪小星～想问我南昌历史、八一起义、红色景点的问题都可以哦！</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 输入区域 -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4">
+        <div class="max-w-2xl mx-auto flex items-center gap-3">
+            <button onclick="voiceInput()" class="p-3 bg-slate-100 rounded-full hover:bg-slate-200">
+                <span class="iconify text-xl text-gray-600" data-icon="ri:mic-line"></span>
+            </button>
+            <input id="msgInput" 
+                   class="flex-1 bg-slate-100 rounded-full px-5 py-3 outline-none focus:ring-2 focus:ring-red-500/30" 
+                   placeholder="提问南昌历史、八一起义、红色景点...">
+            <button onclick="sendMsg()" class="bg-red-accent text-white px-6 py-3 rounded-full font-medium hover:bg-red-700">
+                <span class="iconify text-lg" data-icon="ri:send-line"></span>
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        // 对话历史
+        const history = [
+            {
+                role: "system",
+                content: `你是洪小星，南昌历史小管家。
+                任务：
+                1. 只回答南昌历史、八一南昌起义、红色文化、英雄城故事。
+                2. 回答简洁、口语化、可爱。
+                3. 不知道就说"这个我还没学到哦～"
+                4. 不回答无关内容。`
+            }
+        ];
+        
+        // 返回首页
+        function goBack() {
+            window.location.href = '/index.html';
+        }
+        
+        // 添加消息到界面
+        function addMsg(role, text) {
+            const msgList = document.getElementById('msgList');
+            const div = document.createElement('div');
+            
+            if (role === 'user') {
+                div.className = 'flex justify-end';
+                div.innerHTML = `
+                    <div class="max-w-[80%]">
+                        <div class="msg-user text-white rounded-2xl rounded-tr-sm p-4">
+                            ${text}
+                        </div>
+                    </div>
+                `;
+            } else {
+                div.className = 'flex gap-3';
+                div.innerHTML = `
+                    <img src="images/hongxiaoxing.png" class="w-10 h-10 rounded-full flex-shrink-0">
+                    <div class="max-w-[80%]">
+                        <div class="msg-ai rounded-2xl rounded-tl-sm p-4 text-gray-700">
+                            <div class="font-medium text-gray-900 mb-1">洪小星</div>
+                            ${text}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            msgList.appendChild(div);
+            msgList.scrollTop = msgList.scrollHeight;
+        }
+        
+        // 显示打字中
+        function showTyping() {
+            const msgList = document.getElementById('msgList');
+            const div = document.createElement('div');
+            div.id = 'typing-indicator';
+            div.className = 'flex gap-3';
+            div.innerHTML = `
+                <img src="images/hongxiaoxing.png" class="w-10 h-10 rounded-full flex-shrink-0">
+                <div class="msg-ai rounded-2xl rounded-tl-sm p-4">
+                    <div class="typing-dots flex gap-1">
+                        <span class="w-2 h-2 bg-gray-400 rounded-full"></span>
+                        <span class="w-2 h-2 bg-gray-400 rounded-full"></span>
+                        <span class="w-2 h-2 bg-gray-400 rounded-full"></span>
+                    </div>
+                </div>
+            `;
+            msgList.appendChild(div);
+            msgList.scrollTop = msgList.scrollHeight;
+        }
+        
+        // 隐藏打字中
+        function hideTyping() {
+            const typing = document.getElementById('typing-indicator');
+            if (typing) typing.remove();
+        }
+        
+        // 发送消息
+        function sendMsg() {
+            const input = document.getElementById('msgInput');
+            const text = input.value.trim();
+            
+            if (!text) return;
+            
+            addMsg('user', text);
+            input.value = '';
+            
+            // 添加到历史
+            history.push({ role: 'user', content: text });
+            
+            // 显示打字中
+            showTyping();
+            
+            // 调用AI（这里使用模拟数据，实际需要后端API）
+            setTimeout(() => {
+                hideTyping();
+                getAIResponse(text);
+            }, 800);
+        }
+        
+        // 模拟AI回复（实际项目中替换为后端API调用）
+    // 将原来的getAIResponse函数替换为：
+function getAIResponse(userInput) {
+    // 调用后端API
+    fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            message: userInput,
+            history: history.slice(1) // 排除system消息
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        const response = data.response || "这个我还没学到哦～";
+        addMsg('ai', response);
+        history.push({ role: 'assistant', content: response });
+        voicePlay(response);
+    })
+    .catch(error => {
+        console.error('API调用失败:', error);
+        addMsg('ai', "网络有点问题，请稍后再试～");
+    });
+}
+
+        
+        // 语音播放
+        function voicePlay(text) {
+            speechSynthesis.speak(new SpeechSynthesisUtterance(text));
+        }
+        
+        // 语音输入
+        function voiceInput() {
+            if (!window.webkitSpeechRecognition) {
+                alert("请使用Chrome浏览器以支持语音输入");
+                return;
+            }
+            
+            const recognition = new webkitSpeechRecognition();
+            recognition.lang = 'zh-CN';
+            recognition.start();
+            
+            recognition.onresult = (event) => {
+                document.getElementById('msgInput').value = event.results[0][0].transcript;
+            };
+        }
+        
+        // 回车发送
+        document.getElementById('msgInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMsg();
+        });
+    </script>
+</body>
+</html>

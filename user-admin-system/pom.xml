@@ -31,6 +31,9 @@
 
     <!-- 依赖管理 -->
     <dependencies>
+        <!-- 在<dependencies>中添加 -->
+
+
         <!-- Web 核心：Spring MVC + Tomcat -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -56,6 +59,12 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <scope>provided</scope>
+        </dependency>
+         <!-- 智谱AI SDK -->
+        <dependency>
+            <groupId>com.zhipuai</groupId>
+            <artifactId>zhipuai-sdk-java</artifactId>
+            <version>2.4.0</version>
         </dependency>
 
         <!-- 测试依赖：JUnit5 + Mockito + AssertJ -->

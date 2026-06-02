@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8"/>
@@ -8,160 +7,178 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
 <style>
-        .hero-gradient { background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('images/history/英雄城南昌.jpg'); background-size: cover; background-position: center; }
-        .red-accent { color: #C53030; }
-        .bg-red-accent { background-color: #C53030; }
-    </style>
+    .hero-gradient { background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('images/history/英雄城南昌.jpg'); background-size: cover; background-position: center; }
+    .red-accent { color: #C53030; }
+    .bg-red-accent { background-color: #C53030; }
+
+    @keyframes pulse-ip{
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+.ip-bounce{
+    animation: pulse-ip 2s infinite ease-in-out;
+}
+
+</style>
 </head>
 <body class="bg-slate-50 font-sans">
-<!-- 导航栏 -->
+
+<!-- 导航 -->
 <nav class="bg-white shadow-md sticky top-0 z-50">
 <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
 <div class="flex items-center space-x-2">
 <span class="iconify text-3xl red-accent" data-icon="ri:ancient-pavilion-fill"></span>
-<span class="text-xl font-bold tracking-wider text-gray-800">南昌历史云志</span>
+<span class="text-xl font-bold text-gray-800">南昌历史云志</span>
 </div>
 <div class="hidden md:flex space-x-8 text-gray-600 font-medium">
-<a class="red-accent border-b-2 border-red-600" href="index.html">首页</a>
-<a class="hover:text-red-600" href="events.html">历史事件</a>
-<a class="hover:text-red-600" href="special-81.html">八一专题</a>
-<a class="hover:text-red-600" href="figures.html">历史人物</a>
-<a class="hover:text-red-600" href="timeline.html">历史长河</a>
-<a class="hover:text-red-600" href="faq.html">互动问答</a>
-<a class="hover:text-red-600" href="about.html">关于我们</a>
-<a class="hover:text-red-600" href="profile.html">我的</a>
+<a class="red-accent border-b-2 border-red-600" href="/index.html">首页</a>
+<a class="hover:text-red-600" href="/events.html">历史事件</a>
+<a class="hover:text-red-600" href="/special-81.html">八一专题</a>
+<a class="hover:text-red-600" href="/figures.html">历史人物</a>
+<a class="hover:text-red-600" href="/timeline.html">历史长河</a>
+<a class="hover:text-red-600" href="/faq.html">互动问答</a>
+<a class="hover:text-red-600" href="/about.html">关于我们</a>
+<a class="hover:text-red-600" href="/profile.html">我的</a>
 </div>
 <div class="flex items-center space-x-4">
-<a class="p-2 text-gray-500 hover:bg-gray-100 rounded-full" href="search.html"><span class="iconify text-xl" data-icon="ri:search-line"></span></a>
-<a class="bg-red-accent text-white px-4 py-2 rounded-md text-sm hover:bg-red-700 transition" href="admin-login.html">后台管理</a>
+<a class="p-2 text-gray-500 hover:bg-gray-100 rounded-full" href="/search.html"><span class="iconify text-xl" data-icon="ri:search-line"></span></a>
+<a class="bg-red-accent text-white px-4 py-2 rounded-md text-sm hover:bg-red-700" href="/admin-login.html">后台管理</a>
 </div>
 </div>
 </nav>
-<!-- Hero区域 -->
+
+<!-- 横幅 -->
 <section class="hero-gradient h-[600px] flex items-center text-white">
 <div class="max-w-7xl mx-auto px-4 w-full">
 <div class="max-w-2xl">
-<h2 class="text-2xl mb-4 font-light tracking-widest text-red-400">一城风华 · 千载史章</h2>
+<h2 class="text-2xl mb-4 font-light text-red-400">一城风华 · 千载史章</h2>
 <h1 class="text-6xl font-black mb-6 leading-tight">英雄城南昌：<br/>打响第一枪的地方</h1>
-<p class="text-lg text-gray-200 mb-8 leading-relaxed">从公元前202年灌婴筑城，到1927年八一南昌起义，这座城市承载了无尽的红色基因与文化脉络。让我们翻开历史的篇章，探寻英雄城的足迹。</p>
+<p class="text-lg text-gray-200 mb-8">从公元前202年灌婴筑城，到1927年八一南昌起义，这座城市承载了无尽的红色基因与文化脉络。</p>
 <div class="flex space-x-4">
-<a class="bg-red-accent px-8 py-3 rounded-md font-bold hover:bg-red-700" href="special-81.html">进入八一专题</a>
-<a class="border border-white px-8 py-3 rounded-md font-bold hover:bg-white hover:text-black transition" href="timeline.html">浏览历史长河</a>
+<a class="bg-red-accent px-8 py-3 rounded-md font-bold hover:bg-red-700" href="/special-81.html">进入八一专题</a>
+<a class="border border-white px-8 py-3 rounded-md font-bold hover:bg-white hover:text-black" href="/timeline.html">浏览历史长河</a>
 </div>
 </div>
 </div>
 </section>
-<!-- 关键数据展示 -->
+
+<!-- 数据 -->
 <section class="max-w-7xl mx-auto px-4 -mt-16 relative z-10">
 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-<div class="bg-white p-6 rounded-xl shadow-lg text-center">
-<div class="text-3xl font-bold red-accent mb-1">2200+</div>
-<div class="text-gray-500 text-sm">建城历史(年)</div>
-</div>
-<div class="bg-white p-6 rounded-xl shadow-lg text-center">
-<div class="text-3xl font-bold red-accent mb-1">128</div>
-<div class="text-gray-500 text-sm">重点历史事件</div>
-</div>
-<div class="bg-white p-6 rounded-xl shadow-lg text-center">
-<div class="text-3xl font-bold red-accent mb-1">56</div>
-<div class="text-gray-500 text-sm">开国元勋相关</div>
-</div>
-<div class="bg-white p-6 rounded-xl shadow-lg text-center">
-<div class="text-3xl font-bold red-accent mb-1">15+</div>
-<div class="text-gray-500 text-sm">红色文化遗址</div>
-</div>
+<div class="bg-white p-6 rounded-xl shadow-lg text-center"><div class="text-3xl font-bold red-accent">2200+</div><div class="text-gray-500 text-sm">建城历史(年)</div></div>
+<div class="bg-white p-6 rounded-xl shadow-lg text-center"><div class="text-3xl font-bold red-accent">128</div><div class="text-gray-500 text-sm">重点历史事件</div></div>
+<div class="bg-white p-6 rounded-xl shadow-lg text-center"><div class="text-3xl font-bold red-accent">56</div><div class="text-gray-500 text-sm">开国元勋相关</div></div>
+<div class="bg-white p-6 rounded-xl shadow-lg text-center"><div class="text-3xl font-bold red-accent">15+</div><div class="text-gray-500 text-sm">红色文化遗址</div></div>
 </div>
 </section>
-<!-- 核心板块推荐 -->
+
+<!-- 内容 -->
 <section class="max-w-7xl mx-auto px-4 py-20">
 <div class="flex justify-between items-end mb-12">
-<div>
-<h3 class="text-3xl font-bold text-gray-800">精选史话</h3>
-<div class="w-16 h-1 bg-red-600 mt-2"></div>
-</div>
-<a class="text-red-600 flex items-center hover:underline" href="events.html">查看全部事件 <span class="iconify" data-icon="ri:arrow-right-line"></span></a>
+<div><h3 class="text-3xl font-bold text-gray-800">精选史话</h3><div class="w-16 h-1 bg-red-600 mt-2"></div></div>
+<a class="text-red-600 flex items-center" href="/events.html">查看全部事件</a>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-<!-- 事件卡片 1 -->
 <div class="bg-white rounded-xl overflow-hidden shadow-md group">
-<div class="h-48 overflow-hidden">
-<img alt="灌婴筑城" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" src="images/history/灌婴筑城.jpg"/>
+<div class="h-48 overflow-hidden"><img src="images/history/灌婴筑城.jpg" class="w-full h-full object-cover group-hover:scale-110"></div>
+<div class="p-6"><span class="text-xs text-orange-500">南昌之始</span><h4 class="text-xl font-bold mt-2">灌婴筑城</h4><p class="text-gray-600 text-sm">汉高祖六年，命大将灌婴在此筑城，开创南昌建城史。</p></div>
 </div>
-<div class="p-6">
-<span class="text-xs font-bold text-orange-500 uppercase">南昌之始</span>
-<h4 class="text-xl font-bold mt-2 mb-3">灌婴筑城 (公元前202年)</h4>
-<p class="text-gray-600 text-sm line-clamp-3">汉高祖六年，命大将灌婴在此筑城，开创了南昌两千余年的建城史，时称灌城。</p>
-<a class="inline-block mt-4 red-accent font-semibold" href="event-detail.html">了解更多</a>
-</div>
-</div>
-<!-- 事件卡片 2 -->
-<div class="bg-white rounded-xl overflow-hidden shadow-md group border-2 border-red-100">
-<div class="h-48 overflow-hidden relative">
-<img alt="南昌起义" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" src="images/history/八一南昌起义.jpg"/>
-<div class="absolute top-2 left-2 bg-red-600 text-white text-xs px-2 py-1">红色地标</div>
-</div>
-<div class="p-6">
-<span class="text-xs font-bold text-red-600 uppercase">建军之本</span>
-<h4 class="text-xl font-bold mt-2 mb-3">八一南昌起义 (1927年)</h4>
-<p class="text-gray-600 text-sm line-clamp-3">中国共产党独立领导武装斗争和创建革命军队的开始，具有深远的里程碑意义。</p>
-<a class="inline-block mt-4 red-accent font-semibold" href="special-81.html">进入专题</a>
-</div>
-</div>
-<!-- 事件卡片 3 -->
 <div class="bg-white rounded-xl overflow-hidden shadow-md group">
-<div class="h-48 overflow-hidden">
-<img alt="英雄南昌" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" src="images/history/滕王阁.jpg"/>
+<div class="h-48 overflow-hidden"><img src="images/history/八一南昌起义.jpg" class="w-full h-full object-cover group-hover:scale-110"></div>
+<div class="p-6"><span class="text-xs text-red-600">建军之本</span><h4 class="text-xl font-bold mt-2">八一南昌起义</h4><p class="text-gray-600 text-sm">打响武装反抗第一枪，人民军队诞生。</p></div>
 </div>
-<div class="p-6">
-<span class="text-xs font-bold text-blue-500 uppercase">文脉流传</span>
-<h4 class="text-xl font-bold mt-2 mb-3">王勃作《滕王阁序》</h4>
-<p class="text-gray-600 text-sm line-clamp-3">“襟三江而带五湖，控蛮荆而引瓯越”，壮丽诗篇成就了江南名楼的千古盛名。</p>
-<a class="inline-block mt-4 red-accent font-semibold" href="event-detail.html">了解更多</a>
-</div>
+<div class="bg-white rounded-xl overflow-hidden shadow-md group">
+<div class="h-48 overflow-hidden"><img src="images/history/滕王阁.jpg" class="w-full h-full object-cover group-hover:scale-110"></div>
+<div class="p-6"><span class="text-xs text-blue-500">文脉流传</span><h4 class="text-xl font-bold mt-2">滕王阁序</h4><p class="text-gray-600 text-sm">落霞与孤鹜齐飞，秋水共长天一色。</p></div>
 </div>
 </div>
 </section>
+
 <!-- 底部 -->
 <footer class="bg-gray-900 text-gray-400 py-12">
 <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-12">
-<div class="col-span-1 md:col-span-1">
-<div class="flex items-center space-x-2 text-white mb-6">
-<span class="iconify text-2xl red-accent" data-icon="ri:ancient-pavilion-fill"></span>
-<span class="text-lg font-bold">南昌历史云志</span>
-</div>
-<p class="text-sm leading-relaxed text-gray-500">致力于挖掘、整合并传播南昌红色文化与千年历史，让英雄城的历史在数字时代重放异彩。</p>
-</div>
 <div>
-<h5 class="text-white font-bold mb-6 italic">快速导航</h5>
-<ul class="space-y-4 text-sm">
-<li><a class="hover:text-red-500" href="events.html">历史事件</a></li>
-<li><a class="hover:text-red-500" href="figures.html">英雄人物</a></li>
-<li><a class="hover:text-red-500" href="timeline.html">可视化时间轴</a></li>
-<li><a class="hover:text-red-500" href="special-81.html">八一专项研究</a></li>
-</ul>
+<div class="flex items-center space-x-2 text-white mb-4"><span class="iconify text-2xl red-accent" data-icon="ri:ancient-pavilion-fill"></span><span class="font-bold">南昌历史云志</span></div>
+<p class="text-sm text-gray-500">挖掘、传播南昌红色文化与千年历史。</p>
 </div>
-<div>
-<h5 class="text-white font-bold mb-6 italic">帮助与支持</h5>
-<ul class="space-y-4 text-sm">
-<li><a class="hover:text-red-500" href="faq.html">知识问答</a></li>
-<li><a class="hover:text-red-500" href="about.html">学术来源</a></li>
-<li><a class="hover:text-red-500" href="admin-login.html">后台管理登录</a></li>
-</ul>
+<div><h5 class="text-white font-bold mb-4">快速导航</h5><ul class="space-y-2 text-sm"><li><a href="/events.html">历史事件</a></li><li><a href="/figures.html">英雄人物</a></li></ul></div>
+<div><h5 class="text-white font-bold mb-4">支持</h5><ul class="space-y-2 text-sm"><li><a href="/faq.html">问答</a></li><li><a href="/about.html">关于</a></li></ul></div>
+<div><h5 class="text-white font-bold mb-4">联系</h5><p class="text-sm">课程项目：不报错全队</p></div>
 </div>
-<div>
-<h5 class="text-white font-bold mb-6 italic">联系方式</h5>
-<p class="text-sm">课程项目组：不报错全队</p>
-<p class="text-sm mt-2">日期：2026年03月19日</p>
-<div class="flex space-x-4 mt-6">
-<span class="iconify text-2xl cursor-pointer hover:text-white" data-icon="ri:wechat-fill"></span>
-<span class="iconify text-2xl cursor-pointer hover:text-white" data-icon="ri:weibo-fill"></span>
-<span class="iconify text-2xl cursor-pointer hover:text-white" data-icon="ri:mail-line"></span>
-</div>
-</div>
-</div>
-<div class="max-w-7xl mx-auto px-4 mt-12 pt-8 border-t border-gray-800 text-center text-xs">
-            © 2026 南昌历史事件展示与传播项目组 | 软件工程课程设计
-        </div>
+<div class="max-w-7xl mx-auto px-4 mt-8 pt-4 border-t border-gray-800 text-center text-xs">©2026 南昌历史展示项目</div>
 </footer>
+
+<!-- 洪小星悬浮机器人 -->
+<button id="robotBtn" class="fixed bottom-4 right-4 w-32 h-auto z-50 ip-bounce bg-transparent border-0 p-0">
+    <img src="images/hongxiaoxing.png" class="w-full h-auto" alt="洪小星">
+</button>
+
+<div id="chatBox" class="fixed bottom-44 right-4 w-80 h-[420px] bg-white rounded-xl shadow-2xl flex flex-col hidden z-50 overflow-hidden">
+    <div class="bg-red-600 text-white p-3 flex items-center gap-3">
+        <img src="images/hongxiaoxing.png" class="w-8 h-8 rounded-full border">
+        <span class="font-bold">洪小星｜南昌历史小管家</span>
+    </div>
+    <div id="msgList" class="flex-1 p-3 overflow-y-auto space-y-3 bg-slate-50"></div>
+    <button id="洪小星" class="bg-red-600 text-white px-3 py-2 rounded-lg text-sm">洪小星</button>
+
+    <div class="p-2 flex border-t gap-2 items-center">
+        <input id="msgInput" class="flex-1 border rounded-lg px-3 py-2 outline-none text-sm" placeholder="提问南昌历史">
+        <button onclick="voiceInput()" class="p-2 bg-slate-200 rounded-lg"><span class="iconify" data-icon="ri:mic-line"></span></button>
+        <button onclick="sendMsg()" class="bg-red-600 text-white px-3 py-2 rounded-lg text-sm">发送</button>
+    </div>
+</div>
+
+<script>
+const robotBtn = document.getElementById('robotBtn');
+robotBtn.onclick = () => {
+    window.location.href = './chatbot.html';
+};
+
+const answers = {
+    "八一南昌起义":"1927年8月1日，周恩来、贺龙、叶挺、朱德、刘伯承领导起义，标志人民军队诞生。",
+    "灌婴筑城":"公元前202年，灌婴建灌城，南昌正式建城。",
+    "滕王阁":"江南三大名楼之首，因《滕王阁序》名扬天下。",
+    "南昌":"江西省会，英雄城，红色革命发源地。",
+    "洪都之战":"元末朱元璋坚守洪都85天，以少胜多。",
+    "你好":"你好呀！我是洪小星～",
+    "谢谢":"不客气！随时问我南昌历史哦！"
+};
+
+function sendMsg(){
+    const t = document.getElementById('msgInput').value.trim();
+    if(!t) return;
+    addMsg('user',t);
+    document.getElementById('msgInput').value='';
+    setTimeout(()=>{
+        let r="我还不知道这个问题哦～可以问：八一南昌起义、滕王阁、灌婴筑城、南昌、洪都之战";
+        for(let k in answers) if(t.includes(k)) r=answers[k];
+        addMsg('ai',r);
+        voicePlay(r);
+    },600);
+}
+
+function addMsg(role,text){
+    const m=document.getElementById('msgList');
+    const d=document.createElement('div');
+    if(role==='user'){
+        d.className='text-right';
+        d.innerHTML=`<span class="inline-block p-2 rounded-lg bg-red-600 text-white max-w-[80%] text-sm">${text}</span>`;
+    }else{
+        d.className='text-left flex gap-2';
+        d.innerHTML=`<img src="/images/hongxiaoxing.png" class="w-7 h-7 rounded-full"><span class="inline-block p-2 rounded-lg bg-white shadow text-sm">${text}</span>`;
+    }
+    m.appendChild(d);
+    m.scrollTop=m.scrollHeight;
+}
+
+function voicePlay(c){speechSynthesis.speak(new SpeechSynthesisUtterance(c));}
+function voiceInput(){
+    if(!window.webkitSpeechRecognition){alert("请用Chrome浏览器");return;}
+    const r=new webkitSpeechRecognition();r.lang='zh-CN';r.start();
+    r.onresult=e=>document.getElementById('msgInput').value=e.results[0][0].transcript;
+}
+
+window.onload=()=>setTimeout(()=>addMsg('ai','哈喽！我是南昌IP洪小星，你可以问我南昌历史哦~'),1200);
+</script>
 </body>
 </html>
