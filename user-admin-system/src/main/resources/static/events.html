@@ -65,7 +65,6 @@
 
         <div id="eventList" class="space-y-6"></div>
 
-        
     </div>
 
     <footer class="bg-gray-900 text-white py-8 mt-12">
@@ -76,36 +75,34 @@
 
     <script>
         $(document).ready(function () {
-            // 事件名→图片链接（已添加你提供的所有图片）
+            // ====================== 已全部改成本地图片路径 ======================
             const imageMap = {
-                "灌婴筑城": "https://www.helloimg.com/i/2026/05/31/6a1c1b80ce8eb.jpg",
-                "许逊治水": "https://www.helloimg.com/i/2026/05/31/6a1c1b8bed169.jpg",
-                "滕王阁始建": "https://www.helloimg.com/i/2026/05/31/6a1c1b8833c71.jpg",
-                "南唐迁都南昌": "https://www.helloimg.com/i/2026/05/31/6a1c36b6f3378.png",
-                "洪都之战": "https://www.helloimg.com/i/2026/05/31/6a1c1b80e6390.jpg",
-                "王守仁平叛": "https://www.helloimg.com/i/2026/05/31/6a1c1b88bf6c4.jpg",
-                "刘显抗倭": "https://www.helloimg.com/i/2026/05/31/6a1c1b80e483a.jpg",
-                "八大山人出家": "https://www.helloimg.com/i/2026/05/31/6a1c1b8089982.jpg",
-                "程矞采禁烟": "https://www.helloimg.com/i/2026/05/31/6a1c36d805403.png",
-                "孙中山南昌阅兵": "https://www.helloimg.com/i/2026/05/31/6a1c368e9b95b.png",
-                "袁玉冰创办《新江西》": "https://www.helloimg.com/i/2026/05/31/6a1c1b890abbf.jpg",
-                "扬子洲农民协会成立": "https://www.helloimg.com/i/2026/05/31/6a1c1b8d9901b.jpg",
-                "八一南昌起义": "https://www.helloimg.com/i/2026/05/31/6a1c1b80defc8.jpg",
-                "新四军军部进驻南昌": "https://www.helloimg.com/i/2026/05/31/6a1c1b89e7c39.jpg",
-                "南昌会战": "https://www.helloimg.com/i/2026/05/31/6a1c1b81314c0.jpg",
-                "新中国第一架飞机首飞成功": "https://www.helloimg.com/i/2026/05/31/6a1c1b8a31763.jpg",
-                "南昌市被列为国家历史文化名城": "https://www.helloimg.com/i/2026/05/31/6a1c1b8604d65.jpg",
-                "滕王阁景区获评国家5A级景区": "https://www.helloimg.com/i/2026/05/31/6a1c1b87be9fb.jpg"
+                "灌婴筑城": "/images/history/灌婴筑城.jpg",
+                "许逊治水": "/images/history/许逊治水.jpg",
+                "滕王阁始建": "/images/history/滕王阁始建.jpg",
+                "南唐迁都南昌": "/images/history/南唐迁都南昌.jpg",
+                "洪都之战": "/images/history/洪都之战.jpg",
+                "王守仁平叛": "/images/history/王守仁平叛.jpg",
+                "刘显抗倭": "/images/history/刘显抗倭.jpg",
+                "八大山人出家": "/images/history/八大山人出家.jpg",
+                "程矞采禁烟": "/images/history/程矞采禁烟.jpg",
+                "孙中山南昌阅兵": "/images/history/孙中山南昌阅兵.jpg",
+                "袁玉冰创办《新江西》": "/images/history/新江西.jpg",
+                "扬子洲农民协会成立": "/images/history/扬子洲农民协会.jpg",
+                "八一南昌起义": "/images/history/八一南昌起义.jpg",
+                "新四军军部进驻南昌": "/images/history/新四军军部进驻南昌.jpg",
+                "南昌会战": "/images/history/南昌会战.jpg",
+                "新中国第一架飞机首飞成功": "/images/history/新中国第一架飞机首飞成功.jpg",
+                "南昌市被列为国家历史文化名城": "/images/history/南昌市被列为国家历史文化名城.jpg",
+                "滕王阁景区获评国家5A级景区": "/images/history/滕王阁.jpg"
             };
 
-            // 筛选点击事件
             $('.filter-btn').click(function () {
                 $('.filter-btn').removeClass('active');
                 $(this).addClass('active');
                 loadEvent($(this).text());
             });
 
-            // 加载事件列表
             function loadEvent(dynasty = "全部时期") {
                 $('#eventList').html('<div class="empty-state">加载中...</div>');
                 $.ajax({
@@ -113,11 +110,9 @@
                     type: "GET",
                     data: { dynasty: dynasty },
                     success: function (list) {
-                        console.log("返回数据：", list);
                         let html = "";
                         list.forEach(e => {
-                            // 匹配图片链接
-                            const imgUrl = imageMap[e.eventName] || "https://via.placeholder.com/200x120?text=暂无图片";
+                            const imgUrl = imageMap[e.eventName] || "/images/history/暂无图片.jpg";
                             const content = e.process ? e.process.substring(0, 100) + '...' : '暂无简介';
                             html += `
                                 <div class="event-item bg-white rounded-xl shadow-md p-6 flex gap-6">
@@ -142,7 +137,6 @@
                 });
             }
 
-            // 默认加载全部事件
             loadEvent();
         });
     </script>
