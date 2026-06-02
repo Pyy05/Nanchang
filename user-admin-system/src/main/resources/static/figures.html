@@ -7,31 +7,49 @@
 <title>陈列英雄 - 历史人物名录</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+<script>
+    function filterFigures(category, el) {
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.className = 'filter-btn px-4 py-1 border text-gray-600 rounded text-xs hover:bg-white transition cursor-pointer';
+        });
+        el.className = 'filter-btn px-4 py-1 bg-red-800 text-white rounded text-xs cursor-pointer';
+        
+        const figures = document.querySelectorAll('.figure-card');
+        figures.forEach(fig => {
+            if (category === 'all' || fig.dataset.category === category) {
+                fig.style.display = 'block';
+            } else {
+                fig.style.display = 'none';
+            }
+        });
+    }
+</script>
 </head>
 <body class="bg-[#FAF9F6]">
 <nav class="p-6 flex justify-between items-center max-w-7xl mx-auto">
-<a class="flex items-center space-x-2 font-black text-2xl red-accent text-red-600" href="index.html">
-<span class="iconify" data-icon="ri:flag-2-fill"></span>
-<span>英雄人物</span>
+<a class="flex items-center space-x-2 font-black text-2xl text-gray-700 hover:text-red-600 transition" href="index.html">
+<span class="iconify text-3xl" data-icon="ri:arrow-left-s-line"></span>
+<span>返回首页 | 英雄人物</span>
 </a>
-<div class="bg-white border rounded-full px-4 py-1 flex items-center shadow-sm">
-<input class="bg-transparent text-sm focus:outline-none w-48 py-1 px-2" placeholder="搜索人物..." type="text"/>
-<span class="iconify text-gray-400" data-icon="ri:search-2-line"></span>
+<div class="bg-gray-100 rounded-full px-3 py-1 flex items-center border border-gray-200 shadow-sm">
+<input class="bg-transparent text-sm focus:outline-none w-32 md:w-48 py-1 px-2" placeholder="搜索人物..." type="text" onkeypress="if(event.key === 'Enter') window.location.href='search.html?q='+this.value"/>
+<span class="iconify text-gray-500 cursor-pointer hover:text-red-600 transition" data-icon="ri:search-line" onclick="window.location.href='search.html?q='+this.previousElementSibling.value"></span>
 </div>
 </nav>
 <header class="text-center py-20 pb-0">
 <h1 class="text-5xl font-black mb-4">星灿南昌</h1>
 <p class="text-gray-500 max-w-xl mx-auto">在这片红色的土地上，无数英雄儿女留下了不可磨灭的印记。他们是历史的创造者，更是民族的脊梁。</p>
 <div class="flex justify-center space-x-4 mt-8">
-<a class="px-4 py-1 bg-red-800 text-white rounded text-xs" href="#">核心领导者</a>
-<a class="px-4 py-1 border text-gray-600 rounded text-xs hover:bg-white transition" href="#">历代洪州名士</a>
-<a class="px-4 py-1 border text-gray-600 rounded text-xs hover:bg-white transition" href="#">当代功勋人物</a>
+<button onclick="filterFigures('leader', this)" class="filter-btn px-4 py-1 bg-red-800 text-white rounded text-xs cursor-pointer">核心领导者</button>
+<button onclick="filterFigures('celebrity', this)" class="filter-btn px-4 py-1 border text-gray-600 rounded text-xs hover:bg-white transition cursor-pointer">历代洪州名士</button>
+<button onclick="filterFigures('contemporary', this)" class="filter-btn px-4 py-1 border text-gray-600 rounded text-xs hover:bg-white transition cursor-pointer">当代功勋人物</button>
+<button onclick="filterFigures('all', this)" class="filter-btn px-4 py-1 border text-gray-600 rounded text-xs hover:bg-white transition cursor-pointer">显示全部</button>
 </div>
 </header>
 <main class="max-w-7xl mx-auto px-4 py-20">
 <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-16">
 <!-- 人物 A -->
-<div class="group">
+<div class="group figure-card" data-category="leader">
 <div class="aspect-square bg-gray-200 rounded-2xl overflow-hidden mb-4 relative shadow-md group-hover:shadow-red-200 group-hover:shadow-2xl transition duration-500">
 <img alt="周恩来" class="w-full h-full object-cover" src="https://p0.ssl.qhimgs1.com/sdr/400__/t018430966ff680d866.jpg"/>
 <div class="absolute inset-0 bg-red-900/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
@@ -43,7 +61,7 @@
 <p class="text-gray-500 text-xs line-clamp-2 leading-relaxed">领导起义的灵魂，全面负责起义的军事和组织工作。</p>
 </div>
 <!-- 人物 B -->
-<div class="group">
+<div class="group figure-card" data-category="leader">
 <div class="aspect-square bg-gray-200 rounded-2xl overflow-hidden mb-4 relative shadow-md group-hover:shadow-2xl transition duration-500">
 <img alt="贺龙" class="w-full h-full object-cover" src="https://p0.ssl.qhimgs1.com/sdr/400__/t04e4411d39d464f740.jpg"/>
 <div class="absolute inset-0 bg-red-900/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
@@ -55,7 +73,7 @@
 <p class="text-gray-500 text-xs line-clamp-2 leading-relaxed">在危难时刻毅然跟随共产党，指挥第20军参与行动。</p>
 </div>
 <!-- 人物 C -->
-<div class="group">
+<div class="group figure-card" data-category="leader">
 <div class="aspect-square bg-gray-200 rounded-2xl overflow-hidden mb-4 relative shadow-md group-hover:shadow-2xl transition duration-500">
 <img alt="朱德" class="w-full h-full object-cover" src="https://p0.ssl.qhimgs1.com/sdr/400__/t01301f97082539ea44.jpg"/>
 <div class="absolute inset-0 bg-red-900/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
@@ -67,9 +85,12 @@
 <p class="text-gray-500 text-xs line-clamp-2 leading-relaxed">利用社会关系牵制敌军，为起义主力进攻创造条件。</p>
 </div>
 <!-- 人物 D (非起义相关) -->
-<div class="group">
-<div class="aspect-square bg-gray-200 rounded-2xl overflow-hidden mb-4 relative shadow-md group-hover:shadow-2xl transition duration-500">
+<div class="group figure-card" data-category="celebrity">
+<div class="aspect-square bg-gray-200 rounded-2xl overflow-hidden mb-4 relative shadow-md group-hover:shadow-red-200 group-hover:shadow-2xl transition duration-500">
 <img alt="王勃" class="w-full h-full object-cover" src="https://p1.ssl.qhimgs1.com/sdr/400__/t018c4dcc4b0191642b.jpg"/>
+<div class="absolute inset-0 bg-red-900/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+<a class="bg-white text-red-600 px-6 py-2 rounded-full font-bold text-sm transform translate-y-4 group-hover:translate-y-0 transition duration-300" href="figure-detail.html">查看生平</a>
+</div>
 </div>
 <h3 class="text-xl font-bold text-gray-800">王勃</h3>
 <p class="text-blue-700 text-xs font-bold mb-2">初唐四杰之首</p>
