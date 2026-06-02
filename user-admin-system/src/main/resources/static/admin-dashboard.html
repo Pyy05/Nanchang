@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8"/>
@@ -80,7 +79,7 @@
 </div>
 <div>
 <p class="text-xs text-gray-500">事件总数</p>
-<p class="text-2xl font-black text-gray-800">128</p>
+<p id="eventCount" class="text-2xl font-black text-gray-800">128</p>
 </div>
 </div>
 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center space-x-4">
@@ -149,11 +148,11 @@
 </tbody>
 </table>
 </div>
-<!-- 快捷操作区 -->
+<!-- 快捷操作区【已改跳转地址：admin-history-add.html】 -->
 <div class="bg-white rounded-xl shadow-sm border p-6">
 <h3 class="font-bold mb-6">快捷操作</h3>
 <div class="space-y-4">
-<a class="block w-full text-center py-3 border border-red-200 rounded-lg text-red-600 hover:bg-red-50 font-medium" href="admin-history.html?action=new">+ 新增历史事件</a>
+<a class="block w-full text-center py-3 border border-red-200 rounded-lg text-red-600 hover:bg-red-50 font-medium" href="admin-history-add.html">+ 新增历史事件</a>
 <a class="block w-full text-center py-3 border border-blue-200 rounded-lg text-blue-600 hover:bg-blue-50 font-medium" href="#">+ 上传人物档案</a>
 <a class="block w-full text-center py-3 border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50 font-medium" href="#">生成月度数据报告</a>
 </div>
@@ -161,5 +160,12 @@
 </div>
 </main>
 </div>
+<script>
+// 读取本地存储的事件数量
+window.onload = function(){
+  let num = localStorage.getItem("eventNum") || "128";
+  document.getElementById("eventCount").innerText = num;
+}
+</script>
 </body>
 </html>

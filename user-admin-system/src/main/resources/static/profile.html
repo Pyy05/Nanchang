@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>我的 - 用户中心</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+    <style>
+        .red-accent { color: #C53030; }
+        .bg-red-accent { background-color: #C53030; }
+        .tab-active { border-bottom-color: #C53030; color: #C53030; }
+    </style>
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('tab-active'));
+            document.getElementById(tabId).classList.remove('hidden');
+            document.getElementById('btn-' + tabId).classList.add('tab-active');
+        }
+    </script>
+</head>
+<body class="bg-slate-50 font-sans">
+    <!-- 导航栏 -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
+            <div class="flex items-center space-x-2">
+                <span class="iconify text-3xl red-accent" data-icon="ri:ancient-pavilion-fill"></span>
+                <span class="text-xl font-bold tracking-wider text-gray-800">南昌历史云志</span>
+            </div>
+            <div class="hidden md:flex space-x-8 text-gray-600 font-medium">
+                <a class="hover:text-red-600" href="index.html">首页</a>
+                <a class="hover:text-red-600" href="events.html">历史事件</a>
+                <a class="hover:text-red-600" href="special-81.html">八一专题</a>
+                <a class="hover:text-red-600" href="figures.html">历史人物</a>
+                <a class="hover:text-red-600" href="timeline.html">历史长河</a>
+                <a class="hover:text-red-600" href="faq.html">互动问答</a>
+                <a class="hover:text-red-600" href="about.html">关于我们</a>
+                <a class="red-accent border-b-2 border-red-600" href="profile.html">我的</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a class="bg-red-accent text-white px-4 py-2 rounded-md text-sm hover:bg-red-700 transition" href="admin-login.html">后台管理</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 用户中心主体 -->
+    <main class="max-w-5xl mx-auto px-4 py-12">
+        <div class="bg-white rounded-xl shadow-md overflow-hidden">
+            <!-- 头部信息 -->
+            <div class="bg-red-800 p-8 flex items-center space-x-6 text-white">
+                <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center text-red-800 overflow-hidden border-4 border-red-900/30">
+                    <span class="iconify text-5xl" data-icon="ri:user-smile-line"></span>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold mb-2">普通用户_9527</h1>
+                    <p class="text-red-200 text-sm">注册时间：2026-01-15 | 探索南昌历史第 138 天</p>
+                </div>
+            </div>
+
+            <!-- 选项卡 -->
+            <div class="flex border-b">
+                <button id="btn-favorites" onclick="switchTab('favorites')" class="tab-btn tab-active flex-1 py-4 text-center font-medium border-b-2 border-transparent hover:text-red-600 transition">
+                    <span class="iconify inline-block mr-1" data-icon="ri:star-line"></span> 我的收藏夹
+                </button>
+                <button id="btn-questions" onclick="switchTab('questions')" class="tab-btn flex-1 py-4 text-center font-medium border-b-2 border-transparent hover:text-red-600 transition">
+                    <span class="iconify inline-block mr-1" data-icon="ri:question-answer-line"></span> 我的提问
+                </button>
+                <button id="btn-messages" onclick="switchTab('messages')" class="tab-btn flex-1 py-4 text-center font-medium border-b-2 border-transparent hover:text-red-600 transition relative">
+                    <span class="iconify inline-block mr-1" data-icon="ri:notification-3-line"></span> 消息通知
+                    <span class="absolute top-3 right-1/4 w-2 h-2 bg-red-500 rounded-full"></span>
+                </button>
+            </div>
+
+            <!-- 内容区域 -->
+            <div class="p-8 min-h-[400px]">
+                <!-- 收藏夹 -->
+                <div id="favorites" class="tab-content">
+                    <h2 class="text-xl font-bold mb-6 text-gray-800">我的收藏夹</h2>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center p-4 border rounded-lg hover:bg-gray-50">
+                            <div>
+                                <h3 class="font-bold text-gray-800">八一南昌起义</h3>
+                                <p class="text-sm text-gray-500 mt-1">收藏于 2026-05-12</p>
+                            </div>
+                            <a href="special-81.html" class="text-red-600 text-sm hover:underline">查看</a>
+                        </div>
+                        <div class="flex justify-between items-center p-4 border rounded-lg hover:bg-gray-50">
+                            <div>
+                                <h3 class="font-bold text-gray-800">周恩来生平记事</h3>
+                                <p class="text-sm text-gray-500 mt-1">收藏于 2026-05-15</p>
+                            </div>
+                            <a href="figure-detail.html" class="text-red-600 text-sm hover:underline">查看</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 我的提问 -->
+                <div id="questions" class="tab-content hidden">
+                    <h2 class="text-xl font-bold mb-6 text-gray-800">我的提问</h2>
+                    <div class="space-y-4">
+                        <div class="p-4 border rounded-lg">
+                            <h3 class="font-bold text-gray-800">南昌起义的具体指挥部在哪里？</h3>
+                            <p class="text-sm text-gray-500 mt-2">提问时间：2026-06-01 <span class="ml-4 text-green-600">已回复</span></p>
+                            <div class="mt-3 bg-gray-50 p-3 rounded text-sm text-gray-700">
+                                <strong>管理员回复：</strong>起义总指挥部旧址位于南昌市中山路380号（原江西大旅社）。
+                            </div>
+                        </div>
+                        <div class="p-4 border rounded-lg">
+                            <h3 class="font-bold text-gray-800">滕王阁是哪一年重建的？</h3>
+                            <p class="text-sm text-gray-500 mt-2">提问时间：2026-06-02 <span class="ml-4 text-orange-500">待回复</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 消息通知 -->
+                <div id="messages" class="tab-content hidden">
+                    <h2 class="text-xl font-bold mb-6 text-gray-800">消息通知</h2>
+                    <div class="space-y-4">
+                        <div class="p-4 border border-red-100 bg-red-50 rounded-lg flex items-start">
+                            <span class="iconify text-red-500 text-xl mt-0.5 mr-3" data-icon="ri:mail-unread-fill"></span>
+                            <div>
+                                <h3 class="font-bold text-gray-800">管理员回复了您的提问</h3>
+                                <p class="text-sm text-gray-700 mt-1">您提出的“南昌起义的具体指挥部在哪里？”已收到管理员的解答，请前往“我的提问”查看。</p>
+                                <p class="text-xs text-gray-500 mt-2">10 分钟前</p>
+                            </div>
+                        </div>
+                        <div class="p-4 border rounded-lg flex items-start opacity-75">
+                            <span class="iconify text-gray-400 text-xl mt-0.5 mr-3" data-icon="ri:mail-check-fill"></span>
+                            <div>
+                                <h3 class="font-bold text-gray-800">欢迎加入南昌历史云志</h3>
+                                <p class="text-sm text-gray-700 mt-1">系统已成功为您创建档案，快去探索英雄城的历史吧！</p>
+                                <p class="text-xs text-gray-500 mt-2">2026-01-15</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

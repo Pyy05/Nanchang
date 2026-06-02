@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>周恩来 - 历史人物详情</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+    <style>
+        .red-accent { color: #C53030; }
+        .bg-red-accent { background-color: #C53030; }
+    </style>
+</head>
+<body class="bg-[#FAF9F6] font-sans">
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
+            <a href="figures.html" class="flex items-center space-x-2 text-gray-600 hover:text-red-600 transition font-bold">
+                <span class="iconify text-xl" data-icon="ri:arrow-left-line"></span>
+                <span>返回人物列表</span>
+            </a>
+            <div class="text-xl font-bold tracking-wider text-gray-800">
+                英雄人物档案
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-5xl mx-auto px-4 py-12">
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <!-- 头部横幅 -->
+            <div class="h-48 bg-red-900 relative">
+                <div class="absolute inset-0 opacity-20 bg-[url('https://p0.ssl.qhimgs1.com/sdr/400__/t018430966ff680d866.jpg')] bg-cover bg-center"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+            </div>
+            
+            <div class="px-8 pb-8 relative">
+                <!-- 头像和基本信息 -->
+                <div class="flex flex-col md:flex-row items-end -mt-20 mb-8 space-y-4 md:space-y-0 md:space-x-8">
+                    <img src="https://p0.ssl.qhimgs1.com/sdr/400__/t018430966ff680d866.jpg" alt="周恩来" class="w-40 h-40 object-cover rounded-xl border-4 border-white shadow-xl relative z-10" />
+                    <div class="flex-1">
+                        <h1 class="text-4xl font-black text-gray-800">周恩来</h1>
+                        <p class="text-red-700 font-bold mt-2 text-lg">起义前敌委员会书记 / 伟大的无产阶级革命家</p>
+                    </div>
+                    <div class="flex space-x-3 mt-4">
+                        <button class="px-6 py-2 bg-red-700 text-white rounded-md font-bold shadow hover:bg-red-800 transition flex items-center">
+                            <span class="iconify mr-2" data-icon="ri:star-fill"></span> 收藏档案
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 详细介绍 -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="col-span-2 space-y-8">
+                        <section>
+                            <h2 class="text-2xl font-bold border-b-2 border-red-700 pb-2 mb-4 inline-block">生平简介</h2>
+                            <p class="text-gray-700 leading-relaxed text-justify indent-8">
+                                周恩来（1898年3月5日-1976年1月8日），字翔宇，伟大的马克思主义者，伟大的无产阶级革命家、政治家、军事家、外交家，党和国家主要领导人之一，中国人民解放军主要创建人之一。
+                            </p>
+                        </section>
+                        <section>
+                            <h2 class="text-2xl font-bold border-b-2 border-red-700 pb-2 mb-4 inline-block">南昌起义事迹</h2>
+                            <p class="text-gray-700 leading-relaxed text-justify indent-8">
+                                1927年中共中央在汉口召开临时政治局常委会议，决定在南昌举行武装起义，并派周恩来为起义领导机关前敌委员会书记。7月下旬，周恩来秘密来到南昌，全面负责起义的组织和准备工作。
+                            </p>
+                            <p class="text-gray-700 leading-relaxed text-justify indent-8 mt-4">
+                                8月1日凌晨，在以周恩来为首的前委领导下，贺龙、叶挺、朱德、刘伯承等率领在党直接掌握和影响下的军队2万余人，举行南昌起义。经过数小时激战，全歼守敌，占领了南昌城。起义打响了武装反抗国民党反动派的第一枪，宣告了中国共产党把中国革命进行到底的坚定立场。
+                            </p>
+                        </section>
+                    </div>
+                    <div class="col-span-1 space-y-6">
+                        <div class="bg-gray-50 p-6 rounded-lg border border-gray-100">
+                            <h3 class="font-bold text-gray-800 mb-4 flex items-center">
+                                <span class="iconify text-red-600 mr-2" data-icon="ri:information-line"></span> 核心信息
+                            </h3>
+                            <ul class="space-y-3 text-sm text-gray-600">
+                                <li class="flex justify-between border-b pb-2">
+                                    <span class="text-gray-400">出生地</span>
+                                    <span class="font-medium text-right">江苏淮安</span>
+                                </li>
+                                <li class="flex justify-between border-b pb-2">
+                                    <span class="text-gray-400">出生日期</span>
+                                    <span class="font-medium text-right">1898年3月5日</span>
+                                </li>
+                                <li class="flex justify-between border-b pb-2">
+                                    <span class="text-gray-400">逝世日期</span>
+                                    <span class="font-medium text-right">1976年1月8日</span>
+                                </li>
+                                <li class="flex justify-between border-b pb-2">
+                                    <span class="text-gray-400">主要成就</span>
+                                    <span class="font-medium text-right max-w-[120px]">领导南昌起义<br>建立新中国</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

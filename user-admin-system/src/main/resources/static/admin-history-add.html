@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>历史事件管理 - 南昌历史云志</title>
+<title>新增历史事件 - 南昌历史云志</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
 </head>
 <body class="bg-blue-100 min-h-screen flex">
 
-<!-- 侧边栏 -->
+<!-- 侧边栏（和后台完全一致） -->
 <aside class="w-64 bg-slate-900 text-white flex flex-col shrink-0">
     <div class="p-6 border-b border-slate-400 flex items-center space-x-2">
         <span class="iconify text-red-600 text-2xl" data-icon="ri:dashboard-3-line"></span>
@@ -46,48 +46,42 @@
 <!-- 主内容区 -->
 <div class="flex-grow flex flex-col h-screen overflow-y-auto">
     <header class="bg-white h-16 border-b px-8 flex justify-between items-center shrink-0">
-        <h2 class="font-bold text-gray-700">历史事件管理</h2>
-        <a href="admin-history-add.html" class="bg-red-600 text-white px-4 py-2 rounded-lg text-sm">+ 新增事件</a>
+        <h2 class="font-bold text-gray-700">新增历史事件</h2>
     </header>
 
     <main class="p-8">
-        <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
-            <div class="px-6 py-4 border-b">
-                <h3 class="font-bold">事件列表</h3>
+        <div class="bg-white rounded-xl shadow-sm border p-6 max-w-4xl">
+            <div class="space-y-5">
+                <div>
+                    <label class="block mb-1 text-sm font-medium">事件名称</label>
+                    <input id="title" type="text" class="w-full border rounded-lg px-3 py-2">
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm font-medium">发生时间</label>
+                    <input id="time" type="text" class="w-full border rounded-lg px-3 py-2">
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm font-medium">事件简介</label>
+                    <textarea id="desc" rows="4" class="w-full border rounded-lg px-3 py-2"></textarea>
+                </div>
+                <button onclick="saveEvent()" class="bg-red-600 text-white px-6 py-2 rounded-lg">
+                    保存并提交
+                </button>
             </div>
-            <table class="w-full text-left text-sm">
-                <thead class="bg-gray-50 text-gray-400">
-                    <tr>
-                        <th class="px-6 py-3 font-medium">ID</th>
-                        <th class="px-6 py-3 font-medium">事件名称</th>
-                        <th class="px-6 py-3 font-medium">时间</th>
-                        <th class="px-6 py-3 font-medium">操作</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y text-gray-600">
-                    <tr>
-                        <td class="px-6 py-4">1</td>
-                        <td class="px-6 py-4 font-bold">八一南昌起义</td>
-                        <td class="px-6 py-4">1927年8月1日</td>
-                        <td class="px-6 py-4 space-x-2">
-                            <button class="text-blue-600">编辑</button>
-                            <button class="text-red-600">删除</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="px-6 py-4">2</td>
-                        <td class="px-6 py-4 font-bold">灌婴筑城</td>
-                        <td class="px-6 py-4">西汉初年</td>
-                        <td class="px-6 py-4 space-x-2">
-                            <button class="text-blue-600">编辑</button>
-                            <button class="text-red-600">删除</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
     </main>
 </div>
 
+<script>
+// 保存事件 + 计数 + 跳转
+function saveEvent() {
+    // 事件总数 +1
+    let current = parseInt(localStorage.getItem("eventNum") || 128);
+    localStorage.setItem("eventNum", current + 1);
+
+    // 跳回列表页
+    location.href = "admin-history.html";
+}
+</script>
 </body>
 </html>
