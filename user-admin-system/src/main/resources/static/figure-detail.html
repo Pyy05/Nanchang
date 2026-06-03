@@ -3,9 +3,10 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>周恩来 - 历史人物详情</title>
+    <title>历史人物详情</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <style>
         .red-accent { color: #C53030; }
         .bg-red-accent { background-color: #C53030; }
@@ -24,76 +25,109 @@
         </div>
     </nav>
 
-    <main class="max-w-5xl mx-auto px-4 py-12">
-        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-            <!-- 头部横幅 -->
-            <div class="h-48 bg-red-900 relative">
-                <div class="absolute inset-0 opacity-20 bg-[url('https://p0.ssl.qhimgs1.com/sdr/400__/t018430966ff680d866.jpg')] bg-cover bg-center"></div>
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-            </div>
-            
-            <div class="px-8 pb-8 relative">
-                <!-- 头像和基本信息 -->
-                <div class="flex flex-col md:flex-row items-end -mt-20 mb-8 space-y-4 md:space-y-0 md:space-x-8">
-                    <img src="https://p0.ssl.qhimgs1.com/sdr/400__/t018430966ff680d866.jpg" alt="周恩来" class="w-40 h-40 object-cover rounded-xl border-4 border-white shadow-xl relative z-10" />
-                    <div class="flex-1">
-                        <h1 class="text-4xl font-black text-gray-800">周恩来</h1>
-                        <p class="text-red-700 font-bold mt-2 text-lg">起义前敌委员会书记 / 伟大的无产阶级革命家</p>
-                    </div>
-                    <div class="flex space-x-3 mt-4">
-                        <button class="px-6 py-2 bg-red-700 text-white rounded-md font-bold shadow hover:bg-red-800 transition flex items-center">
-                            <span class="iconify mr-2" data-icon="ri:star-fill"></span> 收藏档案
-                        </button>
-                    </div>
-                </div>
+    <main class="max-w-5xl mx-auto px-4 py-12" id="detailContainer">
+        <div class="text-center py-12">加载中...</div>
+    </main>
 
-                <!-- 详细介绍 -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="col-span-2 space-y-8">
-                        <section>
-                            <h2 class="text-2xl font-bold border-b-2 border-red-700 pb-2 mb-4 inline-block">生平简介</h2>
-                            <p class="text-gray-700 leading-relaxed text-justify indent-8">
-                                周恩来（1898年3月5日-1976年1月8日），字翔宇，伟大的马克思主义者，伟大的无产阶级革命家、政治家、军事家、外交家，党和国家主要领导人之一，中国人民解放军主要创建人之一。
-                            </p>
-                        </section>
-                        <section>
-                            <h2 class="text-2xl font-bold border-b-2 border-red-700 pb-2 mb-4 inline-block">南昌起义事迹</h2>
-                            <p class="text-gray-700 leading-relaxed text-justify indent-8">
-                                1927年中共中央在汉口召开临时政治局常委会议，决定在南昌举行武装起义，并派周恩来为起义领导机关前敌委员会书记。7月下旬，周恩来秘密来到南昌，全面负责起义的组织和准备工作。
-                            </p>
-                            <p class="text-gray-700 leading-relaxed text-justify indent-8 mt-4">
-                                8月1日凌晨，在以周恩来为首的前委领导下，贺龙、叶挺、朱德、刘伯承等率领在党直接掌握和影响下的军队2万余人，举行南昌起义。经过数小时激战，全歼守敌，占领了南昌城。起义打响了武装反抗国民党反动派的第一枪，宣告了中国共产党把中国革命进行到底的坚定立场。
-                            </p>
-                        </section>
-                    </div>
-                    <div class="col-span-1 space-y-6">
-                        <div class="bg-gray-50 p-6 rounded-lg border border-gray-100">
-                            <h3 class="font-bold text-gray-800 mb-4 flex items-center">
-                                <span class="iconify text-red-600 mr-2" data-icon="ri:information-line"></span> 核心信息
-                            </h3>
-                            <ul class="space-y-3 text-sm text-gray-600">
-                                <li class="flex justify-between border-b pb-2">
-                                    <span class="text-gray-400">出生地</span>
-                                    <span class="font-medium text-right">江苏淮安</span>
-                                </li>
-                                <li class="flex justify-between border-b pb-2">
-                                    <span class="text-gray-400">出生日期</span>
-                                    <span class="font-medium text-right">1898年3月5日</span>
-                                </li>
-                                <li class="flex justify-between border-b pb-2">
-                                    <span class="text-gray-400">逝世日期</span>
-                                    <span class="font-medium text-right">1976年1月8日</span>
-                                </li>
-                                <li class="flex justify-between border-b pb-2">
-                                    <span class="text-gray-400">主要成就</span>
-                                    <span class="font-medium text-right max-w-[120px]">领导南昌起义<br>建立新中国</span>
-                                </li>
-                            </ul>
+    <script>
+        $(document).ready(function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const personId = urlParams.get('id');
+
+            if (!personId) {
+                $('#detailContainer').html('<div class="text-center py-12 text-red-500">无效的人物ID</div>');
+                return;
+            }
+
+            $.ajax({
+                url: "/api/person/" + personId,
+                type: "GET",
+                success: function (p) {
+                    const imgUrl = p.cover || "https://via.placeholder.com/400x400?text=暂无图片";
+                    $('title').text(p.name + ' - 历史人物详情');
+                    
+                    const html = `
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <div class="h-48 bg-red-900 relative">
+                            <div class="absolute inset-0 opacity-20 bg-cover bg-center" style="background-image: url('${imgUrl}')"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                        </div>
+                        
+                        <div class="px-8 pb-8 relative">
+                            <div class="flex flex-col md:flex-row items-end -mt-20 mb-8 space-y-4 md:space-y-0 md:space-x-8">
+                                <img src="${imgUrl}" alt="${p.name}" class="w-40 h-40 object-cover rounded-xl border-4 border-white shadow-xl relative z-10" />
+                                <div class="flex-1">
+                                    <h1 class="text-4xl font-black text-gray-800">${p.name}</h1>
+                                    <p class="text-red-700 font-bold mt-2 text-lg">${p.relatedEvent || p.dynasty}</p>
+                                </div>
+                                <div class="flex space-x-3 mt-4">
+                                    <button onclick="handleFavorite()" class="px-6 py-2 bg-red-700 text-white rounded-md font-bold shadow hover:bg-red-800 transition flex items-center">
+                                        <span class="iconify mr-2" data-icon="ri:star-fill"></span> 收藏档案
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                <div class="col-span-2 space-y-8">
+                                    <section>
+                                        <h2 class="text-2xl font-bold border-b-2 border-red-700 pb-2 mb-4 inline-block">生平简介</h2>
+                                        <p class="text-gray-700 leading-relaxed text-justify indent-8 whitespace-pre-line">${p.biography || '暂无介绍'}</p>
+                                    </section>
+                                    ${p.contribution ? `
+                                    <section>
+                                        <h2 class="text-2xl font-bold border-b-2 border-red-700 pb-2 mb-4 inline-block">主要贡献 / 事迹</h2>
+                                        <p class="text-gray-700 leading-relaxed text-justify indent-8 whitespace-pre-line">${p.contribution}</p>
+                                    </section>` : ''}
+                                </div>
+                                <div class="col-span-1 space-y-6">
+                                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-100">
+                                        <h3 class="font-bold text-gray-800 mb-4 flex items-center">
+                                            <span class="iconify text-red-600 mr-2" data-icon="ri:information-line"></span> 核心信息
+                                        </h3>
+                                        <ul class="space-y-3 text-sm text-gray-600">
+                                            <li class="flex justify-between border-b pb-2">
+                                                <span class="text-gray-400">朝代</span>
+                                                <span class="font-medium text-right">${p.dynasty || '未知'}</span>
+                                            </li>
+                                            <li class="flex justify-between border-b pb-2">
+                                                <span class="text-gray-400">生卒年</span>
+                                                <span class="font-medium text-right">${p.birthDeath || '未知'}</span>
+                                            </li>
+                                            <li class="flex justify-between border-b pb-2">
+                                                <span class="text-gray-400">资料来源</span>
+                                                <span class="font-medium text-right">${p.source || '未知'}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </main>
+                    `;
+                    $('#detailContainer').html(html);
+                },
+                error: function () {
+                    $('#detailContainer').html(`
+                        <div class="text-center py-12">
+                            <p class="text-red-500 mb-4">详情加载失败</p>
+                            <a href="figures.html" class="inline-block bg-gray-200 px-6 py-2 rounded hover:bg-gray-300 transition">返回列表</a>
+                        </div>
+                    `);
+                }
+            });
+        });
+
+        function handleFavorite() {
+            // 简单判断是否登录（例如通过localStorage或者sessionStorage检查）
+            // 如果项目中没有明确的token标志，按照要求直接跳转或提示
+            let isLoggedIn = localStorage.getItem('userToken') || sessionStorage.getItem('user');
+            if (!isLoggedIn) {
+                alert('请先登录后收藏！');
+                window.location.href = 'admin-login.html';
+            } else {
+                alert('收藏成功！');
+            }
+        }
+    </script>
 </body>
 </html>

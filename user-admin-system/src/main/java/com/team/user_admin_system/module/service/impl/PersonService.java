@@ -1,0 +1,11 @@
+package com.team.user_admin_system.module.service.impl;
+
+import com.team.user_admin_system.module.entity.Person;
+import java.util.List;
+
+public interface PersonService {
+    List<Person> listAll();
+    List<Person> listByDynasty(String dynasty);
+    List<Person> searchByName(String name);
+    Person getById(Long id);
+}
