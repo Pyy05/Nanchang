@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>雕塑《石破天惊》- 鼠标交互</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: "Microsoft YaHei", "PingFang SC", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+        
+        .title {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+            background-color: rgba(0,0,0,0.6);
+            padding: 12px 0;
+            z-index: 100;
+            pointer-events: none;
+            backdrop-filter: blur(5px);
+            letter-spacing: 1px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        /* 返回按钮样式 - 与专题页保持一致 */
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 200;
+            background: rgba(249, 244, 232, 0.75);
+            border-radius: 50%;
+            padding: 10px;
+            border: 1px solid #9D7554;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            pointer-events: auto;
+        }
+        .back-btn:hover {
+            background: rgba(249, 244, 232, 1);
+            transform: scale(1.05);
+        }
+        .back-btn svg {
+            width: 24px;
+            height: 24px;
+            color: #8B2F2F;
+        }
+        
+        .loading-info {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: rgba(255,255,255,0.8);
+            background: rgba(0,0,0,0.5);
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-family: monospace;
+            z-index: 100;
+            pointer-events: none;
+        }
+        
+        .error-info {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: red;
+            background: rgba(0,0,0,0.8);
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 200;
+            text-align: center;
+            display: none;
+        }
+    </style>
+    <!-- 引入iconify图标库（与专题页一致） -->
+    <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+</head>
+<body>
+    <!-- 返回按钮 -->
+    <a href="special-81.html" class="back-btn" title="返回八一南昌起义专题">
+        <span class="iconify" data-icon="ri:arrow-left-line"></span>
+    </a>
+
+    <div class="title">
+        ✨ 雕塑《石破天惊》- 3D模型展示 | 鼠标拖拽旋转视角 | 右键平移 | 滚轮缩放
+    </div>
+    <div class="loading-info" id="loading-status">
+        正在加载3D模型...
+    </div>
+    <div class="error-info" id="error-info">
+        模型加载失败，请检查文件路径
+    </div>
+
+    <!-- 直接使用CDN链接，不通过importmap -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+        
+        console.log('Three.js版本:', THREE.REVISION);
+        console.log('开始初始化场景...');
+        
+        // 初始化场景
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x111122);
+        scene.fog = new THREE.FogExp2(0x111122, 0.008); // 添加雾效，提升性能
+        
+        // 初始化相机
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(5, 3, 8);
+        camera.lookAt(0, 0, 0);
+        
+        // 初始化渲染器
+        const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.shadowMap.enabled = true;
+        document.body.appendChild(renderer.domElement);
+        
+        console.log('渲染器初始化完成');
+        
+        // 控制器
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.enableZoom = true;
+        controls.enablePan = true;
+        controls.rotateSpeed = 1.0;
+        controls.zoomSpeed = 1.2;
+        controls.target.set(0, 0, 0);
+        
+        // 添加光源
+        const ambientLight = new THREE.AmbientLight(0x404060);
+        scene.add(ambientLight);
+        
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(2, 5, 3);
+        directionalLight.castShadow = true;
+        scene.add(directionalLight);
+        
+        const backLight = new THREE.DirectionalLight(0xffaa66, 0.5);
+        backLight.position.set(-2, 1, -3);
+        scene.add(backLight);
+        
+        const fillLight = new THREE.PointLight(0x4466cc, 0.3);
+        fillLight.position.set(0, -1, 1);
+        scene.add(fillLight);
+        
+        // 辅助元素
+        const gridHelper = new THREE.GridHelper(20, 20, 0x888888, 0x444444);
+        gridHelper.position.y = -1.5;
+        scene.add(gridHelper);
+        
+        // 简单的地面参考
+        const axesHelper = new THREE.AxesHelper(5);
+        scene.add(axesHelper);
+        
+        console.log('光源和辅助元素添加完成');
+        
+        // 加载模型
+        const loadingDiv = document.getElementById('loading-status');
+        const errorDiv = document.getElementById('error-info');
+        
+        // 创建GLTF加载器（不使用Draco，简化加载）
+        const loader = new GLTFLoader();
+        
+        // 设置加载超时
+        let loadingTimeout = setTimeout(() => {
+            if (loadingDiv.style.display !== 'none') {
+                loadingDiv.textContent = '⚠️ 加载时间较长，大模型请耐心等待...';
+            }
+        }, 5000);
+        
+        console.log('开始加载模型文件: model2.glb');
+        
+        // 加载模型
+        loader.load('model2.glb', 
+            (gltf) => {
+                clearTimeout(loadingTimeout);
+                console.log('模型加载成功！', gltf);
+                
+                const model = gltf.scene;
+                
+                // 自动调整模型大小和位置
+                const box = new THREE.Box3().setFromObject(model);
+                const center = box.getCenter(new THREE.Vector3());
+                const size = box.getSize(new THREE.Vector3());
+                
+                console.log('模型尺寸:', size);
+                console.log('模型中心:', center);
+                
+                // 将模型移到网格地面上
+                model.position.y -= center.y - 1;
+                
+                // 如果模型太大，自动缩放
+                const maxDim = Math.max(size.x, size.y, size.z);
+                if (maxDim > 10) {
+                    const scale = 8 / maxDim;
+                    model.scale.set(scale, scale, scale);
+                    console.log('模型自动缩放比例:', scale);
+                }
+                
+                model.traverse((child) => {
+                    if (child.isMesh) {
+                        child.castShadow = true;
+                        child.receiveShadow = false;
+                    }
+                });
+                
+                scene.add(model);
+                loadingDiv.textContent = '✅ 模型加载完成！鼠标拖拽查看各个角度';
+                loadingDiv.style.backgroundColor = 'rgba(0,0,0,0.7)';
+                
+                // 调整相机视角
+                controls.target.set(center.x, center.y + 1, center.z);
+                controls.update();
+                
+                setTimeout(() => {
+                    loadingDiv.style.opacity = '0.5';
+                }, 3000);
+            },
+            (xhr) => {
+                // 加载进度
+                const percent = Math.floor((xhr.loaded / xhr.total) * 100);
+                loadingDiv.textContent = `⏳ 加载模型中: ${percent}% (${(xhr.loaded / 1048576).toFixed(1)}MB / ${(xhr.total / 1048576).toFixed(1)}MB)`;
+                console.log(`加载进度: ${percent}%`);
+            },
+            (error) => {
+                clearTimeout(loadingTimeout);
+                console.error('模型加载失败:', error);
+                loadingDiv.style.display = 'none';
+                errorDiv.style.display = 'block';
+                errorDiv.innerHTML = `
+                    <strong>❌ 模型加载失败</strong><br><br>
+                    可能的原因：<br>
+                    1. 文件不存在，请确认 model.glb 在当前文件夹<br>
+                    2. 文件损坏或格式不正确<br>
+                    3. 文件太大导致超时<br><br>
+                    <small>检查控制台(F12)查看详细错误信息</small>
+                `;
+            }
+        );
+        
+        // 动画循环
+        function animate() {
+            controls.update();
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+        
+        // 窗口大小适配
+        window.addEventListener('resize', onWindowResize, false);
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        
+        console.log('初始化完成，等待模型加载...');
+    </script>
+</body>
+</html>
