@@ -16,4 +16,7 @@ public interface UserRepository extends JpaRepository<SysUser, Integer> {
      * 等价于：SELECT * FROM user WHERE username = ?
      */
     SysUser findByUsername(String username);
+
+    @org.springframework.data.jpa.repository.Query("SELECT u FROM SysUser u ORDER BY u.points DESC")
+    java.util.List<SysUser> findTopUsersByPoints(org.springframework.data.domain.Pageable pageable);
 }
