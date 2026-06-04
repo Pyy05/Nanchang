@@ -1,29 +1,32 @@
 package com.team.user_admin_system.service;
 
-import com.zhipuai.core.ZhipuAI;
-import com.zhipuai.model.chat.ChatCompletionRequest;
-import com.zhipuai.model.chat.ChatCompletionResponse;
-import com.zhipuai.model.chat.Message;
+import ai.z.openapi.ZhipuAiClient;
+import ai.z.openapi.service.model.ChatCompletionCreateParams;
+import ai.z.openapi.service.model.ChatCompletionResponse;
+import ai.z.openapi.service.model.ChatMessage;
+import ai.z.openapi.service.model.ChatMessageRole;
+import ai.z.openapi.service.model.ChatThinking;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Service
 public class ZhipuAIService {
-    
-    private final ZhipuAI zhipuAI;
-    
-    public ZhipuAIService(ZhipuAI zhipuAI) {
-        this.zhipuAI = zhipuAI;
+    private final ZhipuAiClient zhipuAiClient;
+
+    public ZhipuAIService(ZhipuAiClient zhipuAiClient) {
+        this.zhipuAiClient = zhipuAiClient;
     }
-    
-    public String chatWithAI(String userMessage, List<Message> history) {
-        List<Message> messages = new ArrayList<>();
-        
-        // 系统提示词 - 洪小星人设
-        Message systemMsg = Message.builder()
-                .role("system")
+
+    public String chatWithAI(String userMessage, List<ChatMessage> history) {
+        List<ChatMessage> messages = new ArrayList<>();
+
+        //洪小星系统人设
+        ChatMessage systemMsg = ChatMessage.builder()
+                .role(ChatMessageRole.SYSTEM.value())
                 .content("""
                     你是洪小星，南昌历史小管家。
                     任务：
@@ -34,26 +37,33 @@ public class ZhipuAIService {
                     """)
                 .build();
         messages.add(systemMsg);
-        
-        // 添加历史对话
-        if (history != null) {
+
+        if (history != null && !history.isEmpty()) {
             messages.addAll(history);
         }
-        
-        // 添加用户消息
-        messages.add(Message.builder()
-                .role("user")
+
+        messages.add(ChatMessage.builder()
+                .role(ChatMessageRole.USER.value())
                 .content(userMessage)
                 .build());
-        
-        // 调用API
-        ChatCompletionRequest request = ChatCompletionRequest.builder()
+
+        //构建请求，glm-4.7-flash
+        ChatCompletionCreateParams params = ChatCompletionCreateParams.builder()
                 .model("glm-4.7-flash")
+                .thinking(ChatThinking.builder().type("enabled").build())
                 .messages(messages)
                 .build();
-        
-        ChatCompletionResponse response = zhipuAI.chat.completions.create(request);
-        
-        return response.getChoices().get(0).getMessage().getContent();
+
+        try {
+            ChatCompletionResponse resp = zhipuAiClient.chat().createChatCompletion(params);
+            // 转JSON解析，彻底避开实体类缺失、类型转换问题
+            JSONObject json = JSON.parseObject(JSON.toJSONString(resp.getData()));
+            JSONObject choice = json.getJSONArray("choices").getJSONObject(0);
+            JSONObject msg = choice.getJSONObject("message");
+            return msg.getString("content");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "洪小星暂时掉线啦，稍后再试试~";
+        }
     }
 }

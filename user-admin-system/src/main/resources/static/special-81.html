@@ -6,6 +6,21 @@
 <title>八一南昌起义专题 - 英雄城记忆</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+<!-- 引入jQuery（原代码使用$但未引入） -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<style>
+/* 补充视频容器样式 */
+.video-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px 0;
+    aspect-ratio: 16/9;
+}
+.video-container iframe {
+    width: 100%;
+    height: 100%;
+}
+</style>
 </head>
 <body class="bg-[#F4F1EA] font-sans">
 <!-- 返回首页按钮 -->
@@ -47,6 +62,7 @@ src="https://www.helloimg.com/i/2026/05/31/6a1c1b80defc8.jpg"/>
 <a href="#process" class="hover:text-red-700" data-target="process">凌晨枪声</a>
 <a href="#significance" class="hover:text-red-700" data-target="significance">深远意义</a>
 <a href="#archives" class="hover:text-red-700" data-target="archives">原始文献</a>
+<a href="#model" class="hover:text-red-700" data-target="model">模型展示</a>
 </div>
 </nav>
 
@@ -111,8 +127,9 @@ src="https://www.helloimg.com/i/2026/05/31/6a1c1b80defc8.jpg"/>
 </div>
 </div>
 <img alt="起义旧址" class="w-full rounded-xl my-8"
-src="https://www.helloimg.com/i/2026/05/31/6a1c1b89e7c39.jpg"/>
+src="/images/history/南昌起义旧址.jpg"/>
 </section>
+
 
 <!-- 3. 凌晨枪声：激战南昌城（扩展完整版） -->
 <section class="mb-20 scroll-mt-16" id="process">
@@ -144,6 +161,12 @@ src="https://www.helloimg.com/i/2026/05/31/6a1c1b89e7c39.jpg"/>
 </li>
 </ul>
 </div>
+<!-- ========== 新增：视频嵌入区域（已补全样式） ========== -->
+<div class="video-container">
+    <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=297880008&bvid=BV1pF41137Dk&cid=567457654&p=1" 
+            scrolling="no" border="0" frameborder="no" framespacing="0" 
+            allowfullscreen="true"></iframe>
+</div>
 </section>
 
 <!-- 4. 深远意义：建军的开端（扩展完整版） -->
@@ -170,6 +193,8 @@ src="https://www.helloimg.com/i/2026/05/31/6a1c1b89e7c39.jpg"/>
 <p class="text-sm text-gray-600">为井冈山会师、农村根据地建设奠定基础。</p>
 </div>
 </div>
+<img alt="八一建军节" class="w-full rounded-xl my-8"
+src="/images/history/八一建军节.jpg"/>
 </section>
 
 <!-- 5. 原始文献：历史的见证（扩展完整版） -->
@@ -196,35 +221,66 @@ src="https://www.helloimg.com/i/2026/05/31/6a1c1b89e7c39.jpg"/>
 <p class="text-gray-600 text-sm leading-relaxed">记录7月25日至31日起义筹备全过程，包括决策讨论、兵力部署、分歧争论，是最核心的一手史料。</p>
 </div>
 </div>
+<img alt="南昌民国日报" class="w-full rounded-xl my-8"
+src="/images/history/南昌民国日报.jpg"/>
 </section>
 
+<!-- 6. 数字模型：还原历史场景（扩展完整版） -->
+<section class="mb-20 scroll-mt-16" id="model">
+<div class="flex items-center space-x-3 mb-8">
+<span class="text-5xl font-black text-red-100">06</span>
+<div>
+<h3 class="text-2xl font-bold text-gray-800">数字模型：还原历史场景</h3>
+<p class="text-sm text-gray-400">3D沉浸式体验南昌起义历史现场</p>
+</div>
+</div>
+<div class="prose prose-red max-w-none text-gray-700 leading-loose">
+<p class="mb-6">借助现代3D数字技术，我们精准还原了1927年南昌起义核心场景与建筑布局，通过交互式3D模型，您可以全方位、多角度查看起义指挥部、战斗核心区域等关键地点的细节，沉浸式感受那段波澜壮阔的革命历史。</p>
+<p class="mb-6">模型基于历史文献、老照片、实地测绘等多源资料构建，力求还原历史原貌，让您能够直观了解起义现场的空间布局、兵力部署和战斗进程，重温八一南昌起义的峥嵘岁月。</p>
+</div>
+<!-- 3D模型跳转按钮 -->
+<div class="flex justify-center mt-12">
+<a href="3d.html" class="inline-flex items-center justify-center bg-red-700 hover:bg-red-800 text-white font-bold py-4 px-8 rounded-lg shadow-lg transition-all hover:scale-105 hover:shadow-xl">
+    <span class="iconify mr-2" data-icon="ri:3d-box-line"></span>
+    进入雕塑《危难中奋起》3D模型沉浸式体验
+</a>
+</div>
+</section>
+<!-- 3D模型跳转按钮 -->
+<div class="flex justify-center mt-12">
+<a href="3d2.html" class="inline-flex items-center justify-center bg-red-700 hover:bg-red-800 text-white font-bold py-4 px-8 rounded-lg shadow-lg transition-all hover:scale-105 hover:shadow-xl">
+    <span class="iconify mr-2" data-icon="ri:3d-box-line"></span>
+    进入雕塑《石破天惊》3D模型沉浸式体验
+</a>
+</div>
+</section>
 <!-- 起义核心领导集体 -->
 <div class="py-12 border-t mt-16">
 <h4 class="text-center font-bold text-xl mb-10">起义核心领导集体</h4>
 <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
 <div class="text-center">
 <img alt="周恩来" class="w-24 h-24 rounded-full mx-auto grayscale hover:grayscale-0 cursor-pointer border-2 border-transparent hover:border-red-600 transition"
-src="https://www.helloimg.com/i/2026/05/31/6a1c368e9b95b.png"/>
+src="/images/role/周恩来.jpg"/>
 <p class="text-sm font-bold mt-3">周恩来</p>
 </div>
 <div class="text-center">
 <img alt="贺龙" class="w-24 h-24 rounded-full mx-auto grayscale hover:grayscale-0 cursor-pointer border-2 border-transparent hover:border-red-600 transition"
-src="https://www.helloimg.com/i/2026/05/31/6a1c1b9ede30a.jpg"/>
+src="/images/role/贺龙.jpg"/>
 <p class="text-sm font-bold mt-3">贺龙</p>
 </div>
 <div class="text-center">
 <img alt="叶挺" class="w-24 h-24 rounded-full mx-auto grayscale hover:grayscale-0 cursor-pointer border-2 border-transparent hover:border-red-600 transition"
-src="https://www.helloimg.com/i/2026/05/31/6a1c1baf0c5fd.jpg"/>
+src="/images/role/叶挺.jpg"/>
 <p class="text-sm font-bold mt-3">叶挺</p>
 </div>
 <div class="text-center">
 <img alt="朱德" class="w-24 h-24 rounded-full mx-auto grayscale hover:grayscale-0 cursor-pointer border-2 border-transparent hover:border-red-600 transition"
-src="https://www.helloimg.com/i/2026/05/31/6a1c1bb5d7a60.jpg"/>
+src="/images/role/朱德.jpg"/>
 <p class="text-sm font-bold mt-3">朱德</p>
 </div>
 <div class="text-center">
 <img alt="刘伯承" class="w-24 h-24 rounded-full mx-auto grayscale hover:grayscale-0 cursor-pointer border-2 border-transparent hover:border-red-600 transition"
-src="https://www.helloimg.com/i/2026/05/31/6a1c1ba6ddf07.jpg"/>
+src="/images/role/刘伯承.jpg"/>
 <p class="text-sm font-bold mt-3">刘伯承</p>
 </div>
 </div>

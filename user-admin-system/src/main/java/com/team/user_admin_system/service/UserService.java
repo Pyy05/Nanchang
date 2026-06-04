@@ -50,4 +50,36 @@ public class UserService {
     public SysUser getById(Integer id) {
         return userRepository.findById(id).orElse(null);
     }
+
+        /**
+     * 为指定用户增加积分
+     * @param userId 用户ID
+     * @param points 要增加的积分数值
+     */
+        public void addPoints(Integer userId, Integer points) {
+            // 根据用户ID查询用户信息
+            SysUser user = userRepository.findById(userId).orElse(null);
+            if (user != null) {
+                // 如果用户积分字段为null，初始化为0，防止空指针异常
+                if (user.getPoints() == null) {
+                    user.setPoints(0);
+                }
+                // 计算新积分：原积分 + 新增积分
+                user.setPoints(user.getPoints() + points);
+                // 保存更新后的用户信息到数据库
+                userRepository.save(user);
+            }
+        }
+
+        /**
+     * 获取积分排行榜
+     * @param limit 要返回的用户数量限制
+     * @return 按积分排序的用户列表（积分最高的在前）
+     */
+        public List<SysUser> getLeaderboard(int limit) {
+            // 创建分页请求，从第0页开始，限制返回用户数量为limit
+            return userRepository.findTopUsersByPoints(
+                org.springframework.data.domain.PageRequest.of(0, limit)
+            );
+        }
 }
