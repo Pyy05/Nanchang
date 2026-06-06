@@ -1,4 +1,4 @@
-package com.team.user_admin_system.module.service.impl;
+package com.team.user_admin_system.module.service;
 
 import com.team.user_admin_system.module.entity.Person;
 import java.util.List;
