@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>历史人物&事件配对游戏 | 英雄城红色记忆</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 卡牌翻转动画 */
+        .card {
+            perspective: 1000px;
+        }
+        .card-inner {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            backface-visibility: hidden;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+        /* 成功闪烁效果 */
+        .match-success {
+            animation: flash 0.8s ease;
+        }
+        @keyframes flash {
+            0%, 100% { background-color: #fef2f2; }
+            50% { background-color: #fca5a5; }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-red-50 to-orange-50 min-h-screen p-4">
+    <div class="max-w-4xl mx-auto">
+        <!-- 顶部标题与数据栏 -->
+        <div class="text-center mb-6">
+            <h1 class="text-3xl font-bold text-red-700 mb-2">📜 历史人物&事件配对</h1>
+            <p class="text-gray-600 mb-4">翻开卡牌，将<span class="text-red-600 font-semibold">历史事件</span>与<span class="text-red-600 font-semibold">对应人物</span>匹配成功即可消除</p>
+            <div class="flex justify-center gap-10 text-lg">
+                <div>得分：<span id="score" class="text-red-600 font-bold text-xl">0</span></div>
+                <div>剩余配对：<span id="remain" class="text-red-600 font-bold text-xl">8</span></div>
+            </div>
+        </div>
+
+        <!-- 游戏卡牌区域 -->
+        <div id="gameBox" class="grid grid-cols-4 md:grid-cols-5 gap-4"></div>
+
+        <!-- 游戏结束弹窗 -->
+        <div id="winModal" class="fixed inset-0 bg-black/50 flex items-center justify-center hidden">
+            <div class="bg-white rounded-xl p-8 text-center shadow-2xl">
+                <h2 class="text-2xl font-bold text-red-700 mb-4">🎉 恭喜全部配对成功！</h2>
+                <p class="mb-6">最终得分：<span id="finalScore" class="text-red-600 font-bold text-xl">0</span></p>
+                <button onclick="restartGame()" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition">
+                    重新开始
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 核心配对数据：事件 <--> 人物（南昌/红色历史主题）
+        const matchList = [
+            { event: "南昌起义", person: "周恩来" },
+            { event: "南昌起义", person: "贺龙" },
+            { event: "井冈山会师", person: "毛泽东" },
+            { event: "井冈山会师", person: "朱德" },
+            { event: "秋收起义", person: "毛泽东" },
+            { event: "长征", person: "红军战士" },
+            { event: "遵义会议", person: "毛泽东" },
+            { event: "八一精神", person: "革命先烈" }
+        ];
+
+        // 组装卡牌数组，区分类型
+        let cardData = [];
+        matchList.forEach(item => {
+            cardData.push({ type: "event", content: item.event, target: item.person });
+            cardData.push({ type: "person", content: item.person, target: item.event });
+        });
+
+        let firstCard = null;
+        let lock = false;
+        let score = 0;
+        let remainNum = matchList.length;
+        const gameBox = document.getElementById("gameBox");
+        const scoreDom = document.getElementById("score");
+        const remainDom = document.getElementById("remain");
+        const winModal = document.getElementById("winModal");
+        const finalScoreDom = document.getElementById("finalScore");
+
+        // 随机打乱数组
+        function shuffle(arr) {
+            return arr.sort(() => Math.random() - 0.5);
+        }
+
+        // 初始化游戏
+        function initGame() {
+            gameBox.innerHTML = "";
+            firstCard = null;
+            lock = false;
+            score = 0;
+            remainNum = matchList.length;
+            scoreDom.innerText = score;
+            remainDom.innerText = remainNum;
+            winModal.classList.add("hidden");
+
+            let shuffleCards = shuffle([...cardData]);
+            // 渲染卡牌
+            shuffleCards.forEach((item, index) => {
+                const card = document.createElement("div");
+                card.className = "card cursor-pointer";
+                card.dataset.type = item.type;
+                card.dataset.content = item.content;
+                card.dataset.target = item.target;
+
+                card.innerHTML = `
+                    <div class="card-inner relative h-24 md:h-28">
+                        <!-- 卡牌正面（默认封面） -->
+                        <div class="card-front absolute inset-0 bg-red-600 rounded-xl flex items-center justify-center text-white text-xl font-bold shadow-lg hover:bg-red-700 transition">
+                            ❓
+                        </div>
+                        <!-- 卡牌背面（内容） -->
+                        <div class="card-back absolute inset-0 bg-white rounded-xl flex items-center justify-center border-2 border-red-400 shadow-md p-2">
+                            <span class="text-gray-800 font-medium text-sm md:text-base">${item.content}</span>
+                        </div>
+                    </div>
+                `;
+
+                // 卡牌点击事件
+                card.addEventListener("click", () => {
+                    if (lock || card.classList.contains("flipped")) return;
+                    card.classList.add("flipped");
+
+                    // 选中第一张卡牌
+                    if (!firstCard) {
+                        firstCard = card;
+                    } else {
+                        // 选中第二张，开始匹配
+                        lock = true;
+                        let firstTarget = firstCard.dataset.target;
+                        let secondContent = card.dataset.content;
+                        let firstContent = firstCard.dataset.content;
+                        let secondTarget = card.dataset.target;
+
+                        // 匹配规则：事件对应人物 / 人物对应事件
+                        if (firstTarget === secondContent && secondTarget === firstContent) {
+                            // 配对成功
+                            score += 20;
+                            remainNum--;
+                            scoreDom.innerText = score;
+                            remainDom.innerText = remainNum;
+
+                            // 添加成功动画
+                            firstCard.classList.add("match-success");
+                            card.classList.add("match-success");
+                            lock = false;
+                            firstCard = null;
+
+                            // 判断游戏是否结束
+                            if (remainNum <= 0) {
+                                setTimeout(() => {
+                                    finalScoreDom.innerText = score;
+                                    winModal.classList.remove("hidden");
+                                }, 600);
+                            }
+                        } else {
+                            // 配对失败，翻回原样
+                            setTimeout(() => {
+                                firstCard.classList.remove("flipped");
+                                card.classList.remove("flipped");
+                                lock = false;
+                                firstCard = null;
+                            }, 1000);
+                        }
+                    }
+                });
+                gameBox.appendChild(card);
+            });
+        }
+
+        // 重新开始游戏
+        function restartGame() {
+            initGame();
+        }
+
+        // 页面加载自动启动游戏
+        window.onload = initGame;
+    </script>
+</body>
+</html>

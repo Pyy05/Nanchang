@@ -74,17 +74,45 @@ public class UserController {
 
         // 密码加密（核心安全功能）
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        // 普通用户角色
+        user.setRole("user");
         // 保存用户
         userService.register(user);
         return Result.success();
     }
+
+    // ===================== 【这里是我帮你加的：管理员注册接口】 =====================
+    /**
+     * 管理员注册接口（严格版）
+     * 地址：POST /user/admin/register
+     */
+    @PostMapping("/admin/register")
+    public Result<?> adminRegister(@RequestBody SysUser user) {
+        // 1. 检查用户名是否重复
+        SysUser exist = userService.login(user.getUsername());
+        if (exist != null) {
+            return Result.fail("用户名已存在");
+        }
+
+        // 2. 密码加密
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        // 3. 强制设置为管理员（存入用户表）
+        user.setRole("admin");
+
+        // 4. 保存到数据库
+        userService.register(user);
+
+        return Result.success("管理员注册成功");
+    }
+    // ============================================================================
 
     /**
      * 查询所有用户
      * 地址：GET /user/list
      */
     @GetMapping("/list")
-    public Result<List<SysUser>> list() {
+    public Result<List<SysUser>> getAllUsers() {
         List<SysUser> list = userService.getAll();
         return Result.success(list);
     }
@@ -94,7 +122,7 @@ public class UserController {
      * 地址：GET /user/get/1
      */
     @GetMapping("/get/{id}")
-    public Result<SysUser> get(@PathVariable Integer id) {
+    public Result<SysUser> getById(@PathVariable Integer id) {
         SysUser user = userService.getById(id);
         return Result.success(user);
     }

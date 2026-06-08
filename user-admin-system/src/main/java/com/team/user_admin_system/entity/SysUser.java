@@ -28,4 +28,7 @@ public class SysUser {
     private String phone; // 手机号（可选）
 
     private Integer points; // 积分（用户等级/积分系统）
+
+    // 👇 新增：角色字段（admin / user）
+    private String role;
 }

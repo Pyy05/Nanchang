@@ -41,7 +41,6 @@
                     <input id="password" class="w-full bg-white/70 border border-gray-300 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent" placeholder="输入密码" type="password" />
                 </div>
 
-
                 <div class="flex items-center justify-between text-base">
                     <label class="flex items-center text-gray-800">
                         <input class="mr-2" type="checkbox" required /> 登录即同意平台规定与条款
@@ -53,10 +52,18 @@
                     登录系统
                 </button>
             </form>
+            
+            <!-- 新增：管理员注册链接 -->
+            <div class="mt-4 text-center">
+                <a href="admin-register.html" class="text-sm text-blue-600 hover:underline font-medium">
+                    🗝️ 管理员专属注册入口
+                </a>
+            </div>
+
             <div class="mt-5 text-center">
                 <a href="register.html"
                    class="inline-block w-full py-3 px-4 bg-transparent border border-red-600 text-red-600 font-bold text-xl rounded-lg hover:bg-red-50 transition-all duration-200">
-                    立即注册
+                    立即注册普通用户
                 </a>
             </div>
             <div class="mt-6 pt-6 border-t text-center">
@@ -78,7 +85,7 @@
         }
         updateDate();
 
-        // ====================== 统一登录：根据user_id自动分流 ======================
+        // ====================== 统一登录：根据user_id/role自动分流 ======================
         function login() {
             let username = document.getElementById("username").value;
             let password = document.getElementById("password").value;
@@ -100,8 +107,8 @@
                     const user = data.data;
                     localStorage.setItem('currentUser', JSON.stringify(user));
 
-                    // 根据 user_id 分流：user_id=1 为管理员，其他为普通用户
-                    if (user.userId === 1) {
+                    // 优化分流逻辑：优先按role判断（更合理），兼容原user_id判断
+                    if (user.role === "admin" || user.userId === 1) {
                         alert("管理员登录成功！");
                         window.location.href = "admin-dashboard.html";
                     } else {
