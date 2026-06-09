@@ -45,4 +45,22 @@ public class MessageServiceImpl implements MessageService {
         
         return messageRepository.save(message);
     }
+
+        /**
+     * 删除留言
+     * 根据留言ID删除指定的留言记录，删除前先验证留言是否存在
+     * 
+     * @param messageId 留言ID
+     * @throws RuntimeException 当留言不存在时抛出异常
+     */
+        @Override
+        public void deleteMessage(Integer messageId) {
+            // 检查留言是否存在
+            if (!messageRepository.existsById(messageId)) {
+                // 留言不存在时抛出异常
+                throw new RuntimeException("留言不存在");
+            }
+            // 删除指定ID的留言记录
+            messageRepository.deleteById(messageId);
+        }
 }

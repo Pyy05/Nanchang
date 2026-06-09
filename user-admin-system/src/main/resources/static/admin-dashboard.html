@@ -34,13 +34,13 @@
 <span>系统用户管理</span>
 </a>
 <p class="text-[10px] uppercase font-bold text-slate-500 px-2 py-2 mt-6">互动与设置</p>
-<a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition" href="#">
+<a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition" href="admin-messages.html">
 <span class="iconify" data-icon="ri:message-3-line"></span>
-<span>问答管理</span>
+<span>留言管理</span>
 </a>
 <a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition" href="#">
 <span class="iconify" data-icon="ri:settings-4-line"></span>
-<span>全局设置</span>
+<span>题库管理</span>
 </a>
 </nav>
 <div class="p-6 border-t border-slate-800">
@@ -101,14 +101,14 @@
 </div>
 </div>
 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center space-x-4">
-<div class="bg-purple-50 text-purple-600 p-4 rounded-lg">
-<span class="iconify text-2xl" data-icon="ri:question-answer-line"></span>
-</div>
-<div>
-<p class="text-xs text-gray-500">解答疑问</p>
-<p class="text-2xl font-black text-gray-800">42</p>
-</div>
-</div>
+  <div class="bg-purple-50 text-purple-600 p-4 rounded-lg">
+  <span class="iconify text-2xl" data-icon="ri:question-answer-line"></span>
+  </div>
+  <div>
+  <p class="text-xs text-gray-500">解答疑问</p>
+  <p id="answeredCount" class="text-2xl font-black text-gray-800">0</p>
+  </div>
+  </div>
 </div>
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 <!-- 最近动态表格 -->
@@ -165,7 +165,24 @@
 window.onload = function(){
   let num = localStorage.getItem("eventNum") || "128";
   document.getElementById("eventCount").innerText = num;
+  
+  // 加载已回复留言数量
+  loadAnsweredCount();
 }
+
+async function loadAnsweredCount() {
+  try {
+    const response = await fetch('/api/message/list?status=1&page=0&size=1');
+    const result = await response.json();
+    
+    if (result.code === 1) {
+      document.getElementById('answeredCount').textContent = result.data.total || 0;
+    }
+  } catch (error) {
+    console.error('加载解答疑问数量失败:', error);
+  }
+}
+
 </script>
 </body>
 </html>

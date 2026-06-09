@@ -101,4 +101,27 @@ public class MessageController {
             return Result.fail("回复失败：" + e.getMessage());
         }
     }
+
+        /**
+     * 删除留言接口
+     * 根据留言ID删除指定的留言记录
+     * 
+     * @param messageId 留言ID，从URL路径中获取
+     * @return Result<Void> 删除成功返回成功结果，失败返回包含错误信息的失败结果
+     */
+    //    删除留言
+    @DeleteMapping("/delete/{messageId}")
+    public Result<Void> deleteMessage(@PathVariable Integer messageId) {
+        try {
+            // 调用Service层执行删除操作
+            messageService.deleteMessage(messageId);
+            // 删除成功，返回成功响应
+            return Result.success();
+        } catch (Exception e) {
+            // 打印异常堆栈信息，便于排查问题
+            e.printStackTrace();
+            // 删除失败，返回错误信息
+            return Result.fail("删除失败：" + e.getMessage());
+        }
+    }
 }

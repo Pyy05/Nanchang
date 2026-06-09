@@ -13,4 +13,6 @@ public interface MessageService {
     Page<Message> getMyMessages(Integer userId, Pageable pageable);
 
     Message replyMessage(Integer messageId, String replyContent);
+
+    void deleteMessage(Integer messageId);
 }

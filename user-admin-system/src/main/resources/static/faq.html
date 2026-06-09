@@ -7,22 +7,37 @@
 <title>互动问答 - 南昌历史云志</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+<style>
+    .red-accent { color: #C53030; }
+    .bg-red-accent { background-color: #C53030; }
+</style>
 </head>
-<body class="bg-gray-50">
-<nav class="bg-white border-b sticky top-0 z-50">
-<div class="max-w-5xl mx-auto px-4 h-16 flex justify-between items-center">
-<a class="font-bold flex items-center space-x-2" href="index.html">
-<span class="iconify text-xl text-red-600" data-icon="ri:question-answer-fill"></span>
-<span>问答探索</span>
-</a>
-<div class="space-x-4 text-xs">
-<a class="text-gray-500 hover:text-red-600" href="index.html">回首页</a>
-<a id="myQuestionsBtn" class="bg-red-600 text-white px-3 py-1.5 rounded-full cursor-pointer" onclick="showMyQuestions()">我的提问</a>
-<a id="loginLink" class="text-gray-500 hover:text-red-600" href="admin-login.html">登录</a>
-<span id="userInfo" class="hidden text-red-600 font-medium"></span>
+<body class="bg-slate-50 font-sans">
+<!-- 导航 -->
+<nav class="bg-white shadow-md sticky top-0 z-50">
+<div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
+<div class="flex items-center space-x-2">
+<span class="iconify text-3xl red-accent" data-icon="ri:ancient-pavilion-fill"></span>
+<span class="text-xl font-bold text-gray-800">南昌历史云志</span>
+</div>
+<div class="hidden md:flex space-x-8 text-gray-600 font-medium">
+<a class="hover:text-red-600" href="/index.html">首页</a>
+<a class="hover:text-red-600" href="/events.html">历史事件</a>
+<a class="hover:text-red-600" href="/special-81.html">八一专题</a>
+<a class="hover:text-red-600" href="/figures.html">历史人物</a>
+<a class="hover:text-red-600" href="/timeline.html">历史长河</a>
+<a class="red-accent border-b-2 border-red-600" href="/faq.html">用户留言</a>
+<a class="hover:text-red-600" href="quiz.html">互动答题</a>
+<a class="hover:text-red-600" href="/about.html">关于我们</a>
+<a class="hover:text-red-600" href="/profile.html">我的</a>
+</div>
+<div class="flex items-center space-x-4">
+<a class="p-2 text-gray-500 hover:bg-gray-100 rounded-full" href="/search.html"><span class="iconify text-xl" data-icon="ri:search-line"></span></a>
+<a class="bg-red-accent text-white px-4 py-2 rounded-md text-sm hover:bg-red-700" href="/admin-login.html">后台管理</a>
 </div>
 </div>
 </nav>
+
 <header class="bg-red-800 text-white py-16 px-4">
 <div class="max-w-3xl mx-auto text-center">
 <h1 class="text-3xl font-bold mb-4">南昌历史，你问我答</h1>
