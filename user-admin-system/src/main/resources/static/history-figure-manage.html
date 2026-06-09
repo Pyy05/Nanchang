@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>历史人物管理 | 英雄城红色记忆</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+<!-- 顶部导航 -->
+<div class="bg-red-600 text-white p-4 shadow-md">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-xl font-bold">🏛️ 历史人物管理（管理员后台）</h1>
+        <p class="text-sm opacity-80">添加、编辑、删除红色历史人物资料</p>
+    </div>
+</div>
+
+<div class="max-w-6xl mx-auto p-4 pt-6">
+
+    <!-- 添加/编辑表单 -->
+    <div class="bg-white rounded-xl shadow p-5 mb-6">
+        <h2 class="text-lg font-bold text-gray-700 mb-3">📝 添加 / 修改人物</h2>
+        <input type="hidden" id="id">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+            <input id="name" class="border p-2 rounded" placeholder="人物姓名（如：周恩来）">
+            <input id="title" class="border p-2 rounded" placeholder="头衔/身份（如：南昌起义总指挥）">
+            <input id="event" class="border p-2 rounded" placeholder="相关历史事件（如：南昌起义）">
+        </div>
+        <textarea id="description" class="w-full border p-2 rounded mb-3" rows="3" placeholder="人物详细介绍"></textarea>
+
+        <div class="flex gap-2">
+            <button onclick="saveFigure()" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                ✅ 保存人物
+            </button>
+            <button onclick="clearForm()" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">
+                🧹 清空表单
+            </button>
+        </div>
+    </div>
+
+    <!-- 列表 -->
+    <div class="bg-white rounded-xl shadow p-5">
+        <h2 class="text-lg font-bold text-gray-700 mb-3">📋 历史人物列表</h2>
+        <div class="overflow-x-auto">
+            <table class="w-full border text-sm">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="border p-2">ID</th>
+                        <th class="border p-2">姓名</th>
+                        <th class="border p-2">身份头衔</th>
+                        <th class="border p-2">相关事件</th>
+                        <th class="border p-2">操作</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script>
+// 加载人物列表
+function loadList() {
+    fetch("http://localhost:8080/history/figure/list")
+    .then(res => res.json())
+    .then(data => {
+        let arr = data.data || []
+        let html = ""
+        arr.forEach(item => {
+            html += `
+            <tr class="text-center">
+                <td class="border p-2">${item.id}</td>
+                <td class="border p-2">${item.name}</td>
+                <td class="border p-2">${item.title}</td>
+                <td class="border p-2">${item.event}</td>
+                <td class="border p-2">
+                    <button onclick="edit(${item.id})" class="text-blue-600 mr-2">编辑</button>
+                    <button onclick="del(${item.id})" class="text-red-600">删除</button>
+                </td>
+            </tr>`
+        })
+        document.getElementById("tableBody").innerHTML = html
+    })
+}
+
+// 保存（新增/修改）
+function saveFigure() {
+    let figure = {
+        id: document.getElementById("id").value || null,
+        name: document.getElementById("name").value,
+        title: document.getElementById("title").value,
+        event: document.getElementById("event").value,
+        description: document.getElementById("description").value
+    }
+
+    fetch("http://localhost:8080/history/figure/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(figure)
+    }).then(res => res.json())
+      .then(data => {
+        alert("✅ 保存成功！")
+        clearForm()
+        loadList()
+    })
+}
+
+// 编辑
+function edit(id) {
+    fetch("http://localhost:8080/history/figure/get/" + id)
+    .then(res => res.json())
+    .then(data => {
+        let item = data.data
+        document.getElementById("id").value = item.id
+        document.getElementById("name").value = item.name
+        document.getElementById("title").value = item.title
+        document.getElementById("event").value = item.event
+        document.getElementById("description").value = item.description
+    })
+}
+
+// 删除
+function del(id) {
+    if (!confirm("确定删除该人物？")) return
+    fetch("http://localhost:8080/history/figure/delete/" + id)
+    .then(res => res.json())
+    .then(data => {
+        alert("🗑️ 删除成功")
+        loadList()
+    })
+}
+
+// 清空表单
+function clearForm() {
+    document.getElementById("id").value = ""
+    document.getElementById("name").value = ""
+    document.getElementById("title").value = ""
+    document.getElementById("event").value = ""
+    document.getElementById("description").value = ""
+}
+
+// 初始化
+window.onload = loadList
+</script>
+</body>
+</html>
