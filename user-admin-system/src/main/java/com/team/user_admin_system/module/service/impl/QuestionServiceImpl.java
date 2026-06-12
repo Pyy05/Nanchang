@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class QuestionServiceImpl implements QuestionService {
@@ -93,5 +94,55 @@ public class QuestionServiceImpl implements QuestionService {
         }
 
         return result;
+    }
+
+    @Override
+    public List<Question> getAllQuestions() {
+        return questionRepository.findAll();
+    }
+
+    @Override
+    public Question getQuestionById(Integer id) {
+        Optional<Question> question = questionRepository.findById(id);
+        return question.orElse(null);
+    }
+
+    @Override
+    public Question addQuestion(Question question) {
+        if (question.getScore() == null) {
+            question.setScore(1);
+        }
+        return questionRepository.save(question);
+    }
+
+    @Override
+    public Question updateQuestion(Integer id, Question question) {
+        Optional<Question> existingQuestion = questionRepository.findById(id);
+        if (existingQuestion.isPresent()) {
+            Question q = existingQuestion.get();
+            q.setContent(question.getContent());
+            q.setOptionA(question.getOptionA());
+            q.setOptionB(question.getOptionB());
+            q.setOptionC(question.getOptionC());
+            q.setOptionD(question.getOptionD());
+            q.setAnswer(question.getAnswer());
+            q.setAnalysis(question.getAnalysis());
+            q.setContentType(question.getContentType());
+            q.setContentId(question.getContentId());
+            if (question.getScore() != null) {
+                q.setScore(question.getScore());
+            }
+            return questionRepository.save(q);
+        }
+        return null;
+    }
+
+    @Override
+    public boolean deleteQuestion(Integer id) {
+        if (questionRepository.existsById(id)) {
+            questionRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

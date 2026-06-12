@@ -188,4 +188,133 @@ public class QuestionController {
                 return Result.fail("获取排行榜失败：" + e.getMessage());
             }
         }
+
+        @GetMapping("/list")
+    public Result<List<Question>> getAllQuestions() {
+        try {
+            List<Question> questions = questionService.getAllQuestions();
+            return Result.success(questions);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.fail("获取题目列表失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/{id}")
+    public Result<Question> getQuestionById(@PathVariable Integer id) {
+        try {
+            Question question = questionService.getQuestionById(id);
+            if (question != null) {
+                return Result.success(question);
+            } else {
+                return Result.fail("题目不存在");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.fail("获取题目失败：" + e.getMessage());
+        }
+    }
+
+        @PostMapping("/add")
+    public Result<Question> addQuestion(@RequestBody Question question) {
+        try {
+            if (question.getContent() == null || question.getContent().trim().isEmpty()) {
+                return Result.fail("题目内容不能为空");
+            }
+            if (question.getOptionA() == null || question.getOptionA().trim().isEmpty()) {
+                return Result.fail("选项A不能为空");
+            }
+            if (question.getOptionB() == null || question.getOptionB().trim().isEmpty()) {
+                return Result.fail("选项B不能为空");
+            }
+            if (question.getOptionC() == null || question.getOptionC().trim().isEmpty()) {
+                return Result.fail("选项C不能为空");
+            }
+            if (question.getOptionD() == null || question.getOptionD().trim().isEmpty()) {
+                return Result.fail("选项D不能为空");
+            }
+            if (question.getAnswer() == null || question.getAnswer().trim().isEmpty()) {
+                return Result.fail("答案不能为空");
+            }
+            if (question.getContentType() == null) {
+                return Result.fail("关联类型不能为空");
+            }
+            if (question.getContentId() == null) {
+                return Result.fail("关联内容不能为空");
+            }
+            if (question.getAnalysis() == null || question.getAnalysis().trim().isEmpty()) {
+                return Result.fail("答案解析不能为空");
+            }
+            if (question.getScore() == null || question.getScore() < 1) {
+                question.setScore(1);
+            }
+            Question savedQuestion = questionService.addQuestion(question);
+            return Result.success(savedQuestion);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.fail("添加题目失败：" + e.getMessage());
+        }
+    }
+
+    @PutMapping("/update/{id}")
+    public Result<Question> updateQuestion(@PathVariable Integer id, @RequestBody Question question) {
+        try {
+            if (question.getContent() == null || question.getContent().trim().isEmpty()) {
+                return Result.fail("题目内容不能为空");
+            }
+            if (question.getOptionA() == null || question.getOptionA().trim().isEmpty()) {
+                return Result.fail("选项A不能为空");
+            }
+            if (question.getOptionB() == null || question.getOptionB().trim().isEmpty()) {
+                return Result.fail("选项B不能为空");
+            }
+            if (question.getOptionC() == null || question.getOptionC().trim().isEmpty()) {
+                return Result.fail("选项C不能为空");
+            }
+            if (question.getOptionD() == null || question.getOptionD().trim().isEmpty()) {
+                return Result.fail("选项D不能为空");
+            }
+            if (question.getAnswer() == null || question.getAnswer().trim().isEmpty()) {
+                return Result.fail("答案不能为空");
+            }
+            if (question.getContentType() == null) {
+                return Result.fail("关联类型不能为空");
+            }
+            if (question.getContentId() == null) {
+                return Result.fail("关联内容不能为空");
+            }
+            if (question.getAnalysis() == null || question.getAnalysis().trim().isEmpty()) {
+                return Result.fail("答案解析不能为空");
+            }
+            if (question.getScore() == null || question.getScore() < 1) {
+                question.setScore(1);
+            }
+            Question updatedQuestion = questionService.updateQuestion(id, question);
+            if (updatedQuestion != null) {
+                return Result.success(updatedQuestion);
+            } else {
+                return Result.fail("题目不存在");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.fail("更新题目失败：" + e.getMessage());
+        }
+    }
+
+    
+
+    @DeleteMapping("/delete/{id}")
+    public Result<String> deleteQuestion(@PathVariable Integer id) {
+        try {
+            boolean deleted = questionService.deleteQuestion(id);
+            if (deleted) {
+                return Result.success("删除成功");
+            } else {
+                return Result.fail("题目不存在或删除失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.fail("删除题目失败：" + e.getMessage());
+        }
+    }
 }

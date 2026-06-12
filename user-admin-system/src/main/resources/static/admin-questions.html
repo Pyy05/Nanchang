@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>题库管理 - 南昌历史云志</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+</head>
+<body class="bg-blue-100 min-h-screen flex">
+
+<!-- 侧边栏 -->
+<aside class="w-64 bg-slate-900 text-white flex flex-col shrink-0">
+    <div class="p-6 border-b border-slate-400 flex items-center space-x-2">
+        <span class="iconify text-red-600 text-2xl" data-icon="ri:dashboard-3-line"></span>
+        <span class="font-bold tracking-wider">管理后台</span>
+    </div>
+    <nav class="flex-grow p-4 space-y-2 text-sm text-slate-400">
+        <p class="text-[10px] uppercase font-bold text-slate-500 px-2 py-2">核心看板</p>
+        <a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition" href="admin-dashboard.html">
+            <span class="iconify" data-icon="ri:home-gear-line"></span>
+            <span>主面板</span>
+        </a>
+        <p class="text-[10px] uppercase font-bold text-slate-500 px-2 py-2 mt-6">内容维护</p>
+        <a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition" href="admin-history.html">
+            <span class="iconify" data-icon="ri:book-read-line"></span>
+            <span>历史事件管理</span>
+        </a>
+        <a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition" href="admin-people.html">
+            <span class="iconify" data-icon="ri:user-star-line"></span>
+            <span>历史人物管理</span>
+        </a>
+        <a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition" href="admin-users.html">
+            <span class="iconify" data-icon="ri:team-line"></span>
+            <span>系统用户管理</span>
+        </a>
+        <p class="text-[10px] uppercase font-bold text-slate-500 px-2 py-2 mt-6">互动与设置</p>
+        <a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition" href="admin-messages.html">
+            <span class="iconify" data-icon="ri:message-3-line"></span>
+            <span>留言管理</span>
+        </a>
+        <a class="flex items-center space-x-3 bg-red-600 text-white p-3 rounded-lg" href="admin-questions.html">
+            <span class="iconify" data-icon="ri:settings-4-line"></span>
+            <span>题库管理</span>
+        </a>
+    </nav>
+    <div class="p-6 border-t border-slate-800">
+        <a class="text-xs flex items-center space-x-2 text-slate-500 hover:text-white" href="index.html">
+            <span class="iconify" data-icon="ri:logout-box-line"></span>
+            <span>返回前台预览</span>
+        </a>
+    </div>
+</aside>
+
+<!-- 主内容区 -->
+<div class="flex-grow flex flex-col h-screen overflow-y-auto">
+    <!-- 顶部条 -->
+    <header class="bg-white h-16 border-b px-8 flex justify-between items-center shrink-0">
+        <h2 class="font-bold text-gray-700">题库管理</h2>
+        <button onclick="openAddModal()" class="bg-red-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-700 transition flex items-center space-x-2">
+            <span class="iconify" data-icon="ri:add-line"></span>
+            <span>新增题目</span>
+        </button>
+    </header>
+
+    <main class="p-8">
+        <!-- 统计卡片 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center space-x-4">
+                <div class="bg-blue-50 text-blue-600 p-4 rounded-lg">
+                    <span class="iconify text-2xl" data-icon="ri:question-answer-line"></span>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-500">题目总数</p>
+                    <p id="totalCount" class="text-2xl font-black text-gray-800">0</p>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center space-x-4">
+                <div class="bg-purple-50 text-purple-600 p-4 rounded-lg">
+                    <span class="iconify text-2xl" data-icon="ri:book-mark-line"></span>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-500">事件类题目</p>
+                    <p id="eventCount" class="text-2xl font-black text-gray-800">0</p>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center space-x-4">
+                <div class="bg-green-50 text-green-600 p-4 rounded-lg">
+                    <span class="iconify text-2xl" data-icon="ri:user-star-line"></span>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-500">人物类题目</p>
+                    <p id="personCount" class="text-2xl font-black text-gray-800">0</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 筛选和操作区 -->
+        <div class="bg-white rounded-xl shadow-sm border p-6 mb-6">
+            <div class="flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center space-x-3">
+                    <button onclick="filterQuestions('all')" id="btn-all" class="px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700 transition">
+                        全部题目
+                    </button>
+                    <button onclick="filterQuestions('event')" id="btn-event" class="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:border-red-600 hover:text-red-600 transition">
+                        事件类
+                    </button>
+                    <button onclick="filterQuestions('person')" id="btn-person" class="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:border-red-600 hover:text-red-600 transition">
+                        人物类
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 题目列表 -->
+        <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-gray-50 text-gray-400">
+                    <tr>
+                        <th class="px-6 py-3 font-medium">题目内容</th>
+                        <th class="px-6 py-3 font-medium">类型</th>
+                        <th class="px-6 py-3 font-medium">关联内容</th>
+                        <th class="px-6 py-3 font-medium">答案</th>
+                        <th class="px-6 py-3 font-medium">分值</th>
+                        <th class="px-6 py-3 font-medium">操作</th>
+                    </tr>
+                </thead>
+                <tbody id="questionList" class="divide-y text-gray-600">
+                    <!-- 动态加载 -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+<!-- 新增/编辑题目模态框 -->
+<div id="questionModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+        <div class="p-6 border-b flex justify-between items-center">
+            <h3 id="modalTitle" class="text-xl font-bold text-gray-800">新增题目</h3>
+            <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+                <span class="iconify text-2xl" data-icon="ri:close-line"></span>
+            </button>
+        </div>
+        
+                <form id="questionForm" class="p-6 space-y-5">
+            <input type="hidden" id="questionId">
+            
+            <div>
+                <label class="block mb-2 text-sm font-medium text-gray-700">题目内容 <span class="text-red-500">*</span></label>
+                <textarea id="content" required rows="3" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-red-500 focus:border-transparent" placeholder="请输入题目内容"></textarea>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-700">选项A <span class="text-red-500">*</span></label>
+                    <input type="text" id="optionA" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-red-500 focus:border-transparent" placeholder="选项A内容">
+                </div>
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-700">选项B <span class="text-red-500">*</span></label>
+                    <input type="text" id="optionB" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-red-500 focus:border-transparent" placeholder="选项B内容">
+                </div>
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-700">选项C <span class="text-red-500">*</span></label>
+                    <input type="text" id="optionC" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-red-500 focus:border-transparent" placeholder="选项C内容">
+                </div>
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-700">选项D <span class="text-red-500">*</span></label>
+                    <input type="text" id="optionD" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-red-500 focus:border-transparent" placeholder="选项D内容">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-700">正确答案 <span class="text-red-500">*</span></label>
+                    <select id="answer" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                        <option value="">请选择</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-700">题目分值</label>
+                    <input type="number" id="score" value="1" min="1" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-red-500 focus:border-transparent" placeholder="默认1分">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-700">关联类型 <span class="text-red-500">*</span></label>
+                    <select id="contentType" required onchange="loadContentOptions()" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                        <option value="">请选择</option>
+                        <option value="event">历史事件</option>
+                        <option value="person">历史人物</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-700">关联内容 <span class="text-red-500">*</span></label>
+                    <select id="contentId" required disabled class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-red-500 focus:border-transparent bg-gray-50">
+                        <option value="">请先选择关联类型</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <label class="block mb-2 text-sm font-medium text-gray-700">答案解析 <span class="text-red-500">*</span></label>
+                <textarea id="analysis" required rows="3" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-red-500 focus:border-transparent" placeholder="请输入答案解析"></textarea>
+            </div>
+
+            <div class="flex justify-end space-x-3 pt-4 border-t">
+                <button type="button" onclick="closeModal()" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition">
+                    取消
+                </button>
+                <button type="submit" class="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-medium">
+                    保存
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 删除确认模态框 -->
+<div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 p-6">
+        <div class="text-center">
+            <span class="iconify text-5xl text-red-600 mb-4 inline-block" data-icon="ri:error-warning-line"></span>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">确认删除</h3>
+            <p class="text-gray-600 mb-6">确定要删除这道题目吗？此操作不可恢复。</p>
+            <div class="flex justify-center space-x-3">
+                <button onclick="closeDeleteModal()" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition">
+                    取消
+                </button>
+                <button onclick="confirmDelete()" class="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-medium">
+                    确认删除
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentFilter = 'all';
+    let allQuestions = [];
+    let currentDeleteId = null;
+    let eventsList = [];
+    let personsList = [];
+    let isDataLoaded = false;
+    
+    document.addEventListener('DOMContentLoaded', async () => {
+        await Promise.all([
+            loadQuestions(),
+            loadStatistics(),
+            loadEventsAndPersons()
+        ]);
+        isDataLoaded = true;
+        renderQuestions();
+    });
+    
+    async function loadQuestions() {
+        try {
+            const response = await fetch('/api/question/list');
+            const result = await response.json();
+            
+            if (result.code === 1) {
+                allQuestions = result.data;
+            } else {
+                console.error('加载失败：', result.msg);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+    
+    function renderQuestions() {
+        const container = document.getElementById('questionList');
+        let filtered = allQuestions;
+        
+        if (currentFilter !== 'all') {
+            filtered = allQuestions.filter(q => q.contentType === currentFilter);
+        }
+        
+        if (filtered.length === 0) {
+            container.innerHTML = `
+                <tr>
+                    <td colspan="6" class="px-6 py-12 text-center text-gray-500">
+                        <span class="iconify text-4xl mb-2 inline-block" data-icon="ri:inbox-line"></span>
+                        <p>暂无题目数据</p>
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+        
+        container.innerHTML = filtered.map(q => {
+            const typeBadge = q.contentType === 'event' 
+                ? '<span class="bg-purple-100 text-purple-700 px-2 py-1 rounded text-xs">事件类</span>'
+                : q.contentType === 'person'
+                ? '<span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs">人物类</span>'
+                : '<span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">通用</span>';
+            
+            const contentName = getContentName(q.contentType, q.contentId);
+            
+            return `
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 max-w-xs truncate" title="${escapeHtml(q.content)}">${escapeHtml(q.content.substring(0, 50))}${q.content.length > 50 ? '...' : ''}</td>
+                    <td class="px-6 py-4">${typeBadge}</td>
+                    <td class="px-6 py-4">${contentName}</td>
+                    <td class="px-6 py-4"><span class="font-bold text-red-600">${q.answer}</span></td>
+                    <td class="px-6 py-4">${q.score || 1}分</td>
+                    <td class="px-6 py-4 space-x-2">
+                        <button onclick="openEditModal(${q.questionId})" class="text-blue-600 hover:text-blue-800">
+                            <span class="iconify" data-icon="ri:edit-line"></span>
+                        </button>
+                        <button onclick="openDeleteModal(${q.questionId})" class="text-red-600 hover:text-red-800">
+                            <span class="iconify" data-icon="ri:delete-bin-line"></span>
+                        </button>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+    }
+    
+    function getContentName(contentType, contentId) {
+        if (!contentType || !contentId) return '-';
+        
+        if (contentType === 'event') {
+            const event = eventsList.find(e => e.id === contentId);
+            return event ? `[${event.dynasty || '未知'}] ${event.name}` : `事件#${contentId}`;
+        } else if (contentType === 'person') {
+            const person = personsList.find(p => p.id === contentId);
+            return person ? `[${person.dynasty || '未知'}] ${person.name}` : `人物#${contentId}`;
+        }
+        return '-';
+    }
+    
+    async function loadStatistics() {
+        try {
+            const response = await fetch('/api/question/list');
+            const result = await response.json();
+            
+            if (result.code === 1) {
+                const questions = result.data;
+                document.getElementById('totalCount').textContent = questions.length;
+                
+                const eventCount = questions.filter(q => q.contentType === 'event').length;
+                document.getElementById('eventCount').textContent = eventCount;
+                
+                const personCount = questions.filter(q => q.contentType === 'person').length;
+                document.getElementById('personCount').textContent = personCount;
+            }
+        } catch (error) {
+            console.error('加载统计数据失败:', error);
+        }
+    }
+    
+    async function loadEventsAndPersons() {
+        try {
+            const [eventsRes, personsRes] = await Promise.all([
+                fetch('/api/event/simple-list'),
+                fetch('/api/person/simple-list')
+            ]);
+            
+            const eventsResult = await eventsRes.json();
+            const personsResult = await personsRes.json();
+            
+            if (Array.isArray(eventsResult)) {
+                eventsList = eventsResult;
+            }
+            if (Array.isArray(personsResult)) {
+                personsList = personsResult;
+            }
+        } catch (error) {
+            console.error('加载事件和人物列表失败:', error);
+        }
+    }
+    
+    function filterQuestions(type) {
+        currentFilter = type;
+        updateFilterButtons();
+        renderQuestions();
+    }
+    
+    function updateFilterButtons() {
+        document.getElementById('btn-all').className = currentFilter === 'all' 
+            ? 'px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700 transition'
+            : 'px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:border-red-600 hover:text-red-600 transition';
+        
+        document.getElementById('btn-event').className = currentFilter === 'event'
+            ? 'px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700 transition'
+            : 'px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:border-red-600 hover:text-red-600 transition';
+        
+        document.getElementById('btn-person').className = currentFilter === 'person'
+            ? 'px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700 transition'
+            : 'px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:border-red-600 hover:text-red-600 transition';
+    }
+    
+    function openAddModal() {
+        document.getElementById('modalTitle').textContent = '新增题目';
+        document.getElementById('questionForm').reset();
+        document.getElementById('questionId').value = '';
+        document.getElementById('score').value = '1';
+        document.getElementById('contentId').disabled = true;
+        document.getElementById('contentId').innerHTML = '<option value="">请先选择关联类型</option>';
+        document.getElementById('questionModal').classList.remove('hidden');
+        document.getElementById('questionModal').classList.add('flex');
+    }
+    
+    async function openEditModal(id) {
+        try {
+            const response = await fetch(`/api/question/${id}`);
+            const result = await response.json();
+            
+            if (result.code === 1) {
+                const q = result.data;
+                document.getElementById('modalTitle').textContent = '编辑题目';
+                document.getElementById('questionId').value = q.questionId;
+                document.getElementById('content').value = q.content;
+                document.getElementById('optionA').value = q.optionA || '';
+                document.getElementById('optionB').value = q.optionB || '';
+                document.getElementById('optionC').value = q.optionC || '';
+                document.getElementById('optionD').value = q.optionD || '';
+                document.getElementById('answer').value = q.answer;
+                document.getElementById('score').value = q.score || 1;
+                document.getElementById('contentType').value = q.contentType || '';
+                document.getElementById('analysis').value = q.analysis || '';
+                
+                if (q.contentType) {
+                    await loadContentOptions();
+                    setTimeout(() => {
+                        document.getElementById('contentId').value = q.contentId || '';
+                    }, 100);
+                }
+                
+                document.getElementById('questionModal').classList.remove('hidden');
+                document.getElementById('questionModal').classList.add('flex');
+            } else {
+                alert('获取题目信息失败：' + result.msg);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('网络错误，请稍后重试');
+        }
+    }
+    
+    function closeModal() {
+        document.getElementById('questionModal').classList.add('hidden');
+        document.getElementById('questionModal').classList.remove('flex');
+    }
+    
+    async function loadContentOptions() {
+        const type = document.getElementById('contentType').value;
+        const selectElement = document.getElementById('contentId');
+        
+        selectElement.innerHTML = '<option value="">-- 请选择 --</option>';
+        
+        if (!type) {
+            selectElement.disabled = true;
+            selectElement.innerHTML = '<option value="">请先选择关联类型</option>';
+            return;
+        }
+        
+        selectElement.disabled = false;
+        
+        const list = type === 'event' ? eventsList : personsList;
+        
+        if (list && list.length > 0) {
+            list.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.id;
+                option.textContent = `[${item.dynasty || '未知'}] ${item.name}`;
+                selectElement.appendChild(option);
+            });
+        } else {
+            selectElement.innerHTML = '<option value="">暂无数据</option>';
+        }
+    }
+    
+        document.getElementById('questionForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const content = document.getElementById('content').value.trim();
+        const optionA = document.getElementById('optionA').value.trim();
+        const optionB = document.getElementById('optionB').value.trim();
+        const optionC = document.getElementById('optionC').value.trim();
+        const optionD = document.getElementById('optionD').value.trim();
+        const answer = document.getElementById('answer').value;
+        const contentType = document.getElementById('contentType').value;
+        const contentId = document.getElementById('contentId').value;
+        const analysis = document.getElementById('analysis').value.trim();
+        const score = document.getElementById('score').value;
+        
+        if (!content) {
+            alert('请填写题目内容');
+            return;
+        }
+        
+        if (!optionA || !optionB || !optionC || !optionD) {
+            alert('请填写所有选项（A、B、C、D）');
+            return;
+        }
+        
+        if (!answer) {
+            alert('请选择正确答案');
+            return;
+        }
+        
+        if (!contentType) {
+            alert('请选择关联类型');
+            return;
+        }
+        
+        if (!contentId) {
+            alert('请选择关联内容');
+            return;
+        }
+        
+        if (!analysis) {
+            alert('请填写答案解析');
+            return;
+        }
+        
+        const id = document.getElementById('questionId').value;
+        const questionData = {
+            content: content,
+            optionA: optionA,
+            optionB: optionB,
+            optionC: optionC,
+            optionD: optionD,
+            answer: answer,
+            analysis: analysis,
+            contentType: contentType,
+            contentId: parseInt(contentId),
+            score: parseInt(score) || 1
+        };
+        
+        try {
+            let url, method;
+            if (id) {
+                url = `/api/question/update/${id}`;
+                method = 'PUT';
+            } else {
+                url = '/api/question/add';
+                method = 'POST';
+            }
+            
+            const response = await fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(questionData)
+            });
+            
+            const result = await response.json();
+            
+            if (result.code === 1) {
+                alert(id ? '修改成功！' : '添加成功！');
+                closeModal();
+                await loadQuestions();
+                await loadStatistics();
+                renderQuestions();
+            } else {
+                alert('操作失败：' + (result.msg || '未知错误'));
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('网络错误，请稍后重试');
+        }
+    });
+    
+    function openDeleteModal(id) {
+        currentDeleteId = id;
+        document.getElementById('deleteModal').classList.remove('hidden');
+        document.getElementById('deleteModal').classList.add('flex');
+    }
+    
+    function closeDeleteModal() {
+        document.getElementById('deleteModal').classList.add('hidden');
+        document.getElementById('deleteModal').classList.remove('flex');
+        currentDeleteId = null;
+    }
+    
+    async function confirmDelete() {
+        if (!currentDeleteId) return;
+        
+        try {
+            const response = await fetch(`/api/question/delete/${currentDeleteId}`, {
+                method: 'DELETE'
+            });
+            
+            const result = await response.json();
+            
+            if (result.code === 1) {
+                alert('删除成功！');
+                closeDeleteModal();
+                await loadQuestions();
+                await loadStatistics();
+                renderQuestions();
+            } else {
+                alert('删除失败：' + (result.msg || '未知错误'));
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('网络错误，请稍后重试');
+        }
+    }
+    
+    function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+    </script>
+</body>
+</html>
