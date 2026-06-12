@@ -18,4 +18,14 @@ public interface QuestionService {
     List<Question> getRandomQuestionsByPerson(Integer personId, int count);
 
     Map<String, Object> submitAnswer(Integer userId, Integer questionId, String userAnswer);
+
+    List<Question> getAllQuestions();
+
+    Question getQuestionById(Integer id);
+
+    Question addQuestion(Question question);
+
+    Question updateQuestion(Integer id, Question question);
+
+    boolean deleteQuestion(Integer id);
 }
