@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>答题统计 - 南昌历史云志管理后台</title>
+<script src="https://cdn.tailwindcss.com" async></script>
+<script src="https://code.iconify.design/3/3.1.1/iconify.min.js" async onload="initIcons()"></script>
+<style>
+/* 柱状图样式 */
+.bar-chart-container {
+    position: relative;
+    height: 200px;
+    width: 100%;
+}
+
+.bar-chart {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    padding: 0 5%;
+}
+
+.chart-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    pointer-events: none;
+}
+
+.grid-line {
+    height: 1px;
+    background-color: #e5e7eb;
+}
+
+.chart-bar {
+    width: 12%;
+    background: linear-gradient(180deg, #ef4444 0%, #dc2626 100%);
+    border-radius: 4px 4px 0 0;
+    transition: height 0.3s ease, background 0.3s ease;
+    position: relative;
+    min-height: 4px;
+}
+
+.chart-bar:hover {
+    background: linear-gradient(180deg, #f87171 0%, #ef4444 100%);
+}
+
+.chart-labels {
+    position: absolute;
+    bottom: -25px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    padding: 0 5%;
+}
+
+.chart-label {
+    font-size: 12px;
+    color: #6b7280;
+    text-align: center;
+    width: 12%;
+}
+
+.chart-values {
+    position: absolute;
+    top: -25px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    padding: 0 5%;
+}
+
+.chart-value {
+    font-size: 12px;
+    color: #ef4444;
+    font-weight: bold;
+    text-align: center;
+    width: 12%;
+}
+</style>
+</head>
+<body class="bg-blue-100 min-h-screen flex">
+<!-- 侧边栏 -->
+<aside class="w-64 bg-slate-900 text-white flex flex-col shrink-0">
+<div class="p-6 border-b border-slate-400 flex items-center space-x-2">
+<span class="iconify text-red-600 text-2xl" data-icon="ri:dashboard-3-line"></span>
+<span class="font-bold tracking-wider">管理后台</span>
+</div>
+<nav class="flex-grow p-4 space-y-2 text-sm text-slate-400">
+<p class="text-[10px] uppercase font-bold text-slate-500 px-2 py-2">核心看板</p>
+<a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition" href="admin-dashboard.html">
+<span class="iconify" data-icon="ri:home-gear-line"></span>
+<span>主面板</span>
+</a>
+<p class="text-[10px] uppercase font-bold text-slate-500 px-2 py-2 mt-6">内容维护</p>
+<a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition" href="admin-history.html">
+<span class="iconify" data-icon="ri:book-read-line"></span>
+<span>历史事件管理</span>
+</a>
+<a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition" href="admin-people.html">
+<span class="iconify" data-icon="ri:user-star-line"></span>
+<span>历史人物管理</span>
+</a>
+<a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition" href="admin-users.html">
+<span class="iconify" data-icon="ri:team-line"></span>
+<span>系统用户管理</span>
+</a>
+<p class="text-[10px] uppercase font-bold text-slate-500 px-2 py-2 mt-6">互动与设置</p>
+<a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition" href="admin-messages.html">
+<span class="iconify" data-icon="ri:message-3-line"></span>
+<span>留言管理</span>
+</a>
+<a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition" href="admin-questions.html">
+<span class="iconify" data-icon="ri:settings-4-line"></span>
+<span>题库管理</span>
+</a>
+<a class="flex items-center space-x-3 bg-red-600 text-white p-3 rounded-lg" href="admin-quiz-statistics.html">
+<span class="iconify" data-icon="ri:bar-chart-line"></span>
+<span>答题统计</span>
+</a>
+</nav>
+<div class="p-6 border-t border-slate-800">
+<a class="text-xs flex items-center space-x-2 text-slate-500 hover:text-white" href="index.html">
+<span class="iconify" data-icon="ri:logout-box-line"></span>
+<span>返回前台预览</span>
+</a>
+</div>
+</aside>
+<!-- 主内容区 -->
+<div class="flex-grow flex flex-col h-screen overflow-y-auto">
+<!-- 顶部条 -->
+<header class="bg-white h-16 border-b px-8 flex justify-between items-center shrink-0">
+<h2 class="font-bold text-gray-700">答题统计</h2>
+<div class="flex items-center space-x-6 text-gray-500">
+<div class="relative">
+<span class="iconify text-xl" data-icon="ri:notification-3-line"></span>
+<span class="absolute -top-1 -right-1 bg-red-600 w-2 h-2 rounded-full border border-white"></span>
+</div>
+<div class="flex items-center space-x-3">
+<div class="text-right hidden sm:block">
+<p class="text-xs font-bold text-gray-800">管理员</p>
+<p class="text-[10px]">超级管理员</p>
+</div>
+<img class="w-8 h-8 rounded-full border" src="https://i.cetsteam.com/imgs/2026/03/22/78bdfedcbd73c77d.png"/>
+</div>
+</div>
+</header>
+<!-- 面板主区 -->
+<main class="p-8">
+<!-- 数据汇总卡片 -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+<div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+<div class="flex items-center space-x-4">
+<div class="bg-red-50 text-red-600 p-3 rounded-lg">
+<span class="iconify text-xl" data-icon="ri:clipboard-list-line"></span>
+</div>
+<div>
+<p class="text-xs text-gray-500">总答题数</p>
+<p id="totalQuizCount" class="text-xl font-black text-gray-800">-</p>
+</div>
+</div>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+<div class="flex items-center space-x-4">
+<div class="bg-blue-50 text-blue-600 p-3 rounded-lg">
+<span class="iconify text-xl" data-icon="ri:users-line"></span>
+</div>
+<div>
+<p class="text-xs text-gray-500">系统用户</p>
+<p id="totalUserCount" class="text-xl font-black text-gray-800">-</p>
+</div>
+</div>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+<div class="flex items-center space-x-4">
+<div class="bg-green-50 text-green-600 p-3 rounded-lg">
+<span class="iconify text-xl" data-icon="ri:calendar-line"></span>
+</div>
+<div>
+<p class="text-xs text-gray-500">今日答题</p>
+<p id="todayQuizCount" class="text-xl font-black text-gray-800">-</p>
+</div>
+</div>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+<div class="flex items-center space-x-4">
+<div class="bg-orange-50 text-orange-600 p-3 rounded-lg">
+<span class="iconify text-xl" data-icon="ri:percent-line"></span>
+</div>
+<div>
+<p class="text-xs text-gray-500">平均正确率</p>
+<p id="accuracy" class="text-xl font-black text-gray-800">-</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 图表区域 -->
+<div class="grid grid-cols-1 gap-8">
+<!-- 答题类型分布 -->
+<div class="bg-white rounded-xl shadow-sm border p-6">
+<h3 class="font-bold mb-4 flex items-center space-x-2">
+<span class="iconify" data-icon="ri:pie-chart-line"></span>
+<span>答题类型分布</span>
+</h3>
+<div id="typeChartContainer" class="flex items-center justify-center space-x-8">
+<div class="relative">
+<div class="w-32 h-32 rounded-full bg-gray-200" id="typePie"></div>
+<div class="absolute inset-2 bg-white rounded-full flex items-center justify-center">
+<span id="typePercentage" class="text-lg font-bold text-gray-600">0%</span>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex items-center space-x-2">
+<span class="w-4 h-4 rounded bg-red-500"></span>
+<span class="text-sm">事件题</span>
+<span id="eventCount" class="font-bold ml-auto">0</span>
+</div>
+<div class="flex items-center space-x-2">
+<span class="w-4 h-4 rounded bg-blue-500"></span>
+<span class="text-sm">人物题</span>
+<span id="personCount" class="font-bold ml-auto">0</span>
+</div>
+</div>
+</div>
+<div id="typeChartEmpty" class="hidden text-center py-10 text-gray-400">
+<span class="iconify text-4xl" data-icon="ri:pie-chart-line"></span>
+<p class="mt-3">暂无答题数据</p>
+</div>
+</div>
+
+<!-- 近7天答题数量 - 柱状图 -->
+<div class="bg-white rounded-xl shadow-sm border p-6">
+<h3 class="font-bold mb-4 flex items-center space-x-2">
+<span class="iconify" data-icon="ri:bar-chart-2-line"></span>
+<span>近7天答题趋势</span>
+</h3>
+<div id="barChartContainer">
+<div class="bar-chart-container">
+<div class="chart-grid">
+<div class="grid-line"></div>
+<div class="grid-line"></div>
+<div class="grid-line"></div>
+<div class="grid-line"></div>
+<div class="grid-line"></div>
+</div>
+<div class="bar-chart" id="chartBars"></div>
+<div class="chart-labels" id="chartLabels"></div>
+<div class="chart-values" id="chartValues"></div>
+</div>
+</div>
+<div id="barChartEmpty" class="hidden text-center py-10 text-gray-400">
+<span class="iconify text-4xl" data-icon="ri:bar-chart-2-line"></span>
+<p class="mt-3">暂无答题数据</p>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('页面加载完成');
+    initPage();
+});
+
+async function initPage() {
+    await loadOverview();
+    await loadBarChart();
+    await loadTypeChart();
+}
+
+async function loadOverview() {
+    try {
+        const response = await fetch('/quiz/statistics/overview');
+        const result = await response.json();
+        console.log('概览数据:', result);
+        
+        if (result.code === 1 && result.data) {
+            document.getElementById('totalQuizCount').textContent = result.data.totalQuizCount || 0;
+            document.getElementById('totalUserCount').textContent = result.data.totalUserCount || 0;
+            document.getElementById('todayQuizCount').textContent = result.data.todayQuizCount || 0;
+            document.getElementById('accuracy').textContent = result.data.accuracy || '-';
+        }
+    } catch (error) {
+        console.error('加载概览失败:', error);
+    }
+}
+
+// 加载柱状图数据
+async function loadBarChart() {
+    try {
+        console.log('正在获取每日数据...');
+        const response = await fetch('/quiz/statistics/daily');
+        const result = await response.json();
+        console.log('每日数据响应:', result);
+        
+        const container = document.getElementById('barChartContainer');
+        const emptyDiv = document.getElementById('barChartEmpty');
+        
+        // 检查响应是否正常
+        if (!response.ok) {
+            console.error('HTTP错误:', response.status);
+            container.classList.add('hidden');
+            emptyDiv.classList.remove('hidden');
+            return;
+        }
+        
+        if (!result || result.code !== 1 || !result.data) {
+            console.error('数据格式错误:', result);
+            container.classList.add('hidden');
+            emptyDiv.classList.remove('hidden');
+            return;
+        }
+        
+        const labels = result.data.labels;
+        const data = result.data.data;
+        
+        if (!labels || !data || labels.length === 0 || data.length === 0) {
+            console.error('数据为空');
+            container.classList.add('hidden');
+            emptyDiv.classList.remove('hidden');
+            return;
+        }
+        
+        // 检查是否有非零数据
+        const hasData = data.some(v => v > 0);
+        if (!hasData) {
+            container.classList.add('hidden');
+            emptyDiv.classList.remove('hidden');
+            return;
+        }
+        
+        emptyDiv.classList.add('hidden');
+        container.classList.remove('hidden');
+        
+        // 生成柱状图
+        generateBarChart(labels, data);
+        
+    } catch (error) {
+        console.error('加载柱状图失败:', error);
+        document.getElementById('barChartContainer').classList.add('hidden');
+        document.getElementById('barChartEmpty').classList.remove('hidden');
+    }
+}
+
+// 生成柱状图
+function generateBarChart(labels, data) {
+    const maxValue = Math.max(...data);
+    const minValue = Math.min(...data);
+    const range = maxValue - minValue || 1;
+    
+    // 生成柱状图
+    let barsHtml = '';
+    for (let i = 0; i < data.length; i++) {
+        // 将数据值映射到0-90%的高度范围
+        const height = maxValue > 0 ? ((data[i] - minValue) / range * 90) + 5 : 5;
+        barsHtml += `<div class="chart-bar" style="height: ${Math.max(height, 4)}%"></div>`;
+    }
+    document.getElementById('chartBars').innerHTML = barsHtml;
+    
+    // 更新标签
+    let labelsHtml = '';
+    let valuesHtml = '';
+    for (let i = 0; i < labels.length; i++) {
+        labelsHtml += `<span class="chart-label">${labels[i]}</span>`;
+        valuesHtml += `<span class="chart-value">${data[i]}</span>`;
+    }
+    document.getElementById('chartLabels').innerHTML = labelsHtml;
+    document.getElementById('chartValues').innerHTML = valuesHtml;
+}
+
+// 加载答题类型分布
+async function loadTypeChart() {
+    try {
+        const response = await fetch('/quiz/statistics/type');
+        const result = await response.json();
+        console.log('类型数据:', result);
+        
+        const container = document.getElementById('typeChartContainer');
+        const emptyDiv = document.getElementById('typeChartEmpty');
+        
+        if (!response.ok || !result || result.code !== 1 || !result.data) {
+            container.classList.add('hidden');
+            emptyDiv.classList.remove('hidden');
+            return;
+        }
+        
+        const labels = result.data.labels;
+        const data = result.data.data;
+        
+        if (!labels || !data || data.length === 0) {
+            container.classList.add('hidden');
+            emptyDiv.classList.remove('hidden');
+            return;
+        }
+        
+        const hasData = data.some(v => v > 0);
+        if (!hasData) {
+            container.classList.add('hidden');
+            emptyDiv.classList.remove('hidden');
+            return;
+        }
+        
+        emptyDiv.classList.add('hidden');
+        container.classList.remove('hidden');
+        
+        let eventCount = 0;
+        let personCount = 0;
+        
+        for (let i = 0; i < labels.length; i++) {
+            if (labels[i] === '事件题') {
+                eventCount = data[i];
+            } else if (labels[i] === '人物题') {
+                personCount = data[i];
+            }
+        }
+        
+        const total = eventCount + personCount;
+        const eventPercentage = total > 0 ? Math.round((eventCount / total) * 100) : 0;
+        
+        document.getElementById('eventCount').textContent = eventCount;
+        document.getElementById('personCount').textContent = personCount;
+        document.getElementById('typePercentage').textContent = eventPercentage + '%';
+        
+        const pieElement = document.getElementById('typePie');
+        if (eventPercentage > 0) {
+            pieElement.style.background = `conic-gradient(
+                #ef4444 0% ${eventPercentage}%, 
+                #3b82f6 ${eventPercentage}% 100%
+            )`;
+        }
+        
+    } catch (error) {
+        console.error('加载类型数据失败:', error);
+        document.getElementById('typeChartContainer').classList.add('hidden');
+        document.getElementById('typeChartEmpty').classList.remove('hidden');
+    }
+}
+</script>
+</body>
+</html>

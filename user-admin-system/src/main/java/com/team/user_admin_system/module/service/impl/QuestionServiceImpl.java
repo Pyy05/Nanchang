@@ -3,6 +3,7 @@ package com.team.user_admin_system.module.service.impl;
 import com.team.user_admin_system.module.entity.Question;
 import com.team.user_admin_system.module.repository.QuestionRepository;
 import com.team.user_admin_system.module.service.QuestionService;
+import com.team.user_admin_system.module.service.QuizStatisticsService;
 import com.team.user_admin_system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -21,17 +22,14 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private QuizStatisticsService quizStatisticsService;  // 新增
 
-        /**
-     * 获取指定数量的随机问题
-     * @param count 要获取的问题数量
-     * @return 随机选择的问题列表
-     */
-        @Override
-        public List<Question> getRandomQuestions(int count) {
-            // 创建分页请求，从第0页开始，获取指定数量的问题
-            return questionRepository.findRandomQuestions(PageRequest.of(0, count));
-        }
+    @Override
+    public List<Question> getRandomQuestions(int count) {
+        return questionRepository.findRandomQuestions(PageRequest.of(0, count));
+    }
 
     @Override
     public List<Question> getRandomEventQuestions(int count) {
@@ -88,9 +86,21 @@ public class QuestionServiceImpl implements QuestionService {
                 "答错了不要紧，重要的是学到了新知识！",
                 "加油！下次一定能答对！",
                 "别灰心，每个人都是从错误中成长的！",
-                "继续努力，你一定会越来越厉害的！"
+                "继续努力，你一定会越来越厉害！"
             };
             result.put("encouragement", encouragements[(int)(Math.random() * encouragements.length)]);
+        }
+
+        // 保存答题记录（新增）
+        if (userId != null && question.getContentType() != null) {
+            quizStatisticsService.saveRecord(
+                userId, 
+                questionId, 
+                userAnswer, 
+                isCorrect, 
+                question.getScore(), 
+                question.getContentType().name()
+            );
         }
 
         return result;
