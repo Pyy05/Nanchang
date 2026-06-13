@@ -52,35 +52,7 @@ public class QuizStatisticsController {
         return Result.success(stats);
     }
 
-    /**
-     * 获取用户积分排行榜（柱状图）
-     * 地址：GET /quiz/statistics/rank
-     */
-    @GetMapping("/rank")
-    public Result<QuizStatisticsDTO> getScoreRank() {
-        QuizStatisticsDTO stats = quizStatisticsService.getUserScoreRank();
-        return Result.success(stats);
-    }
-
-    /**
-     * 获取指定用户的答题统计
-     * 地址：GET /quiz/statistics/user/{userId}
-     */
-    @GetMapping("/user/{userId}")
-    public Result<Map<String, Object>> getUserStats(@PathVariable Integer userId) {
-        Map<String, Object> stats = quizStatisticsService.getUserQuizStats(userId);
-        return Result.success(stats);
-    }
-
-    /**
-     * 获取答题趋势统计（折线图）
-     * 地址：GET /quiz/statistics/trend
-     */
-    @GetMapping("/trend")
-    public Result<QuizStatisticsDTO> getTrendStats() {
-        QuizStatisticsDTO stats = quizStatisticsService.getQuizTrendStats();
-        return Result.success(stats);
-    }
+    
 
     /**
      * 获取所有答题统计数据（仪表盘）
@@ -92,8 +64,6 @@ public class QuizStatisticsController {
         dashboard.put("overview", quizStatisticsService.getOverviewStats());
         dashboard.put("daily", quizStatisticsService.getDailyQuizStats());
         dashboard.put("type", quizStatisticsService.getQuizTypeStats());
-        dashboard.put("rank", quizStatisticsService.getUserScoreRank());
-        dashboard.put("trend", quizStatisticsService.getQuizTrendStats());
         return Result.success(dashboard);
     }
 }
