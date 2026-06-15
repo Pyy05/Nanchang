@@ -106,5 +106,23 @@ public class PersonController {
         }).filter(m -> !m.isEmpty()).collect(Collectors.toList());
     }
 
+    @PostMapping("/save")
+    public ResponseEntity<Map<String, Object>> savePerson(@RequestBody Person person) {
+        Person saved = personService.savePerson(person);
+        Map<String, Object> result = new HashMap<>();
+        result.put("code", 1);
+        result.put("msg", "success");
+        result.put("data", saved);
+        return ResponseEntity.ok(result);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Map<String, Object>> deletePerson(@PathVariable Long id) {
+        personService.deletePerson(id);
+        Map<String, Object> result = new HashMap<>();
+        result.put("code", 1);
+        result.put("msg", "success");
+        return ResponseEntity.ok(result);
+    }
 }
 

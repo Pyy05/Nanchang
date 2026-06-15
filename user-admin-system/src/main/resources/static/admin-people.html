@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>历史人物管理 - 南昌历史云志</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+</head>
+
+<body class="bg-blue-100 min-h-screen flex">
+
+    <!-- 侧边栏（和后台完全一致） -->
+    <aside class="w-64 bg-slate-900 text-white flex flex-col shrink-0">
+        <div class="p-6 border-b border-slate-400 flex items-center space-x-2">
+            <span class="iconify text-red-600 text-2xl" data-icon="ri:dashboard-3-line"></span>
+            <span class="font-bold tracking-wider">管理后台</span>
+        </div>
+        <nav class="flex-grow p-4 space-y-2 text-sm text-slate-400">
+            <p class="text-[10px] uppercase font-bold text-slate-500 px-2 py-2">核心看板</p>
+            <a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition"
+                href="admin-dashboard.html">
+                <span class="iconify" data-icon="ri:home-gear-line"></span>
+                <span>主面板</span>
+            </a>
+            <p class="text-[10px] uppercase font-bold text-slate-500 px-2 py-2 mt-6">内容维护</p>
+            <a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition"
+                href="admin-history.html">
+                <span class="iconify" data-icon="ri:book-read-line"></span>
+                <span>历史事件管理</span>
+            </a>
+            <a class="flex items-center space-x-3 bg-red-600 text-white p-3 rounded-lg" href="admin-people.html">
+                <span class="iconify" data-icon="ri:user-star-line"></span>
+                <span>历史人物管理</span>
+            </a>
+            <a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition" href="admin-users.html">
+                <span class="iconify" data-icon="ri:team-line"></span>
+                <span>系统用户管理</span>
+            </a>
+            <p class="text-[10px] uppercase font-bold text-slate-500 px-2 py-2 mt-6">互动与设置</p>
+            <a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition"
+                href="admin-messages.html">
+                <span class="iconify" data-icon="ri:message-3-line"></span>
+                <span>留言管理</span>
+            </a>
+            <a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition"
+                href="admin-questions.html">
+                <span class="iconify" data-icon="ri:settings-4-line"></span>
+                <span>题库管理</span>
+            </a>
+            <a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition"
+                href="admin-quiz-statistics.html">
+                <span class="iconify" data-icon="ri:bar-chart-line"></span>
+                <span>答题统计</span>
+            </a>
+        </nav>
+        <div class="p-6 border-t border-slate-800">
+            <a class="text-xs flex items-center space-x-2 text-slate-500 hover:text-white" href="index.html">
+                <span class="iconify" data-icon="ri:logout-box-line"></span>
+                <span>返回前台预览</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <div class="flex-grow flex flex-col h-screen overflow-y-auto">
+        <header class="bg-white h-16 border-b px-8 flex justify-between items-center shrink-0">
+            <h2 class="font-bold text-gray-700">历史人物管理</h2>
+            <a href="admin-people-add.html"
+                class="bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-700 transition">
+                + 添加人物
+            </a>
+        </header>
+
+        <main class="p-8">
+            <div class="bg-white rounded-xl shadow-sm border p-6">
+                <div class="overflow-x-auto">
+                    <table class="w-full border text-sm text-left">
+                        <thead class="bg-gray-50 text-gray-600">
+                            <tr>
+                                <th class="border-b p-3 font-medium">ID</th>
+                                <th class="border-b p-3 font-medium">封面</th>
+                                <th class="border-b p-3 font-medium">姓名</th>
+                                <th class="border-b p-3 font-medium">朝代</th>
+                                <th class="border-b p-3 font-medium">生卒年</th>
+                                <th class="border-b p-3 font-medium">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody" class="divide-y text-gray-600">
+                            <!-- 数据行将通过JS动态插入 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // 加载人物列表
+        async function loadList() {
+            try {
+                const response = await fetch('/api/person/list');
+                const arr = await response.json();
+
+                let html = "";
+                arr.forEach(item => {
+                    const coverHtml = item.cover ? `<img src="${item.cover}" class="w-10 h-10 object-cover rounded-full">` : `<span class="text-gray-400 text-xs">暂缺</span>`;
+
+                    html += `
+            <tr class="hover:bg-gray-50">
+                <td class="p-3">${item.personId}</td>
+                <td class="p-3">${coverHtml}</td>
+                <td class="p-3 font-bold text-gray-900">${item.name || ''}</td>
+                <td class="p-3">${item.dynasty || ''}</td>
+                <td class="p-3">${item.birthDeath || ''}</td>
+                <td class="p-3">
+                    <button onclick="del(${item.personId})" class="text-red-600 hover:text-red-800 text-sm font-medium">删除</button>
+                </td>
+            </tr>`;
+                });
+                document.getElementById("tableBody").innerHTML = html;
+            } catch (error) {
+                console.error('加载列表失败:', error);
+            }
+        }
+
+        // 删除
+        async function del(id) {
+            if (!confirm("确定删除该人物？")) return;
+            try {
+                const response = await fetch('/api/person/delete/' + id, { method: 'DELETE' });
+                const result = await response.json();
+                if (result.code === 1) {
+                    alert("删除成功");
+                    loadList();
+                } else {
+                    alert("删除失败：" + (result.msg || "未知错误"));
+                }
+            } catch (error) {
+                console.error('删除失败:', error);
+                alert("删除失败，请检查网络！");
+            }
+        }
+
+        // 初始化
+        window.onload = loadList;
+    </script>
+</body>
+
+</html>
