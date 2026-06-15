@@ -83,7 +83,7 @@
 </div>
 <div>
 <p class="text-xs text-gray-500">事件总数</p>
-<p id="eventCount" class="text-2xl font-black text-gray-800">128</p>
+<p id="eventCount" class="text-2xl font-black text-gray-800">0</p>
 </div>
 </div>
 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center space-x-4">
@@ -92,7 +92,7 @@
 </div>
 <div>
 <p class="text-xs text-gray-500">收录人物</p>
-<p class="text-2xl font-black text-gray-800">86</p>
+<p id="personCount" class="text-2xl font-black text-gray-800">0</p>
 </div>
 </div>
 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center space-x-4">
@@ -100,8 +100,8 @@
 <span class="iconify text-2xl" data-icon="ri:eye-line"></span>
 </div>
 <div>
-<p class="text-xs text-gray-500">今日访问</p>
-<p class="text-2xl font-black text-gray-800">1,245</p>
+<p class="text-xs text-gray-500">题目总数</p>
+<p id="questionCount" class="text-2xl font-black text-gray-800">0</p>
 </div>
 </div>
 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center space-x-4">
@@ -130,25 +130,8 @@
 <th class="px-6 py-3 font-medium">时间</th>
 </tr>
 </thead>
-<tbody class="divide-y text-gray-600">
-<tr class="hover:bg-gray-50">
-<td class="px-6 py-4 font-bold text-gray-900 truncate max-w-[200px]">八一南昌起义详情优化</td>
-<td class="px-6 py-4 ">彭盈颖</td>
-<td class="px-6 py-4"><span class="bg-green-100 text-green-600 px-2 py-1 rounded text-[10px]">已发布</span></td>
-<td class="px-6 py-4 text-xs">2026-03-19 14:20</td>
-</tr>
-<tr class="hover:bg-gray-50">
-<td class="px-6 py-4 font-bold text-gray-900">灌婴筑城资料补充</td>
-<td class="px-6 py-4 ">林佳倩</td>
-<td class="px-6 py-4"><span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-[10px]">草稿</span></td>
-<td class="px-6 py-4 text-xs">2026-03-19 10:15</td>
-</tr>
-<tr class="hover:bg-gray-50">
-<td class="px-6 py-4 font-bold text-gray-900">历史人物：王勃肖像更新</td>
-<td class="px-6 py-4 ">任芝毅</td>
-<td class="px-6 py-4"><span class="bg-green-100 text-green-600 px-2 py-1 rounded text-[10px]">已发布</span></td>
-<td class="px-6 py-4 text-xs">2026-03-18 16:45</td>
-</tr>
+<tbody id="editLogBody" class="divide-y text-gray-600">
+<!-- 动态数据将被加载到这里 -->
 </tbody>
 </table>
 </div>
@@ -157,7 +140,7 @@
 <h3 class="font-bold mb-6">快捷操作</h3>
 <div class="space-y-4">
 <a class="block w-full text-center py-3 border border-red-200 rounded-lg text-red-600 hover:bg-red-50 font-medium" href="admin-history-add.html">+ 新增历史事件</a>
-<a class="block w-full text-center py-3 border border-blue-200 rounded-lg text-blue-600 hover:bg-blue-50 font-medium" href="#">+ 上传人物档案</a>
+<a class="block w-full text-center py-3 border border-blue-200 rounded-lg text-blue-600 hover:bg-blue-50 font-medium" href="admin-people-add.html">+ 添加人物档案</a>
 <a class="block w-full text-center py-3 border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50 font-medium" href="#">生成月度数据报告</a>
 </div>
 </div>
@@ -165,13 +148,79 @@
 </main>
 </div>
 <script>
-// 读取本地存储的事件数量
+// 读取数据数量
 window.onload = function(){
-  let num = localStorage.getItem("eventNum") || "128";
-  document.getElementById("eventCount").innerText = num;
-  
-  // 加载已回复留言数量
+  loadEventCount();
+  loadPersonCount();
+  loadQuestionCount();
   loadAnsweredCount();
+  loadEditLogs();
+}
+
+async function loadEditLogs() {
+  try {
+    const response = await fetch('/api/edit-log/list');
+    const result = await response.json();
+    if (result.code === 1 && Array.isArray(result.data)) {
+      const tbody = document.getElementById('editLogBody');
+      let html = '';
+      result.data.forEach(log => {
+        let statusClass = log.status === '已发布' ? 'bg-green-100 text-green-600' : 
+                         (log.status === '已删除' ? 'bg-red-100 text-red-600' : 'bg-yellow-100 text-yellow-700');
+                         
+        html += `
+          <tr class="hover:bg-gray-50">
+            <td class="px-6 py-4 font-bold text-gray-900 truncate max-w-[200px]">【${log.targetType}】${log.targetName} (${log.actionType})</td>
+            <td class="px-6 py-4 ">${log.editor}</td>
+            <td class="px-6 py-4"><span class="${statusClass} px-2 py-1 rounded text-[10px]">${log.status}</span></td>
+            <td class="px-6 py-4 text-xs">${log.createTime}</td>
+          </tr>
+        `;
+      });
+      if (html === '') {
+        html = '<tr><td colspan="4" class="px-6 py-4 text-center">暂无编辑记录</td></tr>';
+      }
+      tbody.innerHTML = html;
+    }
+  } catch (error) {
+    console.error('加载编辑记录失败:', error);
+  }
+}
+
+async function loadEventCount() {
+  try {
+    const response = await fetch('/api/event/list');
+    const result = await response.json();
+    if (Array.isArray(result)) {
+      document.getElementById('eventCount').innerText = result.length;
+    }
+  } catch (error) {
+    console.error('加载事件数量失败:', error);
+  }
+}
+
+async function loadPersonCount() {
+  try {
+    const response = await fetch('/api/person/list');
+    const result = await response.json();
+    if (Array.isArray(result)) {
+      document.getElementById('personCount').innerText = result.length;
+    }
+  } catch (error) {
+    console.error('加载人物数量失败:', error);
+  }
+}
+
+async function loadQuestionCount() {
+  try {
+    const response = await fetch('/api/question/list');
+    const result = await response.json();
+    if (result.code === 1 && Array.isArray(result.data)) {
+      document.getElementById('questionCount').innerText = result.data.length;
+    }
+  } catch (error) {
+    console.error('加载题目数量失败:', error);
+  }
 }
 
 async function loadAnsweredCount() {

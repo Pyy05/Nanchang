@@ -32,4 +32,14 @@ public class EventServiceImpl implements EventService {
         Optional<Event> optionalEvent = eventRepository.findById(id);
         return optionalEvent.orElse(null);
     }
+
+    @Override
+    public Event saveEvent(Event event) {
+        return eventRepository.save(event);
+    }
+
+    @Override
+    public void deleteEvent(Long id) {
+        eventRepository.deleteById(id);
+    }
 }

@@ -77,30 +77,74 @@
                         <th class="px-6 py-3 font-medium">操作</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y text-gray-600">
-                    <tr>
-                        <td class="px-6 py-4">1</td>
-                        <td class="px-6 py-4 font-bold">八一南昌起义</td>
-                        <td class="px-6 py-4">1927年8月1日</td>
-                        <td class="px-6 py-4 space-x-2">
-                            <button class="text-blue-600">编辑</button>
-                            <button class="text-red-600">删除</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="px-6 py-4">2</td>
-                        <td class="px-6 py-4 font-bold">灌婴筑城</td>
-                        <td class="px-6 py-4">西汉初年</td>
-                        <td class="px-6 py-4 space-x-2">
-                            <button class="text-blue-600">编辑</button>
-                            <button class="text-red-600">删除</button>
-                        </td>
-                    </tr>
+                <tbody id="tableBody" class="divide-y text-gray-600">
+                    <!-- 数据行将通过JS动态插入 -->
                 </tbody>
             </table>
         </div>
     </main>
 </div>
+
+<script>
+    // 加载事件列表
+    async function loadList() {
+        try {
+            const response = await fetch('/api/event/list');
+            const arr = await response.json();
+
+            let html = "";
+            arr.forEach(item => {
+                html += `
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4">${item.eventId}</td>
+                    <td class="px-6 py-4 font-bold text-gray-900">${item.eventName || ''}</td>
+                    <td class="px-6 py-4">${item.occurTime || ''}</td>
+                    <td class="px-6 py-4 space-x-2">
+                        <button onclick="editEvent(${item.eventId})" class="text-blue-600 hover:text-blue-800 text-sm font-medium">编辑</button>
+                        <button onclick="delEvent(${item.eventId})" class="text-red-600 hover:text-red-800 text-sm font-medium">删除</button>
+                    </td>
+                </tr>`;
+            });
+            document.getElementById("tableBody").innerHTML = html;
+        } catch (error) {
+            console.error('加载列表失败:', error);
+        }
+    }
+
+    function editEvent(id) {
+        location.href = 'admin-history-edit.html?id=' + id;
+    }
+
+    async function delEvent(id) {
+        if (!confirm("确定删除该事件？")) return;
+        try {
+            let editorName = "系统管理员";
+            try {
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                if (currentUser && currentUser.username) {
+                    editorName = currentUser.username;
+                }
+            } catch(e) {}
+            
+            const response = await fetch('/api/event/delete/' + id, { 
+                method: 'DELETE',
+                headers: { 'X-Editor-Name': editorName }
+            });
+            const result = await response.json();
+            if (result.code === 1) {
+                alert("删除成功");
+                loadList();
+            } else {
+                alert("删除失败：" + (result.msg || "未知错误"));
+            }
+        } catch (error) {
+            console.error('删除失败:', error);
+            alert("删除失败，请检查网络！");
+        }
+    }
+
+    window.onload = loadList;
+</script>
 
 </body>
 </html>

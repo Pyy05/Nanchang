@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>新增历史事件 - 南昌历史云志</title>
+    <title>新增人物档案 - 南昌历史云志</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
 </head>
@@ -25,12 +25,12 @@
                 <span>主面板</span>
             </a>
             <p class="text-[10px] uppercase font-bold text-slate-500 px-2 py-2 mt-6">内容维护</p>
-            <a class="flex items-center space-x-3 bg-red-600 text-white p-3 rounded-lg" href="admin-history.html">
+            <a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition"
+                href="admin-history.html">
                 <span class="iconify" data-icon="ri:book-read-line"></span>
                 <span>历史事件管理</span>
             </a>
-            <a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition"
-                href="admin-people.html">
+            <a class="flex items-center space-x-3 bg-red-600 text-white p-3 rounded-lg" href="admin-people.html">
                 <span class="iconify" data-icon="ri:user-star-line"></span>
                 <span>历史人物管理</span>
             </a>
@@ -66,25 +66,49 @@
     <!-- 主内容区 -->
     <div class="flex-grow flex flex-col h-screen overflow-y-auto">
         <header class="bg-white h-16 border-b px-8 flex justify-between items-center shrink-0">
-            <h2 class="font-bold text-gray-700">新增历史事件</h2>
+            <h2 class="font-bold text-gray-700">新增人物档案</h2>
         </header>
 
         <main class="p-8">
             <div class="bg-white rounded-xl shadow-sm border p-6 max-w-4xl">
                 <div class="space-y-5">
-                    <div>
-                        <label class="block mb-1 text-sm font-medium">事件名称</label>
-                        <input id="title" type="text" class="w-full border rounded-lg px-3 py-2">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block mb-1 text-sm font-medium">姓名</label>
+                            <input id="name" type="text" class="w-full border rounded-lg px-3 py-2">
+                        </div>
+                        <div>
+                            <label class="block mb-1 text-sm font-medium">朝代</label>
+                            <input id="dynasty" type="text" class="w-full border rounded-lg px-3 py-2">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block mb-1 text-sm font-medium">生卒年</label>
+                            <input id="birthDeath" type="text" class="w-full border rounded-lg px-3 py-2">
+                        </div>
+                        <div>
+                            <label class="block mb-1 text-sm font-medium">封面图链接</label>
+                            <input id="cover" type="text" class="w-full border rounded-lg px-3 py-2">
+                        </div>
                     </div>
                     <div>
-                        <label class="block mb-1 text-sm font-medium">发生时间</label>
-                        <input id="time" type="text" class="w-full border rounded-lg px-3 py-2">
+                        <label class="block mb-1 text-sm font-medium">主要贡献</label>
+                        <textarea id="contribution" rows="3" class="w-full border rounded-lg px-3 py-2"></textarea>
                     </div>
                     <div>
-                        <label class="block mb-1 text-sm font-medium">事件简介</label>
-                        <textarea id="desc" rows="4" class="w-full border rounded-lg px-3 py-2"></textarea>
+                        <label class="block mb-1 text-sm font-medium">关联事件</label>
+                        <input id="relatedEvent" type="text" class="w-full border rounded-lg px-3 py-2">
                     </div>
-                    <button onclick="saveEvent()" class="bg-red-600 text-white px-6 py-2 rounded-lg">
+                    <div>
+                        <label class="block mb-1 text-sm font-medium">资料来源</label>
+                        <input id="source" type="text" class="w-full border rounded-lg px-3 py-2">
+                    </div>
+                    <div>
+                        <label class="block mb-1 text-sm font-medium">生平简介</label>
+                        <textarea id="biography" rows="4" class="w-full border rounded-lg px-3 py-2"></textarea>
+                    </div>
+                    <button onclick="savePerson()" class="bg-red-600 text-white px-6 py-2 rounded-lg">
                         保存并提交
                     </button>
                 </div>
@@ -93,21 +117,22 @@
     </div>
 
     <script>
-        async function saveEvent() {
-            const title = document.getElementById('title').value;
-            const time = document.getElementById('time').value;
-            const desc = document.getElementById('desc').value;
-            
-            if (!title) {
-                alert('请输入事件名称');
+        async function savePerson() {
+            const person = {
+                name: document.getElementById('name').value,
+                dynasty: document.getElementById('dynasty').value,
+                birthDeath: document.getElementById('birthDeath').value,
+                cover: document.getElementById('cover').value,
+                contribution: document.getElementById('contribution').value,
+                relatedEvent: document.getElementById('relatedEvent').value,
+                source: document.getElementById('source').value,
+                biography: document.getElementById('biography').value
+            };
+
+            if (!person.name) {
+                alert("姓名为必填项！");
                 return;
             }
-
-            const data = {
-                eventName: title,
-                occurTime: time,
-                process: desc
-            };
 
             try {
                 let editorName = "系统管理员";
@@ -118,25 +143,24 @@
                     }
                 } catch(e) {}
                 
-                const response = await fetch('/api/event/save', {
+                const response = await fetch('/api/person/save', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'X-Editor-Name': editorName
                     },
-                    body: JSON.stringify(data)
+                    body: JSON.stringify(person)
                 });
                 const result = await response.json();
                 if (result.code === 1) {
-                    let current = parseInt(localStorage.getItem("eventNum") || 128);
-                    localStorage.setItem("eventNum", current + 1);
-                    location.href = "admin-history.html";
+                    alert('保存成功！');
+                    location.href = 'admin-people.html';
                 } else {
-                    alert('保存失败: ' + (result.msg || '未知错误'));
+                    alert('保存失败：' + (result.msg || '未知错误'));
                 }
             } catch (error) {
-                console.error('Error saving event:', error);
-                alert('保存失败，网络错误');
+                console.error('Error:', error);
+                alert('保存失败，请检查网络！');
             }
         }
     </script>

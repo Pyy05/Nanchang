@@ -37,4 +37,14 @@ public class PersonServiceImpl implements PersonService {
         Optional<Person> optionalPerson = personRepository.findById(id);
         return optionalPerson.orElse(null);
     }
+
+    @Override
+    public Person savePerson(Person person) {
+        return personRepository.save(person);
+    }
+
+    @Override
+    public void deletePerson(Long id) {
+        personRepository.deleteById(id);
+    }
 }

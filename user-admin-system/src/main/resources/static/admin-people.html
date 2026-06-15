@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>新增历史事件 - 南昌历史云志</title>
+    <title>历史人物管理 - 南昌历史云志</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
 </head>
@@ -25,12 +25,12 @@
                 <span>主面板</span>
             </a>
             <p class="text-[10px] uppercase font-bold text-slate-500 px-2 py-2 mt-6">内容维护</p>
-            <a class="flex items-center space-x-3 bg-red-600 text-white p-3 rounded-lg" href="admin-history.html">
+            <a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition"
+                href="admin-history.html">
                 <span class="iconify" data-icon="ri:book-read-line"></span>
                 <span>历史事件管理</span>
             </a>
-            <a class="flex items-center space-x-3 hover:bg-slate-800 p-3 rounded-lg transition"
-                href="admin-people.html">
+            <a class="flex items-center space-x-3 bg-red-600 text-white p-3 rounded-lg" href="admin-people.html">
                 <span class="iconify" data-icon="ri:user-star-line"></span>
                 <span>历史人物管理</span>
             </a>
@@ -66,49 +66,70 @@
     <!-- 主内容区 -->
     <div class="flex-grow flex flex-col h-screen overflow-y-auto">
         <header class="bg-white h-16 border-b px-8 flex justify-between items-center shrink-0">
-            <h2 class="font-bold text-gray-700">新增历史事件</h2>
+            <h2 class="font-bold text-gray-700">历史人物管理</h2>
+            <a href="admin-people-add.html"
+                class="bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-700 transition">
+                + 添加人物
+            </a>
         </header>
 
         <main class="p-8">
-            <div class="bg-white rounded-xl shadow-sm border p-6 max-w-4xl">
-                <div class="space-y-5">
-                    <div>
-                        <label class="block mb-1 text-sm font-medium">事件名称</label>
-                        <input id="title" type="text" class="w-full border rounded-lg px-3 py-2">
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm font-medium">发生时间</label>
-                        <input id="time" type="text" class="w-full border rounded-lg px-3 py-2">
-                    </div>
-                    <div>
-                        <label class="block mb-1 text-sm font-medium">事件简介</label>
-                        <textarea id="desc" rows="4" class="w-full border rounded-lg px-3 py-2"></textarea>
-                    </div>
-                    <button onclick="saveEvent()" class="bg-red-600 text-white px-6 py-2 rounded-lg">
-                        保存并提交
-                    </button>
+            <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
+                <div class="px-6 py-4 border-b">
+                    <h3 class="font-bold">人物列表</h3>
                 </div>
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-gray-50 text-gray-400">
+                        <tr>
+                            <th class="px-6 py-3 font-medium">ID</th>
+                            <th class="px-6 py-3 font-medium">封面</th>
+                            <th class="px-6 py-3 font-medium">姓名</th>
+                            <th class="px-6 py-3 font-medium">朝代</th>
+                            <th class="px-6 py-3 font-medium">生卒年</th>
+                            <th class="px-6 py-3 font-medium">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody" class="divide-y text-gray-600">
+                        <!-- 数据行将通过JS动态插入 -->
+                    </tbody>
+                </table>
             </div>
         </main>
     </div>
 
     <script>
-        async function saveEvent() {
-            const title = document.getElementById('title').value;
-            const time = document.getElementById('time').value;
-            const desc = document.getElementById('desc').value;
-            
-            if (!title) {
-                alert('请输入事件名称');
-                return;
+        // 加载人物列表
+        async function loadList() {
+            try {
+                const response = await fetch('/api/person/list');
+                const arr = await response.json();
+
+                let html = "";
+                arr.forEach(item => {
+                    const coverHtml = item.cover ? `<img src="${item.cover}" class="w-10 h-10 object-cover rounded-full">` : `<span class="text-gray-400 text-xs">暂缺</span>`;
+
+                    html += `
+            <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4">${item.personId}</td>
+                <td class="px-6 py-4">${coverHtml}</td>
+                <td class="px-6 py-4 font-bold text-gray-900">${item.name || ''}</td>
+                <td class="px-6 py-4">${item.dynasty || ''}</td>
+                <td class="px-6 py-4">${item.birthDeath || ''}</td>
+                <td class="px-6 py-4 space-x-2">
+                    <button onclick="editPerson(${item.personId})" class="text-blue-600 hover:text-blue-800 text-sm font-medium">编辑</button>
+                    <button onclick="del(${item.personId})" class="text-red-600 hover:text-red-800 text-sm font-medium">删除</button>
+                </td>
+            </tr>`;
+                });
+                document.getElementById("tableBody").innerHTML = html;
+            } catch (error) {
+                console.error('加载列表失败:', error);
             }
+        }
 
-            const data = {
-                eventName: title,
-                occurTime: time,
-                process: desc
-            };
-
+        // 删除
+        async function del(id) {
+            if (!confirm("确定删除该人物？")) return;
             try {
                 let editorName = "系统管理员";
                 try {
@@ -118,27 +139,29 @@
                     }
                 } catch(e) {}
                 
-                const response = await fetch('/api/event/save', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Editor-Name': editorName
-                    },
-                    body: JSON.stringify(data)
+                const response = await fetch('/api/person/delete/' + id, { 
+                    method: 'DELETE',
+                    headers: { 'X-Editor-Name': editorName }
                 });
                 const result = await response.json();
                 if (result.code === 1) {
-                    let current = parseInt(localStorage.getItem("eventNum") || 128);
-                    localStorage.setItem("eventNum", current + 1);
-                    location.href = "admin-history.html";
+                    alert("删除成功");
+                    loadList();
                 } else {
-                    alert('保存失败: ' + (result.msg || '未知错误'));
+                    alert("删除失败：" + (result.msg || "未知错误"));
                 }
             } catch (error) {
-                console.error('Error saving event:', error);
-                alert('保存失败，网络错误');
+                console.error('删除失败:', error);
+                alert("删除失败，请检查网络！");
             }
         }
+
+        function editPerson(id) {
+            location.href = 'admin-people-edit.html?id=' + id;
+        }
+
+        // 初始化
+        window.onload = loadList;
     </script>
 </body>
 

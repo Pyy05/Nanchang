@@ -6,6 +6,8 @@ import com.team.user_admin_system.module.entity.EventPerson;
 import com.team.user_admin_system.module.service.PersonService;
 import com.team.user_admin_system.module.repository.EventPersonRepository;
 import com.team.user_admin_system.module.repository.EventRepository;
+import com.team.user_admin_system.module.entity.EditLog;
+import com.team.user_admin_system.module.service.EditLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,9 @@ public class PersonController {
 
     @Autowired
     private PersonService personService;
+
+    @Autowired
+    private EditLogService editLogService;
 
     @Autowired
     private EventPersonRepository eventPersonRepository;
@@ -106,5 +111,48 @@ public class PersonController {
         }).filter(m -> !m.isEmpty()).collect(Collectors.toList());
     }
 
+    @PostMapping("/save")
+    public ResponseEntity<Map<String, Object>> savePerson(
+            @RequestBody Person person,
+            @RequestHeader(value = "X-Editor-Name", defaultValue = "系统管理员") String editorName) {
+        boolean isNew = (person.getPersonId() == null);
+        Person saved = personService.savePerson(person);
+        
+        editLogService.saveLog(new EditLog(
+            saved.getName(), 
+            editorName,
+            isNew ? "新增" : "编辑", 
+            "历史人物", 
+            "已发布"
+        ));
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("code", 1);
+        result.put("msg", "success");
+        result.put("data", saved);
+        return ResponseEntity.ok(result);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Map<String, Object>> deletePerson(
+            @PathVariable Long id,
+            @RequestHeader(value = "X-Editor-Name", defaultValue = "系统管理员") String editorName) {
+        Person p = personService.getById(id);
+        if (p != null) {
+            editLogService.saveLog(new EditLog(
+                p.getName(), 
+                editorName, 
+                "删除", 
+                "历史人物", 
+                "已删除"
+            ));
+        }
+
+        personService.deletePerson(id);
+        Map<String, Object> result = new HashMap<>();
+        result.put("code", 1);
+        result.put("msg", "success");
+        return ResponseEntity.ok(result);
+    }
 }
 
