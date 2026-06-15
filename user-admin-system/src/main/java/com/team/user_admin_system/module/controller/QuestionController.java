@@ -4,6 +4,8 @@ import com.team.user_admin_system.module.entity.Question;
 import com.team.user_admin_system.module.service.QuestionService;
 import com.team.user_admin_system.service.UserService;
 import com.team.user_admin_system.util.Result;
+import com.team.user_admin_system.module.entity.EditLog;
+import com.team.user_admin_system.module.service.EditLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +22,9 @@ public class QuestionController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private EditLogService editLogService;
 
         /**
      * 获取随机问题
@@ -216,7 +221,9 @@ public class QuestionController {
     }
 
         @PostMapping("/add")
-    public Result<Question> addQuestion(@RequestBody Question question) {
+    public Result<Question> addQuestion(
+            @RequestBody Question question,
+            @RequestHeader(value = "X-Editor-Name", defaultValue = "系统管理员") String editorName) {
         try {
             if (question.getContent() == null || question.getContent().trim().isEmpty()) {
                 return Result.fail("题目内容不能为空");
@@ -249,6 +256,15 @@ public class QuestionController {
                 question.setScore(1);
             }
             Question savedQuestion = questionService.addQuestion(question);
+
+            editLogService.saveLog(new EditLog(
+                savedQuestion.getContent().length() > 10 ? savedQuestion.getContent().substring(0, 10) + "..." : savedQuestion.getContent(),
+                editorName, 
+                "新增", 
+                "题库", 
+                "已发布"
+            ));
+
             return Result.success(savedQuestion);
         } catch (Exception e) {
             e.printStackTrace();
@@ -257,7 +273,10 @@ public class QuestionController {
     }
 
     @PutMapping("/update/{id}")
-    public Result<Question> updateQuestion(@PathVariable Integer id, @RequestBody Question question) {
+    public Result<Question> updateQuestion(
+            @PathVariable Integer id, 
+            @RequestBody Question question,
+            @RequestHeader(value = "X-Editor-Name", defaultValue = "系统管理员") String editorName) {
         try {
             if (question.getContent() == null || question.getContent().trim().isEmpty()) {
                 return Result.fail("题目内容不能为空");
@@ -291,6 +310,13 @@ public class QuestionController {
             }
             Question updatedQuestion = questionService.updateQuestion(id, question);
             if (updatedQuestion != null) {
+                editLogService.saveLog(new EditLog(
+                    updatedQuestion.getContent().length() > 10 ? updatedQuestion.getContent().substring(0, 10) + "..." : updatedQuestion.getContent(),
+                    editorName, 
+                    "编辑", 
+                    "题库", 
+                    "已发布"
+                ));
                 return Result.success(updatedQuestion);
             } else {
                 return Result.fail("题目不存在");
@@ -304,8 +330,21 @@ public class QuestionController {
     
 
     @DeleteMapping("/delete/{id}")
-    public Result<String> deleteQuestion(@PathVariable Integer id) {
+    public Result<String> deleteQuestion(
+            @PathVariable Integer id,
+            @RequestHeader(value = "X-Editor-Name", defaultValue = "系统管理员") String editorName) {
         try {
+            Question q = questionService.getQuestionById(id);
+            if (q != null) {
+                editLogService.saveLog(new EditLog(
+                    q.getContent().length() > 10 ? q.getContent().substring(0, 10) + "..." : q.getContent(),
+                    editorName, 
+                    "删除", 
+                    "题库", 
+                    "已删除"
+                ));
+            }
+
             boolean deleted = questionService.deleteQuestion(id);
             if (deleted) {
                 return Result.success("删除成功");

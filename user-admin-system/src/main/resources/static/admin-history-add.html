@@ -93,14 +93,51 @@
     </div>
 
     <script>
-        // 保存事件 + 计数 + 跳转
-        function saveEvent() {
-            // 事件总数 +1
-            let current = parseInt(localStorage.getItem("eventNum") || 128);
-            localStorage.setItem("eventNum", current + 1);
+        async function saveEvent() {
+            const title = document.getElementById('title').value;
+            const time = document.getElementById('time').value;
+            const desc = document.getElementById('desc').value;
+            
+            if (!title) {
+                alert('请输入事件名称');
+                return;
+            }
 
-            // 跳回列表页
-            location.href = "admin-history.html";
+            const data = {
+                eventName: title,
+                occurTime: time,
+                process: desc
+            };
+
+            try {
+                let editorName = "系统管理员";
+                try {
+                    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                    if (currentUser && currentUser.username) {
+                        editorName = currentUser.username;
+                    }
+                } catch(e) {}
+                
+                const response = await fetch('/api/event/save', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Editor-Name': editorName
+                    },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                if (result.code === 1) {
+                    let current = parseInt(localStorage.getItem("eventNum") || 128);
+                    localStorage.setItem("eventNum", current + 1);
+                    location.href = "admin-history.html";
+                } else {
+                    alert('保存失败: ' + (result.msg || '未知错误'));
+                }
+            } catch (error) {
+                console.error('Error saving event:', error);
+                alert('保存失败，网络错误');
+            }
         }
     </script>
 </body>

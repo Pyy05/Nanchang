@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>新增人物档案 - 南昌历史云志</title>
+    <title>编辑人物档案 - 南昌历史云志</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
 </head>
@@ -66,7 +66,7 @@
     <!-- 主内容区 -->
     <div class="flex-grow flex flex-col h-screen overflow-y-auto">
         <header class="bg-white h-16 border-b px-8 flex justify-between items-center shrink-0">
-            <h2 class="font-bold text-gray-700">新增人物档案</h2>
+            <h2 class="font-bold text-gray-700">编辑人物档案</h2>
         </header>
 
         <main class="p-8">
@@ -117,6 +117,33 @@
     </div>
 
     <script>
+        let currentPersonId = null;
+
+        window.onload = async function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            currentPersonId = urlParams.get('id');
+            if (currentPersonId) {
+                try {
+                    const response = await fetch('/api/person/' + currentPersonId);
+                    if (response.ok) {
+                        const person = await response.json();
+                        document.getElementById('name').value = person.name || '';
+                        document.getElementById('dynasty').value = person.dynasty || '';
+                        document.getElementById('birthDeath').value = person.birthDeath || '';
+                        document.getElementById('cover').value = person.cover || '';
+                        document.getElementById('contribution').value = person.contribution || '';
+                        document.getElementById('relatedEvent').value = person.relatedEvent || '';
+                        document.getElementById('source').value = person.source || '';
+                        document.getElementById('biography').value = person.biography || '';
+                    } else {
+                        alert("获取人物详情失败");
+                    }
+                } catch (error) {
+                    console.error("加载失败:", error);
+                }
+            }
+        };
+
         async function savePerson() {
             const person = {
                 name: document.getElementById('name').value,
@@ -128,6 +155,10 @@
                 source: document.getElementById('source').value,
                 biography: document.getElementById('biography').value
             };
+
+            if (currentPersonId) {
+                person.personId = currentPersonId;
+            }
 
             if (!person.name) {
                 alert("姓名为必填项！");

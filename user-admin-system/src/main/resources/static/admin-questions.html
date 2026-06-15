@@ -549,10 +549,19 @@
                 method = 'POST';
             }
             
+            let editorName = "系统管理员";
+            try {
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                if (currentUser && currentUser.username) {
+                    editorName = currentUser.username;
+                }
+            } catch(e) {}
+
             const response = await fetch(url, {
                 method: method,
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'X-Editor-Name': editorName
                 },
                 body: JSON.stringify(questionData)
             });
@@ -590,8 +599,17 @@
         if (!currentDeleteId) return;
         
         try {
+            let editorName = "系统管理员";
+            try {
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                if (currentUser && currentUser.username) {
+                    editorName = currentUser.username;
+                }
+            } catch(e) {}
+
             const response = await fetch(`/api/question/delete/${currentDeleteId}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: { 'X-Editor-Name': editorName }
             });
             
             const result = await response.json();
