@@ -40,13 +40,13 @@
                 let html = '';
                 if (filtered.length > 0) {
                     filtered.forEach(function (person) {
-                        let cover = person.cover || 'https://via.placeholder.com/400x400?text=暂无图片';
+                        let coverHtml = person.cover ? `<img alt="${person.name}" class="w-full h-full object-cover" src="${person.cover}"/>` : `<div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500 font-bold">图片资料暂缺</div>`;
                         let title = person.relatedEvent || person.birthDeath || '';
                         let intro = person.biography || '';
                         html += `
                         <div class="group figure-card" style="display: block;">
                             <div class="aspect-square bg-gray-200 rounded-2xl overflow-hidden mb-4 relative shadow-md group-hover:shadow-red-200 group-hover:shadow-2xl transition duration-500">
-                                <img alt="${person.name}" class="w-full h-full object-cover" src="${cover}"/>
+                                ${coverHtml}
                                 <div class="absolute inset-0 bg-red-900/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
                                     <a class="bg-white text-red-600 px-6 py-2 rounded-full font-bold text-sm transform translate-y-4 group-hover:translate-y-0 transition duration-300" href="figure-detail.html?id=${person.personId}">查看生平</a>
                                 </div>
