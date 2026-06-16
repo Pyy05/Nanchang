@@ -124,4 +124,28 @@ public class MessageController {
             return Result.fail("删除失败：" + e.getMessage());
         }
     }
+
+//    搜索留言
+    @GetMapping("/search")
+    public Result<Map<String, Object>> searchMessages(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        try {
+            Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createTime"));
+            Page<Message> messagePage = messageService.searchMessages(keyword, pageable);
+            
+            Map<String, Object> data = new HashMap<>();
+            data.put("list", messagePage.getContent());
+            data.put("total", messagePage.getTotalElements());
+            data.put("pages", messagePage.getTotalPages());
+            data.put("currentPage", page);
+            
+            return Result.success(data);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.fail("查询失败：" + e.getMessage());
+        }
+    }
 }

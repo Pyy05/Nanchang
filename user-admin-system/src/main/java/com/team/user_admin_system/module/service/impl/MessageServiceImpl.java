@@ -63,4 +63,9 @@ public class MessageServiceImpl implements MessageService {
             // 删除指定ID的留言记录
             messageRepository.deleteById(messageId);
         }
+
+    @Override
+    public Page<Message> searchMessages(String keyword, Pageable pageable) {
+        return messageRepository.findByContentContainingOrderByCreateTimeDesc(keyword, pageable);
+    }
 }

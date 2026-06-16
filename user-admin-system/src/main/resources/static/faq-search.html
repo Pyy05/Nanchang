@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>留言搜索 - 南昌历史云志</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+<style>
+    .red-accent { color: #C53030; }
+    .bg-red-accent { background-color: #C53030; }
+</style>
+</head>
+<body class="bg-slate-50 font-sans">
+<!-- 导航 -->
+<nav class="bg-white shadow-md sticky top-0 z-50">
+<div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
+<div class="flex items-center space-x-2">
+<span class="iconify text-3xl red-accent" data-icon="ri:ancient-pavilion-fill"></span>
+<span class="text-xl font-bold text-gray-800">南昌历史云志</span>
+</div>
+<div class="hidden md:flex space-x-8 text-gray-600 font-medium">
+<a class="hover:text-red-600" href="/index.html">首页</a>
+<a class="hover:text-red-600" href="/events.html">历史事件</a>
+<a class="hover:text-red-600" href="/special-81.html">八一专题</a>
+<a class="hover:text-red-600" href="/figures.html">历史人物</a>
+<a class="hover:text-red-600" href="/timeline.html">历史长河</a>
+<a class="red-accent border-b-2 border-red-600" href="/faq.html">用户留言</a>
+<a class="hover:text-red-600" href="quiz.html">互动答题</a>
+<a class="hover:text-red-600" href="game.html">互动游戏</a>
+<a class="hover:text-red-600" href="/about.html">关于我们</a>
+<a class="hover:text-red-600" href="/profile.html">我的</a>
+</div>
+<div class="flex items-center space-x-4">
+<a class="p-2 text-gray-500 hover:bg-gray-100 rounded-full" href="/search.html"><span class="iconify text-xl" data-icon="ri:search-line"></span></a>
+<a class="bg-red-accent text-white px-4 py-2 rounded-md text-sm hover:bg-red-700" href="/admin-login.html">后台管理</a>
+</div>
+</div>
+</nav>
+
+<header class="bg-red-800 text-white py-12 px-4">
+<div class="max-w-3xl mx-auto text-center">
+<h1 class="text-3xl font-bold mb-4">搜索留言</h1>
+<div class="bg-white p-2 rounded-xl flex items-center shadow-2xl mt-6">
+<input id="searchInput" class="flex-grow px-4 py-3 text-gray-800 focus:outline-none text-sm" placeholder="输入你感兴趣的历史问题" type="text"/>
+<button onclick="handleSearch()" class="bg-red-600 text-white p-3 rounded-lg"><span class="iconify" data-icon="ri:search-line"></span></button>
+</div>
+</div>
+</header>
+<main class="max-w-4xl mx-auto px-4 py-12">
+
+<!-- 当前视图标题 -->
+<div id="viewTitle" class="mb-6">
+<h2 class="text-xl font-bold text-gray-800 flex items-center">
+<span class="iconify text-red-600 mr-2" data-icon="ri:search-line"></span>
+<span id="viewTitleText">搜索结果</span>
+<a href="faq.html" class="ml-4 text-sm text-gray-500 hover:text-red-600">
+<span class="iconify inline-block mr-1" data-icon="ri:arrow-left-line"></span>返回全部留言
+</a>
+</h2>
+</div>
+
+<!-- 留言列表 -->
+<div id="messageList" class="space-y-6">
+<!-- 留言项将通过 JavaScript 动态加载 -->
+<div class="text-center py-12 text-gray-500">正在搜索...</div>
+</div>
+
+<!-- 分页 -->
+<div class="mt-8 flex justify-center items-center space-x-2">
+<button onclick="changePage(-1)" id="prevBtn" 
+class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 text-sm">
+上一页
+</button>
+<span id="pageInfo" class="text-sm text-gray-600">第 1 页</span>
+<button onclick="changePage(1)" id="nextBtn" 
+class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 text-sm">
+下一页
+</button>
+</div>
+
+</main>
+
+<script>
+let currentPage = 0;
+let totalPages = 1;
+const pageSize = 10;
+let currentKeyword = '';
+
+// 页面加载时初始化
+document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const q = urlParams.get('q');
+    if (q) {
+        currentKeyword = q;
+        document.getElementById('searchInput').value = q;
+        document.getElementById('viewTitleText').textContent = `搜索结果: "${q}"`;
+        loadMessages();
+    } else {
+        document.getElementById('messageList').innerHTML = '<div class="text-center py-12 text-gray-500">请输入关键词进行搜索</div>';
+        updatePagination();
+    }
+});
+
+// 处理搜索
+function handleSearch() {
+    const keyword = document.getElementById('searchInput').value.trim();
+    if (keyword) {
+        const newUrl = new URL(window.location);
+        newUrl.searchParams.set('q', keyword);
+        window.history.pushState({}, '', newUrl);
+        
+        currentKeyword = keyword;
+        currentPage = 0;
+        document.getElementById('viewTitleText').textContent = `搜索结果: "${keyword}"`;
+        loadMessages();
+    }
+}
+
+// 监听回车事件
+document.getElementById('searchInput').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        handleSearch();
+    }
+});
+
+// 加载搜索留言列表
+async function loadMessages() {
+    if (!currentKeyword) return;
+    
+    try {
+        const url = `/api/message/search?keyword=${encodeURIComponent(currentKeyword)}&page=${currentPage}&size=${pageSize}`;
+        const response = await fetch(url);
+        const result = await response.json();
+        
+        if (result.code === 1) {
+            renderMessages(result.data.list);
+            totalPages = result.data.pages || 1;
+            updatePagination();
+        } else {
+            console.error('加载失败：', result.msg);
+            document.getElementById('messageList').innerHTML = '<div class="text-center py-12 text-gray-500">加载失败，请刷新重试</div>';
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('messageList').innerHTML = '<div class="text-center py-12 text-gray-500">网络错误，请检查连接</div>';
+    }
+}
+
+// 渲染留言列表
+function renderMessages(messages) {
+    const container = document.getElementById('messageList');
+    
+    if (!messages || messages.length === 0) {
+        container.innerHTML = `
+        <div class="text-center py-12 text-gray-500">
+        <span class="iconify text-6xl mb-4 inline-block" data-icon="ri:inbox-line"></span>
+        <p>未找到相关留言</p>
+        </div>
+        `;
+        return;
+    }
+    
+    container.innerHTML = messages.map(msg => {
+        const isReplied = msg.status === 1;
+        const statusBadge = isReplied 
+        ? '<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800"><span class="iconify mr-1" data-icon="ri:check-line"></span>已回复</span>'
+        : '<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800"><span class="iconify mr-1" data-icon="ri:time-line"></span>待回复</span>';
+        
+        const replySection = isReplied && msg.reply ? `
+        <div class="mt-4 pl-4 border-l-2 border-red-300 bg-red-50 p-4 rounded-lg">
+        <div class="flex items-center mb-2">
+        <span class="iconify text-red-600 mr-2" data-icon="ri:admin-line"></span>
+        <span class="text-sm font-medium text-red-700">管理员回复</span>
+        </div>
+        <p class="text-gray-700 text-sm leading-relaxed">${escapeHtml(msg.reply)}</p>
+        </div>
+        ` : '';
+        
+        // 关键词高亮
+        const highlightedContent = highlightKeyword(escapeHtml(msg.content), currentKeyword);
+        
+        return `
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-transparent hover:border-red-100 transition">
+        <div class="flex items-start space-x-4">
+        <div class="bg-red-50 text-red-600 font-black px-3 py-1 rounded text-lg">Q</div>
+        <div class="flex-grow">
+        <div class="flex items-start justify-between mb-2">
+        <h3 class="font-bold text-gray-800 text-lg flex-grow">${highlightedContent}</h3>
+        ${statusBadge}
+        </div>
+        <div class="mt-4 flex justify-between items-center text-xs text-gray-400">
+        <div class="flex items-center space-x-4">
+        <span class="flex items-center"><span class="iconify mr-1" data-icon="ri:time-line"></span> ${formatDateTime(msg.createTime)}</span>
+        </div>
+        ${isReplied ? '<span>由 [管理员] 回答</span>' : '<span>等待回复中...</span>'}
+        </div>
+        ${replySection}
+        </div>
+        </div>
+        </div>
+        `;
+    }).join('');
+}
+
+// 关键词高亮
+function highlightKeyword(text, keyword) {
+    if (!keyword) return text;
+    const regex = new RegExp(`(${escapeRegExp(keyword)})`, 'gi');
+    return text.replace(regex, '<span class="text-red-600 font-bold bg-yellow-100">$1</span>');
+}
+
+function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// 翻页
+function changePage(delta) {
+    const newPage = currentPage + delta;
+    if (newPage >= 0 && newPage < totalPages) {
+        currentPage = newPage;
+        loadMessages();
+    }
+}
+
+// 更新分页信息
+function updatePagination() {
+    if (totalPages === 0) totalPages = 1;
+    document.getElementById('pageInfo').textContent = `第 ${currentPage + 1} / ${totalPages} 页`;
+    document.getElementById('prevBtn').disabled = currentPage === 0;
+    document.getElementById('nextBtn').disabled = currentPage >= totalPages - 1;
+}
+
+// 格式化时间
+function formatDateTime(dateTimeStr) {
+    if (!dateTimeStr) return '';
+    const date = new Date(dateTimeStr);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${year}-${month}-${day} ${hours}:${minutes}`;
+}
+
+// HTML 转义防止 XSS
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+</script>
+</body>
+</html>

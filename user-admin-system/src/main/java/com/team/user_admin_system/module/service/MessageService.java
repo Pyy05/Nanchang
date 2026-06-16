@@ -15,4 +15,6 @@ public interface MessageService {
     Message replyMessage(Integer messageId, String replyContent);
 
     void deleteMessage(Integer messageId);
+
+    Page<Message> searchMessages(String keyword, Pageable pageable);
 }

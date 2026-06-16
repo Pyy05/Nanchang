@@ -14,4 +14,6 @@ public interface MessageRepository extends JpaRepository<Message, Integer> {
     Page<Message> findAllByOrderByCreateTimeDesc(Pageable pageable);
 
     Page<Message> findByUserIdOrderByCreateTimeDesc(Integer userId, Pageable pageable);
+
+    Page<Message> findByContentContainingOrderByCreateTimeDesc(String content, Pageable pageable);
 }

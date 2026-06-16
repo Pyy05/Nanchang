@@ -159,7 +159,7 @@ document.getElementById('submitBtn').classList.add('opacity-50', 'cursor-not-all
 function handleSearch() {
 const keyword = document.getElementById('searchInput').value.trim();
 if (keyword) {
-alert('搜索功能开发中，关键词：' + keyword);
+window.location.href = `faq-search.html?q=${encodeURIComponent(keyword)}`;
 }
 }
 
