@@ -193,6 +193,7 @@
         let currentQuestionIndex = 0;
         let score = 0;
         let quizType = '';
+        let isSubmitting = false;
 
         document.addEventListener('DOMContentLoaded', () => {
             checkLoginStatus();
@@ -204,12 +205,13 @@
             if (userStr) {
                 try {
                     currentUser = JSON.parse(userStr);
-                    document.getElementById('loginLink').classList.add('hidden');
-                    document.getElementById('userInfo').classList.remove('hidden');
-                    document.getElementById('userInfo').textContent = currentUser.username || '用户';
-                    document.getElementById('userPoints').classList.remove('hidden');
-                    document.getElementById('userPoints').textContent = `积分: ${currentUser.points || 0}`;
-                    document.getElementById('loginTip').classList.add('hidden');
+                    if (currentUser.user_id && !currentUser.userId) {
+                        currentUser.userId = currentUser.user_id;
+                    }
+                    const loginTipEl = document.getElementById('loginTip');
+                    if (loginTipEl) {
+                        loginTipEl.classList.add('hidden');
+                    }
                 } catch (e) {
                     console.error('解析用户信息失败', e);
                 }
@@ -368,9 +370,32 @@
         }
 
         async function submitAnswer(userAnswer) {
+            if (!currentUser || !currentUser.userId) {
+                alert('请先登录后再参与答题');
+                window.location.href = 'admin-login.html';
+                return;
+            }
+            
+            if (isSubmitting) {
+                return;
+            }
+            
+            isSubmitting = true;
+            
+            const optionsContainer = document.getElementById('optionsContainer');
+            const buttons = optionsContainer.querySelectorAll('button');
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                btn.style.opacity = '0.6';
+                btn.style.cursor = 'not-allowed';
+            });
+            
             const question = questions[currentQuestionIndex];
             
             try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000);
+                
                 const response = await fetch('/api/question/submit', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -378,8 +403,15 @@
                         userId: currentUser.userId,
                         questionId: question.questionId,
                         answer: userAnswer
-                    })
+                    }),
+                    signal: controller.signal
                 });
+
+                clearTimeout(timeoutId);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
 
                 const result = await response.json();
                 
@@ -394,17 +426,37 @@
                         if (currentUser) {
                             currentUser.points = (currentUser.points || 0) + answerResult.pointsAdded;
                             localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                            document.getElementById('userPoints').textContent = `积分: ${currentUser.points}`;
+                            const userPointsEl = document.getElementById('userPoints');
+                            if (userPointsEl) {
+                                userPointsEl.textContent = `积分: ${currentUser.points}`;
+                            }
                         }
                     }
                 } else {
                     alert('提交答案失败：' + result.msg);
+                    buttons.forEach(btn => {
+                        btn.disabled = false;
+                        btn.style.opacity = '1';
+                        btn.style.cursor = 'pointer';
+                    });
+                    isSubmitting = false;
                 }
             } catch (error) {
                 console.error('Error:', error);
-                alert('网络错误，请稍后重试');
+                if (error.name === 'AbortError') {
+                    alert('请求超时，请检查网络连接后重试');
+                } else {
+                    alert('网络错误，请稍后重试');
+                }
+                buttons.forEach(btn => {
+                    btn.disabled = false;
+                    btn.style.opacity = '1';
+                    btn.style.cursor = 'pointer';
+                });
+                isSubmitting = false;
             }
         }
+
 
         function showResult(result) {
             const resultContainer = document.getElementById('resultContainer');
@@ -427,14 +479,11 @@
                 <div class="mt-2"><span class="font-medium">正确答案：</span>${result.answer}</div>
                 ${result.analysis ? `<div class="mt-2"><span class="font-medium">解析：</span>${result.analysis}</div>` : ''}
             `;
-
-            const optionsContainer = document.getElementById('optionsContainer');
-            const buttons = optionsContainer.querySelectorAll('button');
-            buttons.forEach(btn => btn.disabled = true);
         }
 
         function nextQuestion() {
             currentQuestionIndex++;
+            isSubmitting = false;
             
             if (currentQuestionIndex >= questions.length) {
                 showSummary();
