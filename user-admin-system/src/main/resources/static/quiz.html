@@ -24,31 +24,27 @@
 <body class="bg-slate-50 font-sans">
 <!-- 导航 -->
 <nav class="bg-white shadow-md sticky top-0 z-50">
-<div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
-<div class="flex items-center space-x-2">
-<span class="iconify text-3xl red-accent" data-icon="ri:ancient-pavilion-fill"></span>
-<span class="text-xl font-bold text-gray-800">南昌历史云志</span>
-</div>
-<div class="hidden md:flex space-x-8 text-gray-600 font-medium">
-<a class="hover:text-red-600" href="/index.html">首页</a>
-<a class="hover:text-red-600" href="/events.html">历史事件</a>
-<a class="hover:text-red-600" href="/special-81.html">八一专题</a>
-<a class="hover:text-red-600" href="/figures.html">历史人物</a>
-<a class="hover:text-red-600" href="/timeline.html">历史长河</a>
-<a class="hover:text-red-600" href="/faq.html">用户留言</a>
-<a class="red-accent border-b-2 border-red-600" href="quiz.html">互动答题</a>
-<a class="hover:text-red-600" href="game.html">互动游戏</a>
-<a class="hover:text-red-600" href="/about.html">关于我们</a>
-<a class="hover:text-red-600" href="/profile.html">我的</a>
-</div>
-<div class="flex items-center space-x-4">
-    
-        <div class="flex items-center space-x-4">
-            <a class="p-2 text-gray-500 hover:bg-gray-100 rounded-full" href="/search.html"><span class="iconify text-xl" data-icon="ri:search-line"></span></a>
-            <a class="bg-red-accent text-white px-4 py-2 rounded-md text-sm hover:bg-red-700" href="/admin-login.html">后台管理</a>
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-16 relative">
+            <div class="flex items-center space-x-2">
+                <span class="iconify text-3xl red-accent" data-icon="ri:ancient-pavilion-fill"></span>
+                <span class="text-xl font-bold text-gray-800">南昌历史云志</span>
             </div>
+            <div class="hidden md:flex flex-1 justify-center space-x-8 text-gray-600 font-medium">
+                <a class="hover:text-red-600" href="/index.html">首页</a>
+                <a class="hover:text-red-600" href="/events.html">历史事件</a>
+                <a class="hover:text-red-600" href="/special-81.html">八一专题</a>
+                <a class="hover:text-red-600" href="/figures.html">历史人物</a>
+                <a class="hover:text-red-600" href="/timeline.html">历史长河</a>
+                <a class="hover:text-red-600" href="/faq.html">用户留言</a>
+                <a class="red-accent border-b-2 border-red-600" href="/quiz.html">互动问答</a>
+                <a class="hover:text-red-600" href="/profile.html">我的</a>
             </div>
-            </nav>
+            <div class="flex items-center space-x-4">
+                <a class="p-2 text-gray-500 hover:bg-gray-100 rounded-full" href="/search.html"><span class="iconify text-xl" data-icon="ri:search-line"></span></a>
+                <a class="bg-red-accent text-white px-4 py-2 rounded-md text-sm hover:bg-red-700" href="/admin-login.html">后台管理</a>
+            </div>
+        </div>
+    </nav>
             
                 <header class="bg-gradient-to-r from-red-700 to-red-900 text-white py-12 px-4">
                     <div class="max-w-3xl mx-auto text-center">
@@ -58,6 +54,7 @@
                             <span class="iconify mr-2" data-icon="ri:trophy-line"></span>
                             查看积分排行榜
                         </a>
+
                     </div>
                 </header>
             
@@ -111,6 +108,20 @@
                     </div>
                 </button>
             </div>
+        </div>
+
+        <div class="bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl shadow-lg p-6 mb-6 text-white flex flex-col md:flex-row justify-between items-center transform hover:scale-[1.02] transition duration-300">
+            <div class="mb-4 md:mb-0">
+                <h2 class="text-xl font-bold mb-1 flex items-center">
+                    <span class="iconify mr-2 text-2xl" data-icon="ri:gamepad-fill"></span>
+                    放松一下，去玩互动游戏！
+                </h2>
+                <p class="text-white/80 text-sm">体验趣味历史小游戏，在娱乐中感受南昌魅力。</p>
+            </div>
+            <a href="game.html" class="px-8 py-3 bg-white text-red-600 font-bold rounded-full hover:bg-gray-100 transition shadow-md whitespace-nowrap">
+                立即前往挑战
+                <span class="iconify inline-block ml-1" data-icon="ri:arrow-right-line"></span>
+            </a>
         </div>
 
         <div id="customSelector" class="hidden bg-white rounded-2xl shadow-lg p-6 mb-6">
