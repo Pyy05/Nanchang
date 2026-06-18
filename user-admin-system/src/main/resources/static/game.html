@@ -4,97 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>互动游戏 - 南昌历史云志</title>
+    <link rel="stylesheet" href="/css/theme.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <style>
-        .red-accent { color: #C53030; }
-        .bg-red-accent { background-color: #C53030; }
-
-        /* ========== 游戏核心：卡牌翻转 CSS（经过测试可运行） ========== */
-        .flip-card {
-            perspective: 1000px;
-            height: 110px;
-            cursor: pointer;
-        }
-        .flip-card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-            -webkit-transform-style: preserve-3d;
-            text-align: center;
-        }
-        .flip-card.is-flipped .flip-card-inner {
-            transform: rotateY(180deg);
-            -webkit-transform: rotateY(180deg);
-        }
-        .flip-card-front,
-        .flip-card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-sizing: border-box;
-            padding: 8px;
-        }
-        .flip-card-front {
-            background: linear-gradient(135deg, #C53030, #9B2424);
-            color: white;
-            font-size: 32px;
-            font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-        }
-        .flip-card-front:hover {
-            background: linear-gradient(135deg, #9B2424, #7C1D1D);
-        }
-        .flip-card-back {
-            background-color: white;
-            border: 2px solid #FCA5A5;
-            color: #374151;
-            font-size: 14px;
-            font-weight: 500;
-            transform: rotateY(180deg);
-            -webkit-transform: rotateY(180deg);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-        }
-        .flip-card-back.blue-border {
-            border-color: #93C5FD;
-        }
-        .flip-card.matched {
-            opacity: 0.35;
-            cursor: default;
-        }
-
-        /* ========== 游戏切换 ========== */
+        .flip-card { perspective: 1000px; height: 110px; cursor: pointer; }
+        .flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; -webkit-transform-style: preserve-3d; text-align: center; }
+        .flip-card.is-flipped .flip-card-inner { transform: rotateY(180deg); -webkit-transform: rotateY(180deg); }
+        .flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 12px; display: flex; align-items: center; justify-content: center; box-sizing: border-box; padding: 8px; }
+        .flip-card-front { background: linear-gradient(135deg, #C53030, #8B0000); color: white; font-size: 32px; font-weight: bold; box-shadow: 0 4px 6px rgba(197,48,48,0.15); transition: all 0.3s; }
+        .flip-card-front:hover { transform: translateY(-2px); box-shadow: 0 8px 15px rgba(197,48,48,0.25); }
+        .flip-card-back { background-color: white; border: 2px solid #FECACA; color: #374151; font-size: 14px; font-weight: 500; transform: rotateY(180deg); -webkit-transform: rotateY(180deg); box-shadow: 0 4px 6px rgba(0,0,0,0.08); }
+        .flip-card-back.blue-border { border-color: #93C5FD; }
+        .flip-card.matched { opacity: 0.4; cursor: default; }
         .game-tab { display: none; }
         .game-tab.active { display: block; }
-        .game-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-        }
-        .game-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(197, 48, 48, 0.2);
-        }
-
-        /* ========== 问答按钮 ========== */
-        .quiz-btn {
-            transition: all 0.2s ease;
-        }
-        .quiz-btn:hover:not(:disabled) {
-            background-color: #FEF2F2;
-            border-color: #F87171;
-        }
+        .quiz-btn { transition: all 0.2s ease; }
+        .quiz-btn:hover:not(:disabled) { background-color: #FEF2F2; border-color: #F87171; }
     </style>
 </head>
-<body class="bg-[#F4F1EA] min-h-screen">
+<body class="themed min-h-screen">
 
     <!-- 导航栏 -->
     <nav class="bg-white shadow-md sticky top-0 z-50">
@@ -140,9 +70,8 @@
             </button>
         </div>
 
-        <!-- 游戏1：历史人物&事件配对 -->
         <div id="game-pair" class="game-tab active">
-            <div class="bg-white rounded-xl shadow-lg p-6">
+            <div class="theme-card p-6">
                 <div class="text-center mb-4">
                     <h3 class="text-xl font-bold text-gray-800 mb-2">历史人物&事件配对</h3>
                     <p class="text-gray-600 text-sm mb-3">翻开两张卡牌，找到事件和人物匹配的一对！</p>
@@ -156,9 +85,8 @@
             </div>
         </div>
 
-        <!-- 游戏2：红色知识问答 -->
         <div id="game-quiz" class="game-tab">
-            <div class="bg-white rounded-xl shadow-lg p-6 max-w-2xl mx-auto">
+            <div class="theme-card p-6 max-w-2xl mx-auto">
                 <div class="text-center mb-4">
                     <h3 class="text-xl font-bold text-gray-800 mb-2">红色知识问答</h3>
                     <p class="text-gray-600 text-sm mb-3">回答问题，看看你对英雄城了解多少！</p>
