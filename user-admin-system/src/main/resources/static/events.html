@@ -5,29 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>南昌历史云志 - 历史事件</title>
-    <!-- 新增：引入loading样式 -->
     <link rel="stylesheet" href="/css/loading.css">
+    <link rel="stylesheet" href="/css/theme.css">
     <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="/js/common.js"></script>
     <style>
-        .red-accent { color: #C53030; }
-        .bg-red-accent { background-color: #C53030; }
-        .filter-btn.active {
-            background-color: #C53030;
-            color: white;
-            border-color: #C53030;
-        }
         .event-item {
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
         }
         .event-item:hover {
             transform: translateY(-3px);
         }
     </style>
 </head>
-<body>
+<body class="themed">
     <nav class="bg-white shadow-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-16 relative">
             <div class="flex items-center space-x-2">
@@ -51,28 +44,34 @@
         </div>
     </nav>
 
-    <div class="max-w-7xl mx-auto px-4 py-8">
-        <h1 class="text-3xl font-bold text-center red-accent mb-8">历史事件库</h1>
+    <!-- 页面标题渐变区 -->
+    <section class="theme-page-header text-center">
+        <div class="max-w-7xl mx-auto px-4">
+            <h1 class="theme-page-title">历史事件库</h1>
+            <p class="theme-page-subtitle">穿越千年时光，探寻南昌历史长河中的重大节点</p>
+        </div>
+    </section>
 
-        <div class="flex flex-wrap gap-3 justify-center mb-8">
-            <button class="filter-btn px-4 py-2 border rounded-full text-sm hover:bg-gray-100 transition active">全部时期</button>
-            <button class="filter-btn px-4 py-2 border rounded-full text-sm hover:bg-gray-100 transition">西汉</button>
-            <button class="filter-btn px-4 py-2 border rounded-full text-sm hover:bg-gray-100 transition">西晋</button>
-            <button class="filter-btn px-4 py-2 border rounded-full text-sm hover:bg-gray-100 transition">唐朝</button>
-            <button class="filter-btn px-4 py-2 border rounded-full text-sm hover:bg-gray-100 transition">五代十国（南唐）</button>
-            <button class="filter-btn px-4 py-2 border rounded-full text-sm hover:bg-gray-100 transition">元末</button>
-            <button class="filter-btn px-4 py-2 border rounded-full text-sm hover:bg-gray-100 transition">明朝</button>
-            <button class="filter-btn px-4 py-2 border rounded-full text-sm hover:bg-gray-100 transition">清朝</button>
-            <button class="filter-btn px-4 py-2 border rounded-full text-sm hover:bg-gray-100 transition">中华民国</button>
-            <button class="filter-btn px-4 py-2 border rounded-full text-sm hover:bg-gray-100 transition">中华人民共和国</button>
+    <div class="max-w-7xl mx-auto px-4 py-10">
+        <div class="flex flex-wrap gap-3 justify-center mb-10">
+            <button class="theme-filter is-active">全部时期</button>
+            <button class="theme-filter">西汉</button>
+            <button class="theme-filter">西晋</button>
+            <button class="theme-filter">唐朝</button>
+            <button class="theme-filter">五代十国（南唐）</button>
+            <button class="theme-filter">元末</button>
+            <button class="theme-filter">明朝</button>
+            <button class="theme-filter">清朝</button>
+            <button class="theme-filter">中华民国</button>
+            <button class="theme-filter">中华人民共和国</button>
         </div>
 
         <div id="eventList" class="space-y-6"></div>
 
     </div>
 
-    <footer class="bg-gray-900 text-white py-8 mt-12">
-        <div class="max-w-7xl mx-auto px-4 text-center">
+    <footer class="theme-footer mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center text-sm">
             <p>© 2026 南昌历史云志 · 历史事件归档计划</p>
         </div>
     </footer>
@@ -103,9 +102,9 @@
                 "滕王阁景区获评国家5A级景区": "/images/history/滕王阁.jpg"
             };
 
-            $('.filter-btn').click(function () {
-                $('.filter-btn').removeClass('active');
-                $(this).addClass('active');
+                       $('.theme-filter').click(function () {
+                $('.theme-filter').removeClass('is-active');
+                $(this).addClass('is-active');
                 loadEvent($(this).text());
             });
 

@@ -1,0 +1,210 @@
+/* d:\A 2026WEB\git-test\user-admin-system\src\main\resources\static\css\theme.css */
+
+/* ==========================================================================
+   南昌历史云志 · 统一主题样式
+   风格：白底浅红块 + 浅红激活背景 + 严肃文化风
+   ========================================================================== */
+
+/* ---------- 主题色变量 ---------- */
+:root {
+    --theme-primary: #C53030;
+    --theme-primary-dark: #9B2C2C;
+    --theme-primary-light: #DC2626;
+    --theme-bg-light: #FEF2F2;
+    --theme-bg-hover: #FFF5F5;
+    --theme-border: #FECACA;
+    --theme-text: #1F2937;
+    --theme-text-sub: #6B7280;
+    --theme-bg-page: #FAFAF9;
+    --theme-shadow-sm: 0 1px 2px rgba(197, 48, 48, 0.05);
+    --theme-shadow-md: 0 4px 12px rgba(197, 48, 48, 0.08);
+    --theme-shadow-lg: 0 10px 25px rgba(197, 48, 48, 0.12);
+}
+
+body.themed {
+    background-color: var(--theme-bg-page);
+    color: var(--theme-text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                 "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+.theme-text { color: var(--theme-primary); }
+.theme-bg   { background-color: var(--theme-primary); }
+.theme-bg-light { background-color: var(--theme-bg-light); }
+
+/* ========== 导航栏美化 ========== */
+.theme-nav {
+    background-color: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(197, 48, 48, 0.03);
+    border-bottom: 1px solid rgba(197, 48, 48, 0.06);
+}
+
+.theme-nav-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 14px;
+    border-radius: 8px;
+    color: var(--theme-text-sub);
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.theme-nav-link:hover {
+    background-color: var(--theme-bg-hover);
+    color: var(--theme-primary);
+}
+
+.theme-nav-link:active { transform: scale(0.97); }
+
+/* 激活态：浅红底色块 + 红色文字 + 底部装饰红线 */
+.theme-nav-link.is-active {
+    background-color: var(--theme-bg-light);
+    color: var(--theme-primary);
+    font-weight: 600;
+}
+
+.theme-nav-link.is-active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--theme-primary-light), var(--theme-primary));
+    border-radius: 2px;
+}
+
+.theme-nav-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    color: var(--theme-text-sub);
+    transition: all 0.2s ease;
+}
+
+.theme-nav-icon-btn:hover {
+    background-color: var(--theme-bg-light);
+    color: var(--theme-primary);
+}
+
+/* 主按钮 - 红色渐变 */
+.theme-btn-primary {
+    background: linear-gradient(135deg, var(--theme-primary) 0%, var(--theme-primary-dark) 100%);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(197, 48, 48, 0.25);
+    transition: all 0.25s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+}
+
+.theme-btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(197, 48, 48, 0.35);
+}
+
+.theme-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--theme-text);
+    letter-spacing: 0.5px;
+    text-decoration: none;
+}
+
+.theme-logo-icon { color: var(--theme-primary); font-size: 28px; }
+
+/* ========== 页面标题区 · 渐变顶条 ========== */
+.theme-page-header {
+    background: linear-gradient(135deg, var(--theme-bg-light) 0%, #FFFFFF 100%);
+    border-bottom: 1px solid var(--theme-border);
+    padding: 40px 0 32px;
+    position: relative;
+    overflow: hidden;
+}
+
+.theme-page-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--theme-primary-light), var(--theme-primary), var(--theme-primary-dark));
+}
+
+.theme-page-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--theme-primary);
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+}
+
+.theme-page-subtitle {
+    font-size: 14px;
+    color: var(--theme-text-sub);
+}
+
+/* ========== 卡片 ========== */
+.theme-card {
+    background-color: white;
+    border-radius: 14px;
+    border: 1px solid rgba(197, 48, 48, 0.06);
+    box-shadow: var(--theme-shadow-sm);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+.theme-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--theme-shadow-lg);
+    border-color: var(--theme-border);
+}
+
+/* ========== filter 按钮 ========== */
+.theme-filter {
+    padding: 8px 18px;
+    border-radius: 999px;
+    border: 1.5px solid #E5E7EB;
+    background: white;
+    color: var(--theme-text-sub);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.theme-filter:hover {
+    border-color: var(--theme-border);
+    color: var(--theme-primary);
+    background-color: var(--theme-bg-hover);
+}
+
+.theme-filter.is-active {
+    background: linear-gradient(135deg, var(--theme-primary) 0%, var(--theme-primary-dark) 100%);
+    color: white;
+    border-color: var(--theme-primary);
+    box-shadow: 0 2px 8px rgba(197, 48, 48, 0.25);
+}
+
+/* ========== 兼容旧的 .red-accent ========== */
+.red-accent { color: var(--theme-primary) !important; }
+.bg-red-accent { background-color: var(--theme-primary) !important; }
